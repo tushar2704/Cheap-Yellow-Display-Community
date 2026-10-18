@@ -1,0 +1,40 @@
+name: CYD Firmware Build Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build Projects with PlatformIO
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO
+        run: |
+          python -m pip install --upgrade pip
+          pip install platformio
+
+      - name: Build 01-Hello-CYD
+        run: |
+          cd projects/beginner/01-hello-cyd
+          pio run
+
+      - name: Build 02-WiFi-Scanner
+        run: |
+          cd projects/beginner/02-wifi-scanner
+          pio run
+
+      - name: Build 03-Touch-Paint
+        run: |
+          cd projects/beginner/03-touch-paint
+          pio run
