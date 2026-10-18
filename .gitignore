@@ -2,6 +2,10 @@
 # Cheap Yellow Display Community - .gitignore
 # ==========================================
 
+# ---------- Private / Internal Files ----------
+MASTER_INSTRUCTIONS.md
+cyd_community_master_plan.md
+
 # ---------- Arduino IDE ----------
 *.elf
 *.hex
