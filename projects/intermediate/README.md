@@ -1,16 +1,27 @@
-# 🔧 Intermediate Projects — Cheap Yellow Display
+# 🟡 Intermediate Projects — Cheap Yellow Display (CYD)
 
-> IoT dashboards, API integrations, and connected projects for your CYD.
+> Connected IoT projects, APIs, and real-time dashboards for your Cheap Yellow Display. All projects are 100% open-source and free, with optional commercial premium upgrade packs available on Gumroad.
 
-| # | Project | Status |
-|---|---------|--------|
-| 1 | [Weather Station](01-weather-station/) | 🚧 Coming Soon |
-| 2 | [Home Assistant Panel](02-home-assistant-panel/) | 🚧 Coming Soon |
-| 3 | [Spotify Now Playing](03-spotify-now-playing/) | 🚧 Coming Soon |
-| 4 | [Smart Thermostat](04-smart-thermostat/) | 🚧 Coming Soon |
-| 5 | [Stock Ticker](05-stock-ticker/) | 🚧 Coming Soon |
-| 6 | [YouTube Sub Counter](06-youtube-sub-counter/) | 🚧 Coming Soon |
-| 7 | [Pomodoro Timer](07-pomodoro-timer/) | 🚧 Coming Soon |
-| 8 | [MQTT Dashboard](08-mqtt-dashboard/) | 🚧 Coming Soon |
+---
 
-📺 **Tutorials**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) | [Makerrdesigns](https://youtube.com/@Makerrdesigns)
+## 📋 Available Projects
+
+| # | Project | Description | Difficulty | Status |
+|---|---------|-------------|:---:|:---:|
+| 1 | [01 - Weather Station](01-weather-station/) | Real-time weather dashboard & NTP clock via free Open-Meteo API | ⭐⭐⭐ (3/5) | ✅ Ready |
+| 2 | [02 - Crypto Tracker](02-crypto-tracker/) | Live Bitcoin, Ethereum & Solana ticker with 24h change and sparkline | ⭐⭐⭐ (3/5) | ✅ Ready |
+
+---
+
+## 💰 Monetization / Premium Packs
+
+Each intermediate project has an optional premium upgrade bundle on Gumroad featuring:
+- Extended historical telemetry & charting
+- Multi-location / multi-asset configuration
+- Turnkey 3D printable enclosures by [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
+
+---
+
+## 📺 Community Channels
+- 🎬 Project Builds & Humor: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
+- 🖨️ 3D Enclosures & Print Files: [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
