@@ -1,6 +1,7 @@
 # 🟡 Cheap Yellow Display Community — The Ultimate CYD Hub
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/Assets-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 [![ESP32](https://img.shields.io/badge/ESP32-Supported-blue.svg)](https://www.espressif.com/)
 [![ESP32-S3](https://img.shields.io/badge/ESP32--S3-Supported-blue.svg)](https://www.espressif.com/)
 [![Arduino](https://img.shields.io/badge/Arduino-Compatible-teal.svg)](https://www.arduino.cc/)
@@ -115,9 +116,11 @@ We welcome contributions! Whether it's a new project, a bug fix, documentation i
 
 ---
 
-## 📜 License
+## 📜 Dual License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+- 💻 **Source Code**: [GNU Affero General Public License v3.0 (AGPL-3.0)](https://www.gnu.org/licenses/agpl-3.0)
+- 🎨 **3D Models, Enclosures, Artwork, Graphics & Media**: [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+- 💼 **Commercial Licensing**: All 3D models, animations, and branding are the intellectual property of Tushar Aggarwal. Commercial use, physical sales, or redistribution requires purchasing a commercial license or donating via [GitHub Sponsors](https://github.com/sponsors/tushar2704) / Gumroad. See [LICENSE](LICENSE) for details.
 
 ---
 

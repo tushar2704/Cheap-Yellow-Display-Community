@@ -1,21 +1,60 @@
-MIT License
+# 📜 DUAL LICENSE
 
 Copyright (c) 2026-present Tushar Aggarwal (tushar2704)
+YouTube: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech) | [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This repository is dual-licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)** for source code, and **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** for all 3D models, enclosure CAD designs, UI graphics, animations, branding, and media assets.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## 💻 1. Source Code License — GNU AGPLv3
+
+All software, firmware sketches (`.ino`), C/C++ source code, header files (`.h`), PlatformIO configurations (`platformio.ini`), web applications, and scripts in this repository are licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**:
+
+```
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+```
+
+---
+
+## 🎨 2. Assets, 3D Models & Media License — Creative Commons CC BY-NC-ND 4.0
+
+All 3D printable models (`.stl`, `.step`), CAD source files, UI vector assets, animations, icons, photographs, circuit diagrams, branding, documentation, and video media are licensed under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)**:
+
+- 👤 **Attribution**: You must give appropriate credit to Tushar Aggarwal (`tushar2704`) and link to both YouTube channels (`@IamNotIntoTech` and `@Makerrdesigns`).
+- 🚫 **NonCommercial**: You may **not** use the material, 3D models, enclosures, or assets for commercial purposes or physical manufacturing for sale.
+- 🔒 **NoDerivatives**: If you remix, transform, or build upon the 3D models or media assets, you may not distribute the modified material without explicit written permission.
+
+View a copy of this license at: <https://creativecommons.org/licenses/by-nc-nd/4.0/>
+
+---
+
+## 💼 3. Commercial Licensing & Asset Ownership
+
+All 3D enclosure designs, CAD engineering files, animations, UI graphics, firmware bundles, and branding are the **exclusive proprietary intellectual property of Tushar Aggarwal (`tushar2704`)**.
+
+### Commercial Use Rights
+If you or your business wish to:
+1. Sell physical 3D-printed CYD enclosures or assembled units based on these designs,
+2. Pre-flash and sell CYD boards featuring firmware or graphics from this repository,
+3. Include these designs, firmwares, or assets in a commercial product, kit, or course, or
+4. Use this work without the AGPLv3 copyleft or CC Non-Commercial restrictions,
+
+**You MUST purchase a Commercial License or donate through:**
+- 🛒 **Gumroad Commercial Tiers**: Commercial packs available per project
+- 💖 **GitHub Sponsors**: [github.com/sponsors/tushar2704](https://github.com/sponsors/tushar2704)
+- 📧 **Direct Inquiry**: `tushar.inseec@gmail.com`
