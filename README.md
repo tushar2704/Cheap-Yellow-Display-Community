@@ -100,6 +100,12 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 2 | **Crypto Price Tracker** | Live Bitcoin, Ethereum & Solana ticker with 24h change and sparkline | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/02-crypto-tracker/) |
 | 3 | **Rolling Digit Clock** | Retro split-flap rolling clock synchronized with atomic NTP time | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/03-rolling-clock/) |
 | 4 | **WiFi Internet Radio** | Live Shoutcast/Icecast radio streaming to onboard speaker via DAC | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/04-internet-radio/) |
+| 5 | **LVGL v8 Showcase** | Smartphone-smooth touch animations, tabs, sliders, and arc gauges | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/05-lvgl-widgets-demo/) |
+
+### 🔴 Advanced Projects (All for 2.8" CYD — Flagship Firmware)
+| # | Project | Description | Difficulty | Guide |
+|---|---|---|:---:|:---:|
+| 1 | **CYD OS** | Desktop launcher environment with status bar, 6 built-in apps & window manager | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/01-cyd-os/) |
 
 ---
 

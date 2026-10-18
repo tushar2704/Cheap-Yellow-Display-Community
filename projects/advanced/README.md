@@ -1,11 +1,17 @@
-# 🔧 Advanced Projects — Cheap Yellow Display
+# 🔴 Advanced Projects — Cheap Yellow Display (CYD)
 
-> Complex builds, multi-component systems, and premium projects for your CYD.
+> Complex systems, multi-app environments, and showcase firmware builds for your Cheap Yellow Display (ESP32-2432S028R).
 
-| # | Project | Status |
-|---|---------|--------|
-| 1 | [CYD OS](01-cyd-os/) | 🚧 Coming Soon |
-| 2 | [Multi-Screen Dashboard](02-multi-screen-dashboard/) | 🚧 Coming Soon |
-| 3 | [3D Printer Controller](03-3d-printer-controller/) | 🚧 Coming Soon |
+---
 
-📺 **Tutorials**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) | [Makerrdesigns](https://youtube.com/@Makerrdesigns)
+## 📋 Available Projects (All for 2.8" CYD ESP32-2432S028R)
+
+| # | Project | Description | Difficulty | Status |
+|---|---|---|:---:|:---:|
+| 1 | [01 - CYD OS](01-cyd-os/) | Touchscreen Desktop Operating System with 6-app launcher grid & window manager | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+
+---
+
+## 📺 Community Channels
+- 🎬 Project Builds & Humor: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
+- 🖨️ 3D Enclosures & Print Files: [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
