@@ -92,6 +92,8 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 - ⚙️ **[Universal Pin Header](hardware/cyd_pins.h)** — One header file to configure any CYD board
 - 👆 **[Capacitive Touch Pack](hardware/capacitive/)** — I2C drivers for CST816T, FT6236, and GT911 CYD variants
 - 🎨 **[LVGL v8 Setup Guide](hardware/lvgl/)** — High-performance graphics configuration & zero-boilerplate drivers
+- 🏡 **[ESPHome YAML Configurations](hardware/esphome/)** — Native Home Assistant smart touch panel integration
+- 🐍 **[MicroPython Setup & Code](hardware/micropython/)** — Pure Python scripts and hardware drivers
 - 🖨️ **[3D Printing Master Guide](enclosures/PRINTING_GUIDE.md)** — Slicer profiles, filament choices, and snap tolerances
 - 🛠️ **[Hardware Add-ons](docs/ADDONS.md)** — Connecting sensors, rotary encoders, speakers, and I2C devices
 - 🔬 **[Hardware Mods & Fixes](docs/MODS.md)** — USB-C PD fix, LDR auto-brightness, audio whine filter, battery power
