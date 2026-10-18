@@ -38,6 +38,21 @@ The name "Cheap Yellow Display" comes from the distinctive **yellow PCB** that t
 
 ---
 
+## 🌟 The CYD Community Advantage — Why Choose This Hub?
+
+Unlike fragmented tutorials and outdated code snippets scattered across the internet, **Cheap Yellow Display Community** is engineered from the ground up as a modern, all-in-one ecosystem:
+
+- ⚡ **1-Click Browser Web Flasher**: Flash ready-to-run firmwares directly from Google Chrome, Edge, or Opera via Web Serial. Zero IDEs, compilers, or driver headaches.
+- 📐 **Universal Hardware Scope**: First-class support for **all 7+ CYD display sizes** (2.4", 2.8", 3.2", 3.5", 4.0", 5.0", 7.0"), covering both **Resistive** and **Capacitive** touch controllers.
+- 🔌 **Universal Pin Abstraction (`cyd_pins.h`)**: A single unified header that automatically configures display, touch, MicroSD, audio, and RGB LED pins with one line of code.
+- 📱 **Smartphone-Grade Embedded UI**: Pre-configured setups for **LVGL v8/v9** and **DMA LovyanGFX** alongside standard TFT_eSPI for ultra-smooth 60 FPS interfaces.
+- 🖨️ **Tailor-Made 3D Printable Enclosures**: Custom snap-fit desktop stands, smart home wall bezels, and benchtop cases engineered by [@Makerrdesigns](https://youtube.com/@Makerrdesigns).
+- 🎬 **Dedicated Video Masterclasses**: Comprehensive code walkthroughs, hardware teardowns, and CAD tutorials on [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech) and [@Makerrdesigns](https://youtube.com/@Makerrdesigns).
+- 🛡️ **Dual AGPLv3 + Creative Commons Licensing**: Strong open-source copyleft protection for code combined with commercial protection for 3D enclosures and assets.
+- 🤖 **Continuous Integration (CI/CD)**: Every firmware project is automatically compiled with PlatformIO on every commit to ensure 100% bug-free builds.
+
+---
+
 ## 📺 YouTube Channels
 
 This project is created and maintained by two YouTube channels — follow both for code tutorials, build logs, and custom 3D enclosures:
@@ -72,10 +87,12 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 ## 📚 Essential Documentation
 
 - ⚡ **[Setup Guide](docs/SETUP.md)** — Step-by-step Arduino IDE & PlatformIO configuration
+- 🌟 **[Project & Enclosure Showcase](docs/SHOWCASE.md)** — Visual catalog of all community builds
 - 🔌 **[Pinout Reference](docs/PINOUT.md)** — Pin maps for all display sizes
 - ⚙️ **[Universal Pin Header](hardware/cyd_pins.h)** — One header file to configure any CYD board
 - 👆 **[Capacitive Touch Pack](hardware/capacitive/)** — I2C drivers for CST816T, FT6236, and GT911 CYD variants
 - 🎨 **[LVGL v8 Setup Guide](hardware/lvgl/)** — High-performance graphics configuration & zero-boilerplate drivers
+- 🖨️ **[3D Printing Master Guide](enclosures/PRINTING_GUIDE.md)** — Slicer profiles, filament choices, and snap tolerances
 - 🛠️ **[Hardware Add-ons](docs/ADDONS.md)** — Connecting sensors, rotary encoders, speakers, and I2C devices
 - 🔬 **[Hardware Mods & Fixes](docs/MODS.md)** — USB-C PD fix, LDR auto-brightness, audio whine filter, battery power
 - 🔧 **[Troubleshooting](docs/TROUBLESHOOTING.md)** — White screen fixes, upload errors, touch calibration

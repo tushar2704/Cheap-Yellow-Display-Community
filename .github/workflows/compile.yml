@@ -24,17 +24,43 @@ jobs:
           python -m pip install --upgrade pip
           pip install platformio
 
+      - name: Cache PlatformIO packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: ${{ runner.os }}-pio-${{ hashFiles('**/platformio.ini') }}
+          restore-keys: |
+            ${{ runner.os }}-pio-
+
       - name: Build 01-Hello-CYD
-        run: |
-          cd projects/beginner/01-hello-cyd
-          pio run
+        run: cd projects/beginner/01-hello-cyd && pio run
 
       - name: Build 02-WiFi-Scanner
-        run: |
-          cd projects/beginner/02-wifi-scanner
-          pio run
+        run: cd projects/beginner/02-wifi-scanner && pio run
 
       - name: Build 03-Touch-Paint
-        run: |
-          cd projects/beginner/03-touch-paint
-          pio run
+        run: cd projects/beginner/03-touch-paint && pio run
+
+      - name: Build 04-RGB-Sliders
+        run: cd projects/beginner/04-rgb-sliders && pio run
+
+      - name: Build 05-SD-Slideshow
+        run: cd projects/beginner/05-sd-slideshow && pio run
+
+      - name: Build 06-Touch-Buttons
+        run: cd projects/beginner/06-touch-buttons && pio run
+
+      - name: Build 01-Weather-Station
+        run: cd projects/intermediate/01-weather-station && pio run
+
+      - name: Build 02-Crypto-Tracker
+        run: cd projects/intermediate/02-crypto-tracker && pio run
+
+      - name: Build 03-Rolling-Clock
+        run: cd projects/intermediate/03-rolling-clock && pio run
+
+      - name: Build 01-CYD-OS
+        run: cd projects/advanced/01-cyd-os && pio run
+
+      - name: Build 02-Home-Assistant-Touch
+        run: cd projects/advanced/02-home-assistant-touch && pio run
