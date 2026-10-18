@@ -1,0 +1,77 @@
+# ==========================================
+# Cheap Yellow Display Community - .gitignore
+# ==========================================
+
+# ---------- Arduino IDE ----------
+*.elf
+*.hex
+*.bin
+*.map
+*.eep
+build/
+*.d
+
+# ---------- PlatformIO ----------
+.pio/
+.pioenvs/
+.piolibdeps/
+.clang_complete
+.gcc-flags.json
+
+# ---------- ESP-IDF ----------
+sdkconfig.old
+build/
+managed_components/
+
+# ---------- VSCode ----------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ---------- OS Files ----------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------- IDE ----------
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# ---------- Python (for scripts) ----------
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# ---------- Node (for web-flasher) ----------
+node_modules/
+npm-debug.log
+yarn-error.log
+.next/
+dist/
+
+# ---------- Compiled firmware ----------
+# We track pre-compiled .bin files in web-flasher/firmware/
+# but ignore local build outputs
+*.o
+*.obj
+*.lst
+
+# ---------- Secrets ----------
+secrets.h
+config.h
+credentials.h
+wifi_credentials.h
