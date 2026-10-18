@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🟡 CYD Web Flasher — Flash Cheap Yellow Display in Your Browser</title>
-  <meta name="description" content="Official browser-based web flasher for Cheap Yellow Display (CYD) ESP32 development boards. Flash community projects with one click via Web Serial.">
+  <title>🟡 CYD Web Flasher — 1-Click Browser Firmware Installer for ESP32 Cheap Yellow Display</title>
+  <meta name="description" content="Official 1-click in-browser web flasher for ESP32 Cheap Yellow Display (CYD / ESP32-2432S028R). Flash diagnostic suites, touch painting, games, weather stations, and CYD-OS directly via Web Serial.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,15 +12,18 @@
   <style>
     :root {
       --bg-dark: #0a0d14;
-      --card-bg: rgba(22, 27, 39, 0.7);
-      --card-border: rgba(255, 214, 10, 0.15);
+      --card-bg: rgba(22, 27, 39, 0.75);
+      --card-border: rgba(255, 214, 10, 0.18);
+      --card-hover-border: rgba(255, 214, 10, 0.45);
       --cyd-yellow: #ffd60a;
-      --cyd-yellow-glow: rgba(255, 214, 10, 0.4);
+      --cyd-yellow-glow: rgba(255, 214, 10, 0.35);
       --accent-cyan: #00f0ff;
       --accent-green: #00e676;
+      --accent-purple: #b388ff;
+      --accent-orange: #ff9100;
       --text-main: #f0f4f8;
       --text-muted: #8b9bb4;
-      --font-heading: 'Outfit', sans-serif;
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
@@ -33,41 +36,73 @@
     body {
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(circle at 15% 15%, rgba(255, 214, 10, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(0, 240, 255, 0.06) 0%, transparent 40%);
+        radial-gradient(circle at 10% 10%, rgba(255, 214, 10, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 90% 85%, rgba(0, 240, 255, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(179, 136, 255, 0.03) 0%, transparent 60%);
       color: var(--text-main);
       font-family: var(--font-heading);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1rem 4rem;
     }
 
     header {
       text-align: center;
-      max-width: 800px;
+      max-width: 860px;
       margin-bottom: 2.5rem;
+    }
+
+    .badge-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
       background: rgba(255, 214, 10, 0.1);
       border: 1px solid var(--card-border);
       color: var(--cyd-yellow);
-      padding: 0.4rem 1rem;
+      padding: 0.4rem 1.1rem;
       border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.82rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 1.25rem;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 1.1rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-supported {
+      background: rgba(0, 230, 118, 0.12);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      color: var(--accent-green);
+    }
+
+    .badge-unsupported {
+      background: rgba(255, 82, 82, 0.12);
+      border: 1px solid rgba(255, 82, 82, 0.3);
+      color: #ff5252;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-size: clamp(2.3rem, 5vw, 3.6rem);
       font-weight: 800;
       line-height: 1.15;
       margin-bottom: 1rem;
@@ -84,7 +119,7 @@
 
     .container {
       width: 100%;
-      max-width: 900px;
+      max-width: 980px;
       display: grid;
       gap: 2rem;
     }
@@ -96,15 +131,15 @@
       padding: 2rem;
       backdrop-filter: blur(16px);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-      transition: transform 0.3s ease, border-color 0.3s ease;
+      transition: border-color 0.3s ease;
     }
 
     .glass-card:hover {
-      border-color: rgba(255, 214, 10, 0.35);
+      border-color: var(--card-hover-border);
     }
 
     h2 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
@@ -112,17 +147,18 @@
       color: #fff;
     }
 
+    /* 3-Step Guide */
     .step-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
 
     .step-item {
-      background: rgba(10, 13, 20, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 0.75rem;
+      background: rgba(10, 13, 20, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 0.85rem;
       padding: 1.25rem;
     }
 
@@ -132,17 +168,17 @@
       border-radius: 50%;
       background: var(--cyd-yellow);
       color: #000;
-      font-weight: 700;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       margin-bottom: 0.75rem;
     }
 
     .step-item h3 {
       font-size: 1rem;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
       color: #fff;
     }
 
@@ -152,6 +188,101 @@
       line-height: 1.45;
     }
 
+    .driver-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      align-items: center;
+    }
+
+    .driver-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--cyd-yellow);
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.82rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .driver-pill:hover {
+      background: rgba(255, 214, 10, 0.15);
+      border-color: var(--cyd-yellow);
+    }
+
+    /* Filter Controls & Search */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      border-color: rgba(255, 214, 10, 0.3);
+    }
+
+    .tab-btn.active {
+      background: var(--cyd-yellow);
+      color: #000;
+      border-color: var(--cyd-yellow);
+      box-shadow: 0 0 16px var(--cyd-yellow-glow);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 240px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(10, 13, 20, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 0.5rem 1.2rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--cyd-yellow);
+    }
+
+    /* Project Cards */
     .project-grid {
       display: grid;
       gap: 1.25rem;
@@ -162,60 +293,159 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 1.25rem;
       background: rgba(10, 13, 20, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 0.85rem;
-      padding: 1.25rem 1.5rem;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      border-radius: 0.95rem;
+      padding: 1.35rem 1.5rem;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
 
     .project-row:hover {
       background: rgba(15, 20, 32, 0.95);
-      border-color: rgba(255, 214, 10, 0.3);
+      border-color: var(--card-hover-border);
+      transform: translateY(-1px);
+    }
+
+    .project-info {
+      flex: 1;
+      min-width: 290px;
+    }
+
+    .project-header-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .project-tier {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .tier-beginner {
+      background: rgba(0, 230, 118, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+    }
+
+    .tier-intermediate {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .tier-advanced {
+      background: rgba(179, 136, 255, 0.15);
+      color: var(--accent-purple);
+      border: 1px solid rgba(179, 136, 255, 0.3);
     }
 
     .project-info h3 {
       font-size: 1.15rem;
       color: #fff;
-      margin-bottom: 0.25rem;
     }
 
     .project-info p {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.88rem;
+      line-height: 1.45;
     }
 
     .tags {
       display: flex;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
+      gap: 0.45rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
     }
 
     .tag {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.06);
       color: var(--accent-cyan);
     }
 
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
     esp-web-install-button {
-      --esp-tools-button-border-radius: 0.5rem;
+      --esp-tools-button-border-radius: 0.55rem;
       --esp-tools-button-color: #000;
       --esp-tools-button-background-color: var(--cyd-yellow);
-      --esp-tools-button-padding: 0.65rem 1.25rem;
+      --esp-tools-button-padding: 0.65rem 1.35rem;
       --esp-tools-button-font-family: var(--font-heading);
       --esp-tools-button-font-weight: 700;
       font-size: 0.95rem;
     }
 
+    .btn-download {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      padding: 0.65rem 1rem;
+      border-radius: 0.55rem;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-download:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: var(--cyd-yellow);
+    }
+
+    /* Troubleshooting Details */
+    details {
+      background: rgba(10, 13, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      margin-top: 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--cyd-yellow);
+      user-select: none;
+    }
+
+    details[open] summary {
+      margin-bottom: 0.75rem;
+    }
+
+    details ul {
+      margin-left: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* Footer */
     footer {
-      margin-top: 3rem;
+      margin-top: 3.5rem;
       text-align: center;
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
+      max-width: 800px;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
     }
 
     footer a {
@@ -233,110 +463,457 @@
       display: flex;
       gap: 1.5rem;
       justify-content: center;
-      margin-top: 0.75rem;
+      margin-top: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .channel-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .channel-pill:hover {
+      border-color: var(--cyd-yellow);
+      background: rgba(255, 214, 10, 0.1);
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="badge">🟡 CYD Community Browser Flasher</div>
+    <div class="badge-bar">
+      <div class="badge">🟡 CYD Community Browser Flasher</div>
+      <div id="serial-badge" class="badge-status badge-supported">⚡ Checking Web Serial...</div>
+    </div>
     <h1>Flash Cheap Yellow Display in 1 Click</h1>
-    <p class="subtitle">Zero IDEs, zero toolchain configuration, zero terminal commands. Connect your ESP32 CYD via USB and flash community firmwares directly from your browser.</p>
+    <p class="subtitle">Zero IDEs, zero toolchain configuration, zero terminal commands. Connect your ESP32 CYD via USB and flash ready-to-run verified firmwares directly from your browser.</p>
   </header>
 
   <main class="container">
-    <!-- Quick Guide -->
+    <!-- Quick Guide & Drivers -->
     <section class="glass-card" aria-labelledby="guide-title">
       <h2 id="guide-title">⚡ 3-Step Instant Setup</h2>
       <div class="step-list">
         <div class="step-item">
           <div class="step-num">1</div>
           <h3>Connect CYD via USB</h3>
-          <p>Use a data-capable USB cable plugged into your PC running Chrome, Edge, or Opera.</p>
+          <p>Use a data-capable Micro-USB or USB-C cable plugged into Chrome, Edge, Brave, or Opera.</p>
         </div>
         <div class="step-item">
           <div class="step-num">2</div>
           <h3>Click Install</h3>
-          <p>Click the Install button next to your desired firmware below.</p>
+          <p>Click the Install button next to any verified project firmware below.</p>
         </div>
         <div class="step-item">
           <div class="step-num">3</div>
           <h3>Select COM Port</h3>
-          <p>Choose your ESP32's serial port (CH340 or CP2102) in the browser popup prompt.</p>
+          <p>Pick your ESP32's serial port (CH340 or CP2102) from the browser dialog.</p>
         </div>
       </div>
+
+      <div class="driver-pills">
+        <span>Missing USB drivers?</span>
+        <a class="driver-pill" href="https://www.wch.cn/downloads/CH341SER_ZIP.html" target="_blank" rel="noopener">📥 CH340 Driver (Windows)</a>
+        <a class="driver-pill" href="https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers" target="_blank" rel="noopener">📥 CP2102 Driver (Mac/Win)</a>
+      </div>
+
+      <details>
+        <summary>🔧 Flashing Troubleshooting & Tips</summary>
+        <ul>
+          <li><strong>Serial Port Not Showing?</strong> Ensure your cable is a data cable, not a power-only charge cable. Install the CH340 or CP2102 driver above.</li>
+          <li><strong>"Failed to connect / handshake timeout"?</strong> Hold down the onboard <strong>BOOT</strong> button on your CYD while clicking Install, then release once flashing starts.</li>
+          <li><strong>Using Linux?</strong> Add your user to the serial group: <code>sudo usermod -a -G dialout $USER</code> and restart your session.</li>
+          <li><strong>Prefer manual flashing?</strong> Click the <strong>⬇️ .BIN</strong> button next to any firmware to download the compiled binary for esptool, VS Code, or ESP-IDF.</li>
+        </ul>
+      </details>
     </section>
 
     <!-- Firmware Selection -->
     <section class="glass-card" aria-labelledby="firmware-title">
-      <h2 id="firmware-title">🚀 Available Firmwares (ESP32-2432S028R 2.8")</h2>
-      
-      <div class="project-grid">
+      <div class="filter-bar">
+        <div class="filter-tabs" role="tablist">
+          <button class="tab-btn active" data-filter="all" role="tab" id="tab-all">All (13)</button>
+          <button class="tab-btn" data-filter="beginner" role="tab" id="tab-beginner">Beginner (6)</button>
+          <button class="tab-btn" data-filter="intermediate" role="tab" id="tab-intermediate">Intermediate (5)</button>
+          <button class="tab-btn" data-filter="advanced" role="tab" id="tab-advanced">Advanced (2)</button>
+        </div>
+        <div class="search-box">
+          <input type="text" id="firmware-search" class="search-input" placeholder="🔍 Search projects..." aria-label="Search projects">
+        </div>
+      </div>
+
+      <div class="project-grid" id="project-container">
+
+        <!-- ==================== BEGINNER ==================== -->
         <!-- 01 - Hello CYD -->
-        <article class="project-row" id="firmware-hello-cyd">
+        <article class="project-row" data-category="beginner" id="firmware-hello-cyd">
           <div class="project-info">
-            <h3>01 — Hello CYD Hardware Suite</h3>
-            <p>Full hardware diagnostic: screen test, touch crosshairs, RGB LED cycle, LDR gauge, audio beep & SD check.</p>
+            <div class="project-header-row">
+              <span class="project-tier tier-beginner">Beginner</span>
+              <h3>01 — Hello CYD Hardware Suite</h3>
+            </div>
+            <p>Screen color bands, touch crosshair calibration, RGB LED cycle, LDR ambient light gauge, audio beep & SD card check.</p>
             <div class="tags">
-              <span class="tag">Starter</span>
-              <span class="tag">2.8" Resistive</span>
-              <span class="tag">Zero Wiring</span>
+              <span class="tag">Diagnostic</span>
+              <span class="tag">Calibration</span>
+              <span class="tag">Hardware Test</span>
             </div>
           </div>
-          <esp-web-install-button manifest="manifests/hello-cyd.json">
-            <button slot="activate">Install Hello CYD</button>
-            <span slot="unsupported">Browser not supported (Use Chrome/Edge)</span>
-            <span slot="not-allowed">HTTPS required</span>
-          </esp-web-install-button>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/01-hello-cyd.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/hello-cyd.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
         </article>
 
         <!-- 02 - WiFi Scanner -->
-        <article class="project-row" id="firmware-wifi-scanner">
+        <article class="project-row" data-category="beginner" id="firmware-wifi-scanner">
           <div class="project-info">
-            <h3>02 — Touchscreen WiFi Spectrum Analyzer</h3>
-            <p>Real-time 2.4 GHz WiFi scanner with signal strength RSSI bars and interactive touch re-scan button.</p>
+            <div class="project-header-row">
+              <span class="project-tier tier-beginner">Beginner</span>
+              <h3>02 — WiFi Spectrum Analyzer</h3>
+            </div>
+            <p>Real-time 2.4 GHz WiFi network scanner with signal strength RSSI bars and interactive touch re-scan button.</p>
             <div class="tags">
               <span class="tag">Network</span>
               <span class="tag">Touch GUI</span>
               <span class="tag">RSSI Bars</span>
             </div>
           </div>
-          <esp-web-install-button manifest="manifests/wifi-scanner.json">
-            <button slot="activate">Install WiFi Scanner</button>
-            <span slot="unsupported">Browser not supported (Use Chrome/Edge)</span>
-            <span slot="not-allowed">HTTPS required</span>
-          </esp-web-install-button>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/02-wifi-scanner.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/wifi-scanner.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
         </article>
 
         <!-- 03 - Touch Paint -->
-        <article class="project-row" id="firmware-touch-paint">
+        <article class="project-row" data-category="beginner" id="firmware-touch-paint">
           <div class="project-info">
-            <h3>03 — CYD Stylus Touch Paint</h3>
+            <div class="project-header-row">
+              <span class="project-tier tier-beginner">Beginner</span>
+              <h3>03 — CYD Stylus Touch Paint</h3>
+            </div>
             <p>Interactive color drawing pad with 8-color swatch toolbar, canvas wipe button & RGB LED sync.</p>
             <div class="tags">
               <span class="tag">Creative</span>
-              <span class="tag">Touch Screen</span>
+              <span class="tag">Stylus Canvas</span>
               <span class="tag">RGB LED</span>
             </div>
           </div>
-          <esp-web-install-button manifest="manifests/touch-paint.json">
-            <button slot="activate">Install Touch Paint</button>
-            <span slot="unsupported">Browser not supported (Use Chrome/Edge)</span>
-            <span slot="not-allowed">HTTPS required</span>
-          </esp-web-install-button>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/03-touch-paint.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/touch-paint.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
         </article>
+
+        <!-- 04 - RGB Sliders -->
+        <article class="project-row" data-category="beginner" id="firmware-rgb-sliders">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-beginner">Beginner</span>
+              <h3>04 — RGB Touch Sliders & Mixer</h3>
+            </div>
+            <p>Smooth touch slider tracks mixing colors in real-time on screen and driving the onboard RGB LED via PWM.</p>
+            <div class="tags">
+              <span class="tag">Hardware PWM</span>
+              <span class="tag">Color Mixer</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/04-rgb-sliders.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/rgb-sliders.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- 05 - SD Slideshow -->
+        <article class="project-row" data-category="beginner" id="firmware-sd-slideshow">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-beginner">Beginner</span>
+              <h3>05 — MicroSD Photo Slideshow</h3>
+            </div>
+            <p>Digital photo frame scanning your FAT32 MicroSD card with auto-advance and touch swipe navigation.</p>
+            <div class="tags">
+              <span class="tag">MicroSD</span>
+              <span class="tag">Photo Frame</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/05-sd-slideshow.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/sd-slideshow.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- 06 - Touch Buttons -->
+        <article class="project-row" data-category="beginner" id="firmware-touch-buttons">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-beginner">Beginner</span>
+              <h3>06 — Tactile Button Matrix & Toggles</h3>
+            </div>
+            <p>Three latching toggle switches with active state glow, onboard RGB LED feedback, and tap counter card.</p>
+            <div class="tags">
+              <span class="tag">Controls</span>
+              <span class="tag">Audio Chimes</span>
+              <span class="tag">Toggles</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/06-touch-buttons.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/touch-buttons.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- ==================== INTERMEDIATE ==================== -->
+        <!-- 01 - Weather Station -->
+        <article class="project-row" data-category="intermediate" id="firmware-weather-station">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-intermediate">Intermediate</span>
+              <h3>01 — WiFi Weather Station</h3>
+            </div>
+            <p>Connects via WiFi to Open-Meteo API for real-time live temperature, humidity, wind, and custom weather icons.</p>
+            <div class="tags">
+              <span class="tag">Open-Meteo</span>
+              <span class="tag">REST API</span>
+              <span class="tag">WiFi</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/01-weather-station.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/weather-station.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- 02 - Crypto Tracker -->
+        <article class="project-row" data-category="intermediate" id="firmware-crypto-tracker">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-intermediate">Intermediate</span>
+              <h3>02 — Real-Time Crypto & Stock Ticker</h3>
+            </div>
+            <p>Fetches BTC, ETH, and SOL market prices from CoinGecko with dynamic 24h change indicators and sparkline trends.</p>
+            <div class="tags">
+              <span class="tag">CoinGecko</span>
+              <span class="tag">Crypto Ticker</span>
+              <span class="tag">Sparklines</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/02-crypto-tracker.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/crypto-tracker.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- 03 - Rolling Clock -->
+        <article class="project-row" data-category="intermediate" id="firmware-rolling-clock">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-intermediate">Intermediate</span>
+              <h3>03 — NTP Retro Rolling Digits Clock</h3>
+            </div>
+            <p>Smooth animated rolling numbers synced to internet NTP pool with ambient day/night dark themes.</p>
+            <div class="tags">
+              <span class="tag">NTP Sync</span>
+              <span class="tag">Smooth Animation</span>
+              <span class="tag">Retro Clock</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/03-rolling-clock.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/rolling-clock.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- 04 - Internet Radio -->
+        <article class="project-row" data-category="intermediate" id="firmware-internet-radio">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-intermediate">Intermediate</span>
+              <h3>04 — Streaming Internet Radio & Player</h3>
+            </div>
+            <p>Streams live MP3 web radio audio through the onboard CYD DAC or external I2S MAX98357A speaker with touch controls.</p>
+            <div class="tags">
+              <span class="tag">Audio Stream</span>
+              <span class="tag">I2S / DAC</span>
+              <span class="tag">Station Tuner</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/04-internet-radio.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/internet-radio.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- 05 - LVGL Widgets -->
+        <article class="project-row" data-category="intermediate" id="firmware-lvgl-widgets">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-intermediate">Intermediate</span>
+              <h3>05 — LVGL v8 Glassmorphism Showcase</h3>
+            </div>
+            <p>Full LVGL v8 embedded graphics engine demo with fluid tabs, sliders, charts, gauges, and dark UI styling.</p>
+            <div class="tags">
+              <span class="tag">LVGL v8</span>
+              <span class="tag">Glassmorphism</span>
+              <span class="tag">60 FPS</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/05-lvgl-widgets-demo.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/lvgl-widgets-demo.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- ==================== ADVANCED ==================== -->
+        <!-- 01 - CYD OS -->
+        <article class="project-row" data-category="advanced" id="firmware-cyd-os">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-advanced">Advanced</span>
+              <h3>01 — CYD-OS Multi-App Launcher</h3>
+            </div>
+            <p>Complete multi-tasking desktop with app grid, status bar, WiFi manager, paint, clock, and SD card file explorer.</p>
+            <div class="tags">
+              <span class="tag">Operating System</span>
+              <span class="tag">App Launcher</span>
+              <span class="tag">Status Bar</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/01-cyd-os.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/cyd-os.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
+        <!-- 02 - Home Assistant Touch -->
+        <article class="project-row" data-category="advanced" id="firmware-ha-touch">
+          <div class="project-info">
+            <div class="project-header-row">
+              <span class="project-tier tier-advanced">Advanced</span>
+              <h3>02 — Home Assistant Touch Control Panel</h3>
+            </div>
+            <p>Full smart-home dashboard connecting to Home Assistant via REST/WebSockets to control lights, switches, and scenes.</p>
+            <div class="tags">
+              <span class="tag">Home Assistant</span>
+              <span class="tag">Smart Home</span>
+              <span class="tag">Touch Panel</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a class="btn-download" href="binaries/02-home-assistant-touch.bin" download>⬇️ .BIN</a>
+            <esp-web-install-button manifest="manifests/home-assistant-touch.json">
+              <button slot="activate">Install</button>
+              <span slot="unsupported">Use Chrome/Edge</span>
+            </esp-web-install-button>
+          </div>
+        </article>
+
       </div>
     </section>
   </main>
 
   <footer>
-    <p>Cheap Yellow Display Community &bull; Maintained by <a href="https://github.com/tushar2704" target="_blank">Tushar Aggarwal (@tushar2704)</a></p>
+    <p>Cheap Yellow Display Community &bull; Dual-Licensed under AGPLv3 & CC BY-NC-ND 4.0</p>
+    <p>Maintained with ❤️ by <a href="https://github.com/tushar2704" target="_blank" rel="noopener">Tushar Aggarwal (@tushar2704)</a></p>
     <div class="channel-links">
-      <a href="https://youtube.com/@IamNotIntoTech" target="_blank">📺 @IamNotIntoTech (Tech & Humor)</a>
-      <a href="https://youtube.com/@Makerrdesigns" target="_blank">🖨️ @Makerrdesigns (3D Enclosures)</a>
+      <a class="channel-pill" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">📺 @IamNotIntoTech (Tech & Humor)</a>
+      <a class="channel-pill" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns (3D Enclosures)</a>
+      <a class="channel-pill" href="https://github.com/tushar2704/Cheap-Yellow-Display-Community" target="_blank" rel="noopener">⭐ GitHub Repository</a>
     </div>
   </footer>
+
+  <script>
+    // 1. Detect Web Serial API support
+    const badge = document.getElementById('serial-badge');
+    if ('serial' in navigator) {
+      badge.textContent = '⚡ Web Serial Ready';
+      badge.className = 'badge-status badge-supported';
+    } else {
+      badge.textContent = '⚠️ Web Serial Not Supported (Use Chrome/Edge)';
+      badge.className = 'badge-status badge-unsupported';
+    }
+
+    // 2. Category Filtering & Search
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const projectRows = document.querySelectorAll('.project-row');
+    const searchInput = document.getElementById('firmware-search');
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    function filterProjects() {
+      projectRows.forEach(row => {
+        const category = row.getAttribute('data-category');
+        const text = row.innerText.toLowerCase();
+
+        const matchesCategory = (currentFilter === 'all') || (category === currentFilter);
+        const matchesSearch = text.includes(currentSearch);
+
+        if (matchesCategory && matchesSearch) {
+          row.style.display = 'flex';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        filterProjects();
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value.toLowerCase().trim();
+      filterProjects();
+    });
+  </script>
 
 </body>
 </html>

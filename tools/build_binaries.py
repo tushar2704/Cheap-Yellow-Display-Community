@@ -18,9 +18,11 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 PROJECTS_DIR = ROOT_DIR / "projects"
 OUTPUT_DIR = ROOT_DIR / "flasher" / "binaries"
 
+PIO_CMD = shutil.which("pio") or "/Users/tushar/Library/Python/3.9/bin/pio"
+
 def build_project(project_path: Path):
     print(f"\n🔨 Building: {project_path.name}...")
-    result = subprocess.run(["pio", "run"], cwd=project_path, capture_output=True, text=True)
+    result = subprocess.run([PIO_CMD, "run"], cwd=project_path, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"❌ Build failed for {project_path.name}:\n{result.stderr}")
         return False

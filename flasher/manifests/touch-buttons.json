@@ -1,0 +1,16 @@
+{
+  "name": "06 - CYD Tactile Touch Buttons",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/06-touch-buttons.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/06-touch-buttons.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/06-touch-buttons.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

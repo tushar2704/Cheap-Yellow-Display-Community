@@ -1,0 +1,16 @@
+{
+  "name": "01 - CYD-OS Multi-App Launcher",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/01-cyd-os.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/01-cyd-os.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/01-cyd-os.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

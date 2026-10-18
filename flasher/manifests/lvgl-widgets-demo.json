@@ -1,0 +1,16 @@
+{
+  "name": "05 - LVGL v8 Glassmorphism Showcase",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/05-lvgl-widgets-demo.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/05-lvgl-widgets-demo.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/05-lvgl-widgets-demo.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

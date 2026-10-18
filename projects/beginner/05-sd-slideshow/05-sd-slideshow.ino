@@ -15,6 +15,7 @@
 
 #include <SPI.h>
 #include <SD.h>
+#include <vector>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 

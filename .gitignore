@@ -10,6 +10,8 @@ cyd_community_master_plan.md
 *.elf
 *.hex
 *.bin
+!flasher/binaries/*.bin
+!flasher/binaries/**/*.bin
 *.map
 *.eep
 build/
