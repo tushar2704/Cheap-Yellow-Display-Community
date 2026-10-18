@@ -83,18 +83,23 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 
 ## 🛠️ Community Projects
 
-### 🟢 Beginner Projects (Zero external wiring!)
+### 🟢 Beginner Projects (All for 2.8" CYD — Zero external wiring!)
 | # | Project | Description | Difficulty | Guide |
 |---|---|---|:---:|:---:|
 | 1 | **Hello CYD** | Complete test suite: display, touch crosshair, RGB LED, LDR gauge & SD card | ⭐ (1/5) | [Open](projects/beginner/01-hello-cyd/) |
 | 2 | **WiFi Scanner** | 2.4 GHz spectrum analyzer with RSSI signal bars & touch re-scan button | ⭐ (1/5) | [Open](projects/beginner/02-wifi-scanner/) |
 | 3 | **CYD Touch Paint** | Stylus drawing canvas with 8-color palette, eraser & RGB LED sync | ⭐ (1/5) | [Open](projects/beginner/03-touch-paint/) |
+| 4 | **RGB Touch Sliders** | Interactive RGB color mixer with PWM hardware control of onboard LED | ⭐ (1/5) | [Open](projects/beginner/04-rgb-sliders/) |
+| 5 | **MicroSD Slideshow** | Digital photo frame with auto-advance and touch swipe navigation | ⭐⭐ (2/5) | [Open](projects/beginner/05-sd-slideshow/) |
+| 6 | **Touch Button Matrix** | Latching toggle buttons, audio chirps, and tap counter card | ⭐ (1/5) | [Open](projects/beginner/06-touch-buttons/) |
 
-### 🟡 Intermediate Projects (IoT & Connected Dashboards)
+### 🟡 Intermediate Projects (All for 2.8" CYD — Connected Dashboards)
 | # | Project | Description | Difficulty | Guide |
 |---|---|---|:---:|:---:|
 | 1 | **Weather Station** | Real-time weather dashboard & NTP clock via free Open-Meteo API | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/01-weather-station/) |
 | 2 | **Crypto Price Tracker** | Live Bitcoin, Ethereum & Solana ticker with 24h change and sparkline | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/02-crypto-tracker/) |
+| 3 | **Rolling Digit Clock** | Retro split-flap rolling clock synchronized with atomic NTP time | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/03-rolling-clock/) |
+| 4 | **WiFi Internet Radio** | Live Shoutcast/Icecast radio streaming to onboard speaker via DAC | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/04-internet-radio/) |
 
 ---
 

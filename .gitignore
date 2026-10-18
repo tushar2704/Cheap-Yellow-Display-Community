@@ -79,3 +79,8 @@ secrets.h
 config.h
 credentials.h
 wifi_credentials.h
+
+
+#custom
+MASTER_INSTRUCTIONS.md
+.MASTER_INSTRUCTIONS.md
