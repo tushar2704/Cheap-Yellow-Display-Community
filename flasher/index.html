@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🟡 CYD Web Flasher — Flash Cheap Yellow Display in Your Browser</title>
+  <meta name="description" content="Official browser-based web flasher for Cheap Yellow Display (CYD) ESP32 development boards. Flash community projects with one click via Web Serial.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: rgba(22, 27, 39, 0.7);
+      --card-border: rgba(255, 214, 10, 0.15);
+      --cyd-yellow: #ffd60a;
+      --cyd-yellow-glow: rgba(255, 214, 10, 0.4);
+      --accent-cyan: #00f0ff;
+      --accent-green: #00e676;
+      --text-main: #f0f4f8;
+      --text-muted: #8b9bb4;
+      --font-heading: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(255, 214, 10, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(0, 240, 255, 0.06) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: var(--font-heading);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      max-width: 800px;
+      margin-bottom: 2.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 214, 10, 0.1);
+      border: 1px solid var(--card-border);
+      color: var(--cyd-yellow);
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 40%, var(--cyd-yellow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      gap: 2rem;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 214, 10, 0.35);
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #fff;
+    }
+
+    .step-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-item {
+      background: rgba(10, 13, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--cyd-yellow);
+      color: #000;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-item h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .step-item p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .project-grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .project-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: rgba(10, 13, 20, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.85rem;
+      padding: 1.25rem 1.5rem;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .project-row:hover {
+      background: rgba(15, 20, 32, 0.95);
+      border-color: rgba(255, 214, 10, 0.3);
+    }
+
+    .project-info h3 {
+      font-size: 1.15rem;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .project-info p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--accent-cyan);
+    }
+
+    esp-web-install-button {
+      --esp-tools-button-border-radius: 0.5rem;
+      --esp-tools-button-color: #000;
+      --esp-tools-button-background-color: var(--cyd-yellow);
+      --esp-tools-button-padding: 0.65rem 1.25rem;
+      --esp-tools-button-font-family: var(--font-heading);
+      --esp-tools-button-font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--cyd-yellow);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .channel-links {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">🟡 CYD Community Browser Flasher</div>
+    <h1>Flash Cheap Yellow Display in 1 Click</h1>
+    <p class="subtitle">Zero IDEs, zero toolchain configuration, zero terminal commands. Connect your ESP32 CYD via USB and flash community firmwares directly from your browser.</p>
+  </header>
+
+  <main class="container">
+    <!-- Quick Guide -->
+    <section class="glass-card" aria-labelledby="guide-title">
+      <h2 id="guide-title">⚡ 3-Step Instant Setup</h2>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <h3>Connect CYD via USB</h3>
+          <p>Use a data-capable USB cable plugged into your PC running Chrome, Edge, or Opera.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <h3>Click Install</h3>
+          <p>Click the Install button next to your desired firmware below.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <h3>Select COM Port</h3>
+          <p>Choose your ESP32's serial port (CH340 or CP2102) in the browser popup prompt.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Firmware Selection -->
+    <section class="glass-card" aria-labelledby="firmware-title">
+      <h2 id="firmware-title">🚀 Available Firmwares (ESP32-2432S028R 2.8")</h2>
+      
+      <div class="project-grid">
+        <!-- 01 - Hello CYD -->
+        <article class="project-row" id="firmware-hello-cyd">
+          <div class="project-info">
+            <h3>01 — Hello CYD Hardware Suite</h3>
+            <p>Full hardware diagnostic: screen test, touch crosshairs, RGB LED cycle, LDR gauge, audio beep & SD check.</p>
+            <div class="tags">
+              <span class="tag">Starter</span>
+              <span class="tag">2.8" Resistive</span>
+              <span class="tag">Zero Wiring</span>
+            </div>
+          </div>
+          <esp-web-install-button manifest="manifests/hello-cyd.json">
+            <button slot="activate">Install Hello CYD</button>
+            <span slot="unsupported">Browser not supported (Use Chrome/Edge)</span>
+            <span slot="not-allowed">HTTPS required</span>
+          </esp-web-install-button>
+        </article>
+
+        <!-- 02 - WiFi Scanner -->
+        <article class="project-row" id="firmware-wifi-scanner">
+          <div class="project-info">
+            <h3>02 — Touchscreen WiFi Spectrum Analyzer</h3>
+            <p>Real-time 2.4 GHz WiFi scanner with signal strength RSSI bars and interactive touch re-scan button.</p>
+            <div class="tags">
+              <span class="tag">Network</span>
+              <span class="tag">Touch GUI</span>
+              <span class="tag">RSSI Bars</span>
+            </div>
+          </div>
+          <esp-web-install-button manifest="manifests/wifi-scanner.json">
+            <button slot="activate">Install WiFi Scanner</button>
+            <span slot="unsupported">Browser not supported (Use Chrome/Edge)</span>
+            <span slot="not-allowed">HTTPS required</span>
+          </esp-web-install-button>
+        </article>
+
+        <!-- 03 - Touch Paint -->
+        <article class="project-row" id="firmware-touch-paint">
+          <div class="project-info">
+            <h3>03 — CYD Stylus Touch Paint</h3>
+            <p>Interactive color drawing pad with 8-color swatch toolbar, canvas wipe button & RGB LED sync.</p>
+            <div class="tags">
+              <span class="tag">Creative</span>
+              <span class="tag">Touch Screen</span>
+              <span class="tag">RGB LED</span>
+            </div>
+          </div>
+          <esp-web-install-button manifest="manifests/touch-paint.json">
+            <button slot="activate">Install Touch Paint</button>
+            <span slot="unsupported">Browser not supported (Use Chrome/Edge)</span>
+            <span slot="not-allowed">HTTPS required</span>
+          </esp-web-install-button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Cheap Yellow Display Community &bull; Maintained by <a href="https://github.com/tushar2704" target="_blank">Tushar Aggarwal (@tushar2704)</a></p>
+    <div class="channel-links">
+      <a href="https://youtube.com/@IamNotIntoTech" target="_blank">📺 @IamNotIntoTech (Tech & Humor)</a>
+      <a href="https://youtube.com/@Makerrdesigns" target="_blank">🖨️ @Makerrdesigns (3D Enclosures)</a>
+    </div>
+  </footer>
+
+</body>
+</html>
