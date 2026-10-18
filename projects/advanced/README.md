@@ -9,6 +9,7 @@
 | # | Project | Description | Difficulty | Status |
 |---|---|---|:---:|:---:|
 | 1 | [01 - CYD OS](01-cyd-os/) | Touchscreen Desktop Operating System with 6-app launcher grid & window manager | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 2 | [02 - Home Assistant Touch](02-home-assistant-touch/) | Smart Home Wall Control Panel with device toggles & climate thermostat | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 
 ---
 

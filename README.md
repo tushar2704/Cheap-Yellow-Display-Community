@@ -74,6 +74,8 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 - ⚡ **[Setup Guide](docs/SETUP.md)** — Step-by-step Arduino IDE & PlatformIO configuration
 - 🔌 **[Pinout Reference](docs/PINOUT.md)** — Pin maps for all display sizes
 - ⚙️ **[Universal Pin Header](hardware/cyd_pins.h)** — One header file to configure any CYD board
+- 👆 **[Capacitive Touch Pack](hardware/capacitive/)** — I2C drivers for CST816T, FT6236, and GT911 CYD variants
+- 🎨 **[LVGL v8 Setup Guide](hardware/lvgl/)** — High-performance graphics configuration & zero-boilerplate drivers
 - 🛠️ **[Hardware Add-ons](docs/ADDONS.md)** — Connecting sensors, rotary encoders, speakers, and I2C devices
 - 🔬 **[Hardware Mods & Fixes](docs/MODS.md)** — USB-C PD fix, LDR auto-brightness, audio whine filter, battery power
 - 🔧 **[Troubleshooting](docs/TROUBLESHOOTING.md)** — White screen fixes, upload errors, touch calibration
@@ -106,6 +108,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | # | Project | Description | Difficulty | Guide |
 |---|---|---|:---:|:---:|
 | 1 | **CYD OS** | Desktop launcher environment with status bar, 6 built-in apps & window manager | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/01-cyd-os/) |
+| 2 | **Home Assistant Touch** | Smart Home Wall Control Panel with device toggles & climate thermostat | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/02-home-assistant-touch/) |
 
 ---
 
