@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CYD Flasher — Flash Cheap Yellow Display in Your Browser</title>
+<meta name="description" content="Flash ESP32 Cheap Yellow Display firmware in 1 click. No IDE, no install needed. 13 ready-to-flash projects — weather station, crypto ticker, CYD-OS, radio, touch paint and more.">
+<meta name="keywords" content="cheap yellow display, CYD, ESP32-2432S028R, web flasher, esp32 flash, esp-web-tools, browser flash">
+<meta property="og:title" content="CYD Flasher — 1-Click ESP32 Firmware Installer">
+<meta property="og:description" content="Flash Cheap Yellow Display projects directly in your browser. Zero install required.">
+<meta property="og:url" content="https://cyd-flasher.vercel.app">
+
+<!-- esp-web-tools: the only external dependency -->
+<script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0c0f18;
+  --s1:#141824;
+  --s2:#1c2233;
+  --s3:#222840;
+  --y:#ffd60a;
+  --yg:rgba(255,214,10,.15);
+  --c:#00e5ff;
+  --g:#00e676;
+  --p:#b388ff;
+  --r:#ff5252;
+  --t:#e8edf5;
+  --m:#7a8ba8;
+  --br:10px;
+  --f:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --fm:ui-monospace,'Cascadia Code','Fira Code',monospace;
+}
+
+body{
+  background:var(--bg);
+  color:var(--t);
+  font-family:var(--f);
+  font-size:15px;
+  line-height:1.55;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:2rem 1rem 5rem;
+}
+
+/* ── Topbar ── */
+.topbar{
+  width:100%;max-width:860px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:.75rem;
+  margin-bottom:2.5rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:-.01em;color:var(--t)}
+.logo span{color:var(--y)}
+.topbar-links{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.link-pill{
+  font-size:.78rem;font-weight:600;
+  padding:.28rem .75rem;border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--m);
+  transition:color .2s,border-color .2s;
+  text-decoration:none;
+}
+.link-pill:hover{color:var(--t);border-color:rgba(255,255,255,.3)}
+.link-pill.donate{
+  background:rgba(255,214,10,.12);
+  border-color:rgba(255,214,10,.35);
+  color:var(--y);
+}
+.link-pill.donate:hover{background:rgba(255,214,10,.22)}
+
+/* ── Hero ── */
+header{text-align:center;max-width:680px;margin-bottom:2.5rem}
+.badge-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:.28rem .8rem;border-radius:999px;border:1px solid;
+}
+.badge-y{background:rgba(255,214,10,.1);border-color:rgba(255,214,10,.3);color:var(--y)}
+.badge-g{background:rgba(0,230,118,.1);border-color:rgba(0,230,118,.28);color:var(--g)}
+.badge-r{background:rgba(255,82,82,.1);border-color:rgba(255,82,82,.28);color:var(--r)}
+
+h1{
+  font-size:clamp(1.85rem,4.5vw,2.9rem);font-weight:800;
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:.75rem;
+  background:linear-gradient(135deg,#fff 40%,var(--y));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.sub{color:var(--m);font-size:.95rem;max-width:480px;margin:0 auto}
+
+/* ── Layout ── */
+.wrap{width:100%;max-width:860px;display:flex;flex-direction:column;gap:1.25rem}
+
+.card{
+  background:var(--s1);border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--br);padding:1.5rem;
+  transition:border-color .2s;
+}
+.card:hover{border-color:rgba(255,214,10,.2)}
+.card-hd{font-size:.93rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.45rem}
+
+/* ── Steps ── */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.75rem;margin-bottom:1.1rem}
+.step{background:var(--s2);border-radius:8px;padding:.95rem}
+.step-n{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--y);color:#000;
+  font-weight:800;font-size:.75rem;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.5rem;
+}
+.step h3{font-size:.84rem;margin-bottom:.2rem}
+.step p{font-size:.78rem;color:var(--m)}
+
+.driver-bar{
+  display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;
+  font-size:.78rem;color:var(--m);
+  padding-top:.9rem;border-top:1px solid rgba(255,255,255,.06);
+}
+.drv{
+  background:var(--s2);border:1px solid rgba(255,255,255,.1);
+  color:var(--y);font-weight:600;font-size:.75rem;
+  padding:.24rem .65rem;border-radius:5px;
+  transition:background .2s;text-decoration:none;
+}
+.drv:hover{background:rgba(255,214,10,.1)}
+
+/* ── Accordion ── */
+details{background:var(--s2);border-radius:7px;padding:.7rem 1rem;margin-top:.7rem}
+summary{
+  cursor:pointer;font-size:.82rem;font-weight:600;color:var(--y);
+  list-style:none;display:flex;align-items:center;gap:.35rem;user-select:none;
+}
+summary::before{content:'▶';font-size:.6rem;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details ul{margin:.65rem 0 0 1.1rem;font-size:.79rem;color:var(--m);line-height:1.7}
+details code{background:rgba(255,255,255,.08);padding:.08rem .32rem;border-radius:3px;font-family:var(--fm);font-size:.77rem}
+
+/* ── Controls ── */
+.ctrl{display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
+.tabs{display:flex;gap:.35rem;flex-wrap:wrap}
+.tab{
+  background:var(--s2);border:1px solid rgba(255,255,255,.1);
+  color:var(--m);padding:.3rem .82rem;border-radius:999px;
+  font-size:.77rem;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:all .15s;
+}
+.tab:hover{color:var(--t)}
+.tab.on{background:var(--y);color:#000;border-color:var(--y)}
+
+#q{
+  background:var(--s2);border:1px solid rgba(255,255,255,.1);
+  color:var(--t);font-family:inherit;font-size:.8rem;
+  padding:.33rem .9rem;border-radius:999px;outline:none;min-width:185px;
+  transition:border-color .2s;
+}
+#q:focus{border-color:var(--y)}
+
+/* ── FW rows ── */
+.fw-list{display:flex;flex-direction:column;gap:.75rem}
+.fw-row{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:.75rem;
+  background:var(--s2);border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;padding:1.05rem 1.2rem;
+  transition:border-color .2s,transform .15s;
+}
+.fw-row:hover{border-color:rgba(255,214,10,.3);transform:translateY(-1px)}
+
+.fw-l{flex:1;min-width:230px}
+.fw-hd{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:.28rem}
+.tier{
+  font-size:.66rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;padding:.13rem .48rem;border-radius:4px;
+}
+.tB{background:rgba(0,230,118,.13);color:var(--g);border:1px solid rgba(0,230,118,.26)}
+.tI{background:rgba(0,229,255,.13);color:var(--c);border:1px solid rgba(0,229,255,.26)}
+.tA{background:rgba(179,136,255,.13);color:var(--p);border:1px solid rgba(179,136,255,.26)}
+
+.fw-name{font-size:.93rem;font-weight:700}
+.fw-desc{font-size:.8rem;color:var(--m);margin-bottom:.38rem}
+.tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.tag{font-family:var(--fm);font-size:.68rem;padding:.12rem .4rem;border-radius:4px;background:rgba(255,255,255,.06);color:var(--c)}
+
+.fw-r{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+
+.btn-dl{
+  display:inline-flex;align-items:center;gap:.3rem;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);
+  color:var(--t);padding:.42rem .78rem;border-radius:7px;
+  font-size:.78rem;font-weight:600;text-decoration:none;white-space:nowrap;
+  transition:background .2s,border-color .2s;
+}
+.btn-dl:hover{background:rgba(255,255,255,.13);border-color:var(--y)}
+
+esp-web-install-button{
+  --esp-tools-button-border-radius:7px;
+  --esp-tools-button-color:#000;
+  --esp-tools-button-background-color:var(--y);
+  --esp-tools-button-padding:.44rem 1.05rem;
+  --esp-tools-button-font-family:var(--f);
+  --esp-tools-button-font-weight:700;
+  --esp-tools-button-font-size:.83rem;
+}
+
+.empty{text-align:center;padding:2rem;color:var(--m);font-size:.88rem;display:none}
+
+/* ════════════════════════════════════
+   DONATE MODAL
+════════════════════════════════════ */
+#overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;padding:1rem;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+#overlay.show{opacity:1;pointer-events:all}
+
+.modal{
+  background:var(--s1);
+  border:1px solid rgba(255,214,10,.3);
+  border-radius:16px;
+  padding:2rem 1.75rem;
+  max-width:440px;width:100%;
+  text-align:center;
+  position:relative;
+  box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,214,10,.08);
+  transform:scale(.95);
+  transition:transform .25s;
+}
+#overlay.show .modal{transform:scale(1)}
+
+.modal-icon{font-size:2.5rem;margin-bottom:.75rem;display:block}
+.modal h2{font-size:1.3rem;font-weight:800;margin-bottom:.6rem}
+.modal p{font-size:.88rem;color:var(--m);line-height:1.6;margin-bottom:1.5rem}
+.modal p strong{color:var(--t)}
+
+.modal-btns{display:flex;flex-direction:column;gap:.65rem}
+
+.btn-donate{
+  display:block;width:100%;
+  background:var(--y);color:#000;
+  border:none;border-radius:9px;
+  padding:.72rem 1.25rem;
+  font-size:.95rem;font-weight:800;cursor:pointer;font-family:inherit;
+  text-decoration:none;
+  transition:filter .2s,transform .15s;
+}
+.btn-donate:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+.btn-skip{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--m);border-radius:9px;
+  padding:.62rem 1.25rem;
+  font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:color .2s,border-color .2s;
+}
+.btn-skip:hover{color:var(--t);border-color:rgba(255,255,255,.3)}
+
+.modal-fine{font-size:.72rem;color:var(--m);margin-top:.9rem;opacity:.7}
+
+/* ── Footer ── */
+footer{margin-top:3rem;text-align:center;color:var(--m);font-size:.8rem;max-width:600px}
+footer p{margin-bottom:.4rem}
+footer a{color:var(--y)}
+.yt-row{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.yt-p{
+  background:var(--s1);border:1px solid rgba(255,255,255,.1);
+  padding:.3rem .85rem;border-radius:999px;
+  font-weight:600;font-size:.78rem;color:var(--t);
+  transition:border-color .2s,background .2s;text-decoration:none;
+}
+.yt-p:hover{border-color:var(--y);background:rgba(255,214,10,.08)}
+</style>
+</head>
+<body>
+
+<!-- ══ Topbar ══ -->
+<div class="topbar">
+  <div class="logo">🟡 <span>CYD</span> Flasher</div>
+  <div class="topbar-links">
+    <a class="link-pill" href="https://github.com/tushar2704/Cheap-Yellow-Display-Community" target="_blank" rel="noopener">⭐ GitHub</a>
+    <a class="link-pill" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">📺 YouTube</a>
+    <a class="link-pill donate" href="https://github.com/sponsors/tushar2704" target="_blank" rel="noopener" id="top-donate">❤️ Donate</a>
+  </div>
+</div>
+
+<!-- ══ Hero ══ -->
+<header>
+  <div class="badge-row">
+    <span class="badge badge-y">CYD Community</span>
+    <span class="badge badge-y">ESP32-2432S028R</span>
+    <span id="serial-badge" class="badge badge-g">⚡ Checking…</span>
+  </div>
+  <h1>Flash Cheap Yellow Display<br>in One Click</h1>
+  <p class="sub">No IDE. No Python. No install. Pick a project, click Install, done in ~30 seconds.</p>
+</header>
+
+<!-- ══ Cards ══ -->
+<div class="wrap">
+
+  <!-- How-to -->
+  <div class="card">
+    <p class="card-hd">⚡ How to Flash</p>
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><h3>Connect via USB</h3><p>Use a data-capable Micro-USB cable. Chrome, Edge, Brave, Opera only.</p></div>
+      <div class="step"><div class="step-n">2</div><h3>Click Install</h3><p>Pick any firmware below and hit the yellow Install button.</p></div>
+      <div class="step"><div class="step-n">3</div><h3>Select COM Port</h3><p>Browser pops up a dialog — choose your device (CH340 or CP2102).</p></div>
+      <div class="step"><div class="step-n">4</div><h3>Done ✓</h3><p>CYD reboots automatically into the new firmware.</p></div>
+    </div>
+    <div class="driver-bar">
+      <span>Missing driver?</span>
+      <a class="drv" href="https://www.wch.cn/downloads/CH341SER_ZIP.html" target="_blank" rel="noopener">📥 CH340 (Windows)</a>
+      <a class="drv" href="https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers" target="_blank" rel="noopener">📥 CP2102 (Mac/Win)</a>
+    </div>
+    <details>
+      <summary>🔧 Flashing not working?</summary>
+      <ul>
+        <li><strong>Port not showing?</strong> Swap cable — many are charge-only with no data lines.</li>
+        <li><strong>Failed to connect?</strong> Hold the <strong>BOOT</strong> button on the board while clicking Install, release once flashing starts.</li>
+        <li><strong>Linux?</strong> Run <code>sudo usermod -a -G dialout $USER</code> then log out &amp; back in.</li>
+        <li><strong>Safari / Firefox?</strong> Web Serial is Chromium-only. Use Chrome, Edge, Brave or Opera.</li>
+        <li><strong>Manual flash?</strong> Download <code>.BIN</code> and run: <code>esptool.py --port /dev/ttyUSB0 write_flash 0x10000 firmware.bin</code></li>
+      </ul>
+    </details>
+  </div>
+
+  <!-- Firmware catalogue -->
+  <div class="card">
+    <div class="ctrl">
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-f="all">All (13)</button>
+        <button class="tab" data-f="B">Beginner</button>
+        <button class="tab" data-f="I">Intermediate</button>
+        <button class="tab" data-f="A">Advanced</button>
+      </div>
+      <input type="search" id="q" placeholder="🔍 Search firmware…" aria-label="Search">
+    </div>
+    <div class="fw-list" id="fw-list"></div>
+    <div class="empty" id="empty">No firmwares match your filter.</div>
+  </div>
+
+</div>
+
+<!-- ══ Footer ══ -->
+<footer>
+  <p>Cheap Yellow Display Community &nbsp;·&nbsp; <a href="https://github.com/tushar2704/Cheap-Yellow-Display-Community" target="_blank" rel="noopener">Open Source on GitHub</a></p>
+  <p>Dual-licensed <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL-3.0</a> + <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a> &nbsp;·&nbsp; Made by <a href="https://github.com/tushar2704" target="_blank" rel="noopener">@tushar2704</a></p>
+  <div class="yt-row">
+    <a class="yt-p" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">📺 @IamNotIntoTech — Tech &amp; Humor</a>
+    <a class="yt-p" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns — 3D &amp; Enclosures</a>
+  </div>
+</footer>
+
+<!-- ══ Donate Modal ══ -->
+<div id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <span class="modal-icon">🟡</span>
+    <h2 id="modal-title">Hey, enjoy free firmware?</h2>
+    <p>
+      Every project here is <strong>free to flash</strong> and open source.<br>
+      If it saves you hours of work, please consider a small donation to keep this going — new projects, more variants, better docs.
+    </p>
+    <div class="modal-btns">
+      <a class="btn-donate" id="modal-donate-btn" href="https://github.com/sponsors/tushar2704" target="_blank" rel="noopener">
+        ❤️ Support on GitHub Sponsors
+      </a>
+      <a class="btn-donate" style="background:rgba(255,214,10,.15);color:var(--y);border:1px solid rgba(255,214,10,.35);" href="https://buymeacoffee.com/tushar2704" target="_blank" rel="noopener">
+        ☕ Buy Me a Coffee
+      </a>
+      <button class="btn-skip" id="modal-skip">No thanks, just flash →</button>
+    </div>
+    <p class="modal-fine">Flashing is free and always will be. Donation is optional.</p>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   CONFIG — Firmware catalogue
+   bin/manifest URLs point to GitHub Pages (always in sync)
+   Change PAGES_BASE if you rename the repo.
+══════════════════════════════════════════════════════════ */
+const PAGES_BASE = 'https://tushar2704.github.io/Cheap-Yellow-Display-Community';
+
+const FW = [
+  // ── Beginner ──────────────────────────────────────────
+  { id:'hello-cyd',     tier:'B', name:'01 — Hello CYD Hardware Suite',
+    desc:'Screen colour bands, touch calibration, RGB LED cycle, LDR gauge, audio beep & SD test.',
+    tags:['Diagnostic','Hardware Test','Plug & Play'],
+    bin:'01-hello-cyd.bin', manifest:'hello-cyd.json' },
+
+  { id:'wifi-scanner',  tier:'B', name:'02 — WiFi Spectrum Analyser',
+    desc:'Real-time 2.4 GHz scanner with RSSI signal bars and touch re-scan.',
+    tags:['Network','Touch GUI','RSSI'],
+    bin:'02-wifi-scanner.bin', manifest:'wifi-scanner.json' },
+
+  { id:'touch-paint',   tier:'B', name:'03 — Touch Paint',
+    desc:'8-colour drawing pad with canvas wipe & RGB LED sync to brush colour.',
+    tags:['Creative','Stylus','RGB LED'],
+    bin:'03-touch-paint.bin', manifest:'touch-paint.json' },
+
+  { id:'rgb-sliders',   tier:'B', name:'04 — RGB Touch Sliders & Mixer',
+    desc:'Three PWM sliders mix colours on screen and drive the onboard RGB LED.',
+    tags:['PWM','Colour Mixer'],
+    bin:'04-rgb-sliders.bin', manifest:'rgb-sliders.json' },
+
+  { id:'sd-slideshow',  tier:'B', name:'05 — MicroSD Photo Slideshow',
+    desc:'Digital photo frame — auto-scans FAT32 SD card with auto-advance & touch swipe.',
+    tags:['MicroSD','Photo Frame'],
+    bin:'05-sd-slideshow.bin', manifest:'sd-slideshow.json' },
+
+  { id:'touch-buttons', tier:'B', name:'06 — Tactile Button Matrix',
+    desc:'Latching toggle switches with glow states, RGB LED feedback and audio chimes.',
+    tags:['Controls','Audio','Toggles'],
+    bin:'06-touch-buttons.bin', manifest:'touch-buttons.json' },
+
+  // ── Intermediate ──────────────────────────────────────
+  { id:'weather',       tier:'I', name:'01 — WiFi Weather Station',
+    desc:'Open-Meteo API — live temperature, humidity, wind speed & custom weather icons.',
+    tags:['Open-Meteo','REST API','WiFi'],
+    bin:'01-weather-station.bin', manifest:'weather-station.json' },
+
+  { id:'crypto',        tier:'I', name:'02 — Crypto & Stock Ticker',
+    desc:'BTC, ETH and SOL from CoinGecko with 24h delta indicators and sparklines.',
+    tags:['CoinGecko','Crypto','Sparklines'],
+    bin:'02-crypto-tracker.bin', manifest:'crypto-tracker.json' },
+
+  { id:'clock',         tier:'I', name:'03 — NTP Retro Rolling Clock',
+    desc:'Smooth rolling-digit clock synced to internet NTP with day/night themes.',
+    tags:['NTP','Animation','Clock'],
+    bin:'03-rolling-clock.bin', manifest:'rolling-clock.json' },
+
+  { id:'radio',         tier:'I', name:'04 — Streaming Internet Radio',
+    desc:'Live MP3 web-radio through onboard DAC or external I2S MAX98357A with touch UI.',
+    tags:['Audio','I2S','Stream'],
+    bin:'04-internet-radio.bin', manifest:'internet-radio.json' },
+
+  { id:'lvgl',          tier:'I', name:'05 — LVGL v8 Widget Showcase',
+    desc:'Full LVGL v8 demo — fluid tabs, sliders, gauges, charts, glassmorphism dark UI.',
+    tags:['LVGL v8','60 FPS','UI Demo'],
+    bin:'05-lvgl-widgets-demo.bin', manifest:'lvgl-widgets-demo.json' },
+
+  // ── Advanced ──────────────────────────────────────────
+  { id:'cyd-os',        tier:'A', name:'01 — CYD-OS Multi-App Launcher',
+    desc:'Full desktop OS — app grid, status bar, WiFi manager, paint, clock, SD explorer.',
+    tags:['OS','App Launcher','Multi-task'],
+    bin:'01-cyd-os.bin', manifest:'cyd-os.json' },
+
+  { id:'ha-touch',      tier:'A', name:'02 — Home Assistant Touch Panel',
+    desc:'Smart-home dashboard via REST/WebSockets — control lights, switches and scenes.',
+    tags:['Home Assistant','Smart Home','WebSocket'],
+    bin:'02-home-assistant-touch.bin', manifest:'home-assistant-touch.json' },
+];
+
+const TIER = { B:'Beginner', I:'Intermediate', A:'Advanced' };
+
+/* ── Web Serial check ── */
+const sb = document.getElementById('serial-badge');
+if (!('serial' in navigator)) {
+  sb.textContent = '⚠️ Web Serial not supported';
+  sb.className = 'badge badge-r';
+} else {
+  sb.textContent = '⚡ Web Serial ready';
+}
+
+/* ── Build firmware cards ── */
+const list  = document.getElementById('fw-list');
+const empty = document.getElementById('empty');
+
+FW.forEach(fw => {
+  const el = document.createElement('article');
+  el.className = 'fw-row';
+  el.dataset.tier = fw.tier;
+  el.dataset.text = (fw.name+' '+fw.desc+' '+fw.tags.join(' ')).toLowerCase();
+  el.id = 'fw-'+fw.id;
+
+  const manifestUrl = `${PAGES_BASE}/flasher/manifests/${fw.manifest}`;
+  const binUrl      = `${PAGES_BASE}/flasher/binaries/${fw.bin}`;
+
+  el.innerHTML = `
+    <div class="fw-l">
+      <div class="fw-hd">
+        <span class="tier t${fw.tier}">${TIER[fw.tier]}</span>
+        <span class="fw-name">${fw.name}</span>
+      </div>
+      <p class="fw-desc">${fw.desc}</p>
+      <div class="tags">${fw.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    </div>
+    <div class="fw-r">
+      <a class="btn-dl" href="${binUrl}" download title="Download .BIN">⬇ .BIN</a>
+      <esp-web-install-button manifest="${manifestUrl}">
+        <button slot="activate" class="flash-btn" data-fw="${fw.id}">Install</button>
+        <span slot="unsupported">Chrome/Edge only</span>
+      </esp-web-install-button>
+    </div>`;
+
+  list.appendChild(el);
+});
+
+/* ── Filter + Search ── */
+let activeTier = 'all', term = '';
+function refilter() {
+  let n = 0;
+  list.querySelectorAll('.fw-row').forEach(row => {
+    const ok = (activeTier==='all' || row.dataset.tier===activeTier)
+             && (!term || row.dataset.text.includes(term));
+    row.style.display = ok ? 'flex' : 'none';
+    if (ok) n++;
+  });
+  empty.style.display = n ? 'none' : 'block';
+}
+document.querySelectorAll('.tab').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    activeTier = b.dataset.f;
+    refilter();
+  });
+});
+document.getElementById('q').addEventListener('input', e => {
+  term = e.target.value.toLowerCase().trim();
+  refilter();
+});
+
+/* ════════════════════════════════════
+   DONATE MODAL LOGIC
+   Shows once per session before flash.
+   Skipping still allows flash.
+════════════════════════════════════ */
+const DONATE_URL  = 'https://github.com/sponsors/tushar2704';
+const SESSION_KEY = 'cyd_donate_seen';
+
+const overlay   = document.getElementById('overlay');
+const skipBtn   = document.getElementById('modal-skip');
+const donateBtn = document.getElementById('modal-donate-btn');
+
+let pendingInstallBtn = null; // the real esp-web-install-button to trigger after modal
+
+function showModal(afterCb) {
+  pendingInstallBtn = afterCb;
+  overlay.classList.add('show');
+  skipBtn.focus();
+}
+
+function closeModal(shouldFlash) {
+  overlay.classList.remove('show');
+  sessionStorage.setItem(SESSION_KEY, '1');
+  if (shouldFlash && pendingInstallBtn) {
+    // Give the overlay time to fade, then trigger the real install
+    setTimeout(() => pendingInstallBtn && pendingInstallBtn(), 300);
+  }
+  pendingInstallBtn = null;
+}
+
+// Skip → still flash
+skipBtn.addEventListener('click', () => closeModal(true));
+
+// Donate → open sponsor page, also proceed to flash
+donateBtn.addEventListener('click', () => {
+  // don't re-close immediately so the link opens first
+  setTimeout(() => closeModal(true), 150);
+});
+
+// Close on overlay backdrop click
+overlay.addEventListener('click', e => {
+  if (e.target === overlay) closeModal(true);
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal(true);
+});
+
+/*
+  Intercept all Install button clicks.
+  esp-web-tools renders a <button slot="activate"> — we listen on that,
+  cancel the default action if modal needs to show, then re-trigger after.
+*/
+list.addEventListener('click', e => {
+  const btn = e.target.closest('button[slot="activate"]');
+  if (!btn) return;
+
+  // If already seen this session, flash immediately — no friction
+  if (sessionStorage.getItem(SESSION_KEY)) return;
+
+  // Show modal; after close, simulate a click on the actual install button
+  e.stopImmediatePropagation();
+  e.preventDefault();
+
+  showModal(() => {
+    // Re-click the button so esp-web-tools picks it up
+    btn.click();
+  });
+}, true); // capture phase — must run before esp-web-tools handler
+</script>
+</body>
+</html>
