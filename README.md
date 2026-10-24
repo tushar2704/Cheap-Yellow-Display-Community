@@ -137,6 +137,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 6 | **ESP-NOW Mesh Intercom** | Routerless P2P mesh intercom with touch dispatch (Doorbell, SOS, Ping) & live feed | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/06-esp-now-mesh-node/) |
 | 7 | **3D Printer Terminal** | OctoPrint & Klipper monitor with hotend/bed thermals, progress % & touch controls | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/07-octoprint-klipper-terminal/) |
 | 8 | **NES Retro Arcade** | 8-Bit space invader arcade engine with on-screen D-pad, chiptune audio & score HUD | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/08-nes-game-emulator/) |
+| 9 | **Digital Oscilloscope** | 100kHz DSO with 8x6 graticule grid, Vpp/Vmax metrics, timebases & trace freeze | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/09-digital-oscilloscope-analyzer/) |
 
 ---
 
