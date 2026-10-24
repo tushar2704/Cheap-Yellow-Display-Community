@@ -1,0 +1,16 @@
+{
+  "name": "05 - BLE Proximity Radar & iBeacon Tracker",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/05-ble-ibeacon-radar.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/05-ble-ibeacon-radar.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/05-ble-ibeacon-radar.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
