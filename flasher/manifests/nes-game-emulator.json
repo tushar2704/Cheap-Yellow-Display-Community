@@ -1,0 +1,16 @@
+{
+  "name": "08 - NES 8-Bit Retro Gaming Arcade Console",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/08-nes-game-emulator.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/08-nes-game-emulator.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/08-nes-game-emulator.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
