@@ -60,4 +60,5 @@
 ---
 
 ## 📜 License
-MIT License — see [LICENSE](../../../LICENSE) | Author: [@tushar2704](https://github.com/tushar2704)
+Dual Licensed: GNU AGPLv3 (Code) & CC BY-NC-ND 4.0 (Assets) — see [LICENSE](../../../LICENSE) | Author: [@tushar2704](https://github.com/tushar2704)
+
