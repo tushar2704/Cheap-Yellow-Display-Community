@@ -132,6 +132,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 1 | **CYD OS** | Desktop launcher environment with status bar, 6 built-in apps & window manager | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/01-cyd-os/) |
 | 2 | **Home Assistant Touch** | Smart Home Wall Control Panel with device toggles & climate thermostat | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/02-home-assistant-touch/) |
 | 3 | **Apple HomeKit Terminal** | Cupertino dark UI terminal with multi-accessory controls, climate card & RGB sync | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/03-homekit-terminal/) |
+| 4 | **Zigbee2MQTT Commander** | Direct MQTT touchscreen panel with live device control, power draw & mesh telemetry | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/04-zigbee-mqtt-commander/) |
 
 ---
 
