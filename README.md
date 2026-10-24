@@ -6,7 +6,7 @@
 [![ESP32-S3](https://img.shields.io/badge/ESP32--S3-Supported-blue.svg)](https://www.espressif.com/)
 [![Arduino](https://img.shields.io/badge/Arduino-Compatible-teal.svg)](https://www.arduino.cc/)
 [![PlatformIO](https://img.shields.io/badge/PlatformIO-Ready-orange.svg)](https://platformio.org/)
-[![Web Flasher](https://img.shields.io/badge/Web%20Flasher-Live%20In--Browser-brightgreen.svg)](flasher/)
+[![Web Flasher](https://img.shields.io/badge/Web%20Flasher-Live%20In--Browser-brightgreen.svg)](https://tushar2704.github.io/Cheap-Yellow-Display-Community/)
 
 > **The ultimate open-source community hub for ESP32 Cheap Yellow Display (CYD) — covering every size, every variant, 3D enclosures, hardware mods, and projects you can flash in 1-click directly from your browser.**
 
@@ -16,7 +16,8 @@
 
 **No Arduino IDE or PlatformIO installation required!** You can flash community firmwares onto your CYD right now using Google Chrome, Edge, or Opera:
 
-👉 **[Launch the CYD Web Flasher →](flasher/)**
+👉 **[tushar2704.github.io/Cheap-Yellow-Display-Community/](https://tushar2704.github.io/Cheap-Yellow-Display-Community/)**
+
 
 ---
 
@@ -113,6 +114,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 4 | **RGB Touch Sliders** | Interactive RGB color mixer with PWM hardware control of onboard LED | ⭐ (1/5) | [Open](projects/beginner/04-rgb-sliders/) |
 | 5 | **MicroSD Slideshow** | Digital photo frame with auto-advance and touch swipe navigation | ⭐⭐ (2/5) | [Open](projects/beginner/05-sd-slideshow/) |
 | 6 | **Touch Button Matrix** | Latching toggle buttons, audio chirps, and tap counter card | ⭐ (1/5) | [Open](projects/beginner/06-touch-buttons/) |
+| 7 | **Retro Matrix Rain** | Cyberpunk falling glyph streams with LDR auto-dimming & touch ripples | ⭐ (1/5) | [Open](projects/beginner/07-retro-matrix/) |
 
 ### 🟡 Intermediate Projects (All for 2.8" CYD — Connected Dashboards)
 | # | Project | Description | Difficulty | Guide |
@@ -122,6 +124,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 3 | **Rolling Digit Clock** | Retro split-flap rolling clock synchronized with atomic NTP time | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/03-rolling-clock/) |
 | 4 | **WiFi Internet Radio** | Live Shoutcast/Icecast radio streaming to onboard speaker via DAC | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/04-internet-radio/) |
 | 5 | **LVGL v8 Showcase** | Smartphone-smooth touch animations, tabs, sliders, and arc gauges | ⭐⭐⭐ (3/5) | [Open](projects/intermediate/05-lvgl-widgets-demo/) |
+| 6 | **Pomodoro Desk Timer** | 25m Focus / 5m Break productivity timer with progress arc & audio alarms | ⭐⭐ (2/5) | [Open](projects/intermediate/06-pomodoro-timer/) |
 
 ### 🔴 Advanced Projects (All for 2.8" CYD — Flagship Firmware)
 | # | Project | Description | Difficulty | Guide |
