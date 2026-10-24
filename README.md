@@ -135,6 +135,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 4 | **Zigbee2MQTT Commander** | Direct MQTT touchscreen panel with live device control, power draw & mesh telemetry | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/04-zigbee-mqtt-commander/) |
 | 5 | **BLE Proximity Radar** | Military-style circular BLE scanning radar scope with target blips & iBeacon tracker | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/05-ble-ibeacon-radar/) |
 | 6 | **ESP-NOW Mesh Intercom** | Routerless P2P mesh intercom with touch dispatch (Doorbell, SOS, Ping) & live feed | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/06-esp-now-mesh-node/) |
+| 7 | **3D Printer Terminal** | OctoPrint & Klipper monitor with hotend/bed thermals, progress % & touch controls | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/07-octoprint-klipper-terminal/) |
 
 ---
 
