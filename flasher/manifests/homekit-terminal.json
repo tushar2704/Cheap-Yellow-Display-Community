@@ -1,0 +1,16 @@
+{
+  "name": "03 - Apple HomeKit Terminal & Controller",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/03-homekit-terminal.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/03-homekit-terminal.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/03-homekit-terminal.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
