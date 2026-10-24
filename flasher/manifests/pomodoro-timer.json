@@ -1,0 +1,16 @@
+{
+  "name": "06 - Pomodoro Productivity Timer",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/06-pomodoro-timer.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/06-pomodoro-timer.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/06-pomodoro-timer.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
