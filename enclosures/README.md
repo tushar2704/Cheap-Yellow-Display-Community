@@ -25,3 +25,9 @@
 ## 📺 Community Channels
 - 🖨️ 3D CAD Modeling, Enclosures & Printing: [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
 - 🎬 Electronics, ESP32 Code & CYD Firmware: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
+
+---
+
+## 📜 License
+All 3D models, CAD assemblies, and enclosure documentation are licensed under **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**. See [LICENSE](../LICENSE) for details. For commercial rights, visit [github.com/sponsors/tushar2704](https://github.com/sponsors/tushar2704).
+

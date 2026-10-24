@@ -46,4 +46,5 @@ Watch the step-by-step CAD modeling in Autodesk Fusion 360 and 3D printing timel
 ---
 
 ## 📜 License
-Creative Commons Attribution-NonCommercial (CC BY-NC 4.0) | Designed by [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) — see [LICENSE](../../LICENSE) | Designed by [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
+
