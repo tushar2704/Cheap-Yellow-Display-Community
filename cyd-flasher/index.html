@@ -183,6 +183,7 @@ details code{background:rgba(255,255,255,.08);padding:.08rem .32rem;border-radiu
 .tB{background:rgba(0,230,118,.13);color:var(--g);border:1px solid rgba(0,230,118,.26)}
 .tI{background:rgba(0,229,255,.13);color:var(--c);border:1px solid rgba(0,229,255,.26)}
 .tA{background:rgba(179,136,255,.13);color:var(--p);border:1px solid rgba(179,136,255,.26)}
+.tC{background:rgba(255,64,129,.16);color:#ff4081;border:1px solid rgba(255,64,129,.35)}
 
 .fw-name{font-size:.93rem;font-weight:700}
 .fw-desc{font-size:.8rem;color:var(--m);margin-bottom:.38rem}
@@ -344,6 +345,7 @@ footer a{color:var(--y)}
         <button class="tab" data-f="B">Beginner</button>
         <button class="tab" data-f="I">Intermediate</button>
         <button class="tab" data-f="A">Advanced</button>
+        <button class="tab" data-f="C">Capacitive (2.8" C)</button>
       </div>
       <input type="search" id="q" placeholder="🔍 Search firmware…" aria-label="Search">
     </div>
@@ -596,9 +598,109 @@ const FW = [
     desc:'Voice LLM companion: wake word listening, audio waveform visualizer, Home Assistant Assist / OpenAI intent parser & TTS speech playback.',
     tags:['AI','Voice','LLM','Smart Speaker','Home Assistant'],
     bin:'27-ai-voice-smart-speaker-assistant.bin', manifest:'ai-voice-smart-speaker-assistant.json' },
+
+  { id:'cap-01-cardflow', tier:'C', name:'01 — CardFlow Gesture Launcher',
+    desc:'Smartphone OS launcher: 5 modular telemetry cards, fluid horizontal swiping, CST816S gestures & RGB sync.',
+    tags:['Capacitive','Gesture','OS','Launcher','CST816'],
+    bin:'cap-01-cardflow-gesture-launcher.bin', manifest:'cap-cardflow-gesture-launcher.json' },
+
+  { id:'cap-pulldown-quicksettings-shade', tier:'C', name:'02 — Pull-Down Quick Settings Shade',
+    desc:'Mobile OS pull-down shade: brightness PWM, volume, WiFi/BT toggles & flashlight.',
+    tags:['OS','Quick Settings','Gesture','Brightness','WiFi'],
+    bin:'cap-02-pulldown-quicksettings-shade.bin', manifest:'cap-pulldown-quicksettings-shade.json' },
+
+  { id:'cap-pattern-gesture-security-vault', tier:'C', name:'03 — Android 9-Dot Pattern Lock & Vault',
+    desc:'Security terminal: 9-dot connected pattern gesture unlock, haptic audio click & credential safe.',
+    tags:['Security','Pattern Lock','Gesture','Vault','PIN'],
+    bin:'cap-03-pattern-gesture-security-vault.bin', manifest:'cap-pattern-gesture-security-vault.json' },
+
+  { id:'cap-coverflow-media-browser', tier:'C', name:'04 — CoverFlow 3D Media Browser',
+    desc:'Perspective 3D coverflow: kinetic card swiping, reflection mirror & album art explorer.',
+    tags:['Media','CoverFlow','3D UI','Gesture','Photos'],
+    bin:'cap-04-coverflow-media-browser.bin', manifest:'cap-coverflow-media-browser.json' },
+
+  { id:'cap-polyphonic-touch-synthesizer', tier:'C', name:'05 — Touch Synthesizer & Ribbon Controller',
+    desc:'Acoustic synthesizer: glissando pitch ribbon, 14 piano keys, octave shift & tone generator.',
+    tags:['Audio','Synth','Music','Ribbon','Piano'],
+    bin:'cap-05-polyphonic-touch-synthesizer.bin', manifest:'cap-polyphonic-touch-synthesizer.json' },
+
+  { id:'cap-dj-launchpad-xy-filter', tier:'C', name:'06 — DJ Beat Launchpad & XY Filter Pad',
+    desc:'16-pad drum machine + continuous XY Kaoss-style filter pad with live audio feedback.',
+    tags:['Music','DJ','Launchpad','XY Pad','Audio'],
+    bin:'cap-06-dj-launchpad-xy-filter.bin', manifest:'cap-dj-launchpad-xy-filter.json' },
+
+  { id:'cap-smooth-sketchpad-signature', tier:'C', name:'07 — Smooth Glass Sketchpad & Signature',
+    desc:'Anti-aliased drawing canvas: 6-color palette, stroke width slider & flick-to-clear gesture.',
+    tags:['Art','Drawing','Signature','Canvas','Touch'],
+    bin:'cap-07-smooth-sketchpad-signature.bin', manifest:'cap-smooth-sketchpad-signature.json' },
+
+  { id:'cap-swipe-slice-arcade', tier:'C', name:'08 — Swipe-to-Slice Arcade Game',
+    desc:'High-speed blade slashing game: parabolic flying targets, blade particle trail & combo counter.',
+    tags:['Game','Arcade','Slice','Swipe','Physics'],
+    bin:'cap-08-swipe-slice-arcade.bin', manifest:'cap-swipe-slice-arcade.json' },
+
+  { id:'cap-2048-kinetic-slide-puzzle', tier:'C', name:'09 — 2048 Kinetic Slide Puzzle',
+    desc:'4x4 puzzle with animated sliding tile physics, CST816 directional gestures & score saving.',
+    tags:['Game','Puzzle','2048','Gestures','Tiles'],
+    bin:'cap-09-2048-kinetic-slide-puzzle.bin', manifest:'cap-2048-kinetic-slide-puzzle.json' },
+
+  { id:'cap-air-hockey-touch-arena', tier:'C', name:'10 — Air Hockey Touch Arena',
+    desc:'60 FPS 2D puck physics arena: fingertip paddle tracking, AI opponent & digital scoreboard.',
+    tags:['Game','Air Hockey','Physics','Sports','Touch'],
+    bin:'cap-10-air-hockey-touch-arena.bin', manifest:'cap-air-hockey-touch-arena.json' },
+
+  { id:'cap-spotify-gesture-companion', tier:'C', name:'11 — Spotify Gesture Remote Companion',
+    desc:'Music remote: swipe to skip/rewind, vertical swipe volume, tap pause & progress scrubber.',
+    tags:['Spotify','Music','Remote','Gestures','Audio'],
+    bin:'cap-11-spotify-gesture-companion.bin', manifest:'cap-spotify-gesture-companion.json' },
+
+  { id:'cap-candlestick-finance-navigator', tier:'C', name:'12 — Candlestick Finance Navigator',
+    desc:'Financial chart workstation: interactive crosshair cursor, timeframe selector & OHLC metrics.',
+    tags:['Crypto','Stocks','Charts','Finance','Candlestick'],
+    bin:'cap-12-candlestick-finance-navigator.bin', manifest:'cap-candlestick-finance-navigator.json' },
+
+  { id:'cap-kanban-touch-desk-planner', tier:'C', name:'13 — Kanban Card Desk Planner',
+    desc:'3-column Kanban board: touch-and-drag task cards between To-Do, In-Progress & Done.',
+    tags:['Productivity','Kanban','Cards','Planner','Tasks'],
+    bin:'cap-13-kanban-touch-desk-planner.bin', manifest:'cap-kanban-touch-desk-planner.json' },
+
+  { id:'cap-rotary-pomodoro-timer', tier:'C', name:'14 — Rotary Gesture Pomodoro Timer',
+    desc:'Circular touch dial: spin finger to dial minutes, tap center to start & RGB breathing alert.',
+    tags:['Productivity','Pomodoro','Dial','Timer','Rotary'],
+    bin:'cap-14-rotary-pomodoro-timer.bin', manifest:'cap-rotary-pomodoro-timer.json' },
+
+  { id:'cap-smart-thermostat-circular-dial', tier:'C', name:'15 — Smart Thermostat Circular Dial',
+    desc:'Smart HVAC thermostat: radial dial dragging, 16-30°C range, Heat/Cool modes & flame status.',
+    tags:['Smart Home','Thermostat','HVAC','Dial','Climate'],
+    bin:'cap-15-smart-thermostat-circular-dial.bin', manifest:'cap-smart-thermostat-circular-dial.json' },
+
+  { id:'cap-swipeable-room-wall-controller', tier:'C', name:'16 — Swipeable Room Wall Controller',
+    desc:'Smart wall panel: horizontal swipe between 4 rooms, light sliders, climate & scene triggers.',
+    tags:['Smart Home','Wall Mount','Rooms','Lighting','Swipes'],
+    bin:'cap-16-swipeable-room-wall-controller.bin', manifest:'cap-swipeable-room-wall-controller.json' },
+
+  { id:'cap-multichannel-light-mixer', tier:'C', name:'17 — Multi-Channel Lighting Dimmer',
+    desc:'4-channel lighting desk: Warm, Cold, Amber & RGB faders with blackout switch.',
+    tags:['Lighting','DMX','Dimmer','Faders','Studio'],
+    bin:'cap-17-multichannel-light-mixer.bin', manifest:'cap-multichannel-light-mixer.json' },
+
+  { id:'cap-pinch-pan-logic-analyzer', tier:'C', name:'18 — Touch Logic Waveform Analyzer',
+    desc:'Digital waveform viewer: touch-and-drag timeline scrubber across 4 channels & delta timing.',
+    tags:['Electronics','Logic Analyzer','Waveform','Oscilloscope','Debug'],
+    bin:'cap-18-pinch-pan-logic-analyzer.bin', manifest:'cap-pinch-pan-logic-analyzer.json' },
+
+  { id:'cap-gcode-layer-scrubber-jogger', tier:'C', name:'19 — 3D Printer G-Code Scrubber & Jogger',
+    desc:'3D printer pendant: vertical layer scrubber preview + 3-axis continuous motion jog pad.',
+    tags:['3D Printing','G-Code','Klipper','Jogger','CNC'],
+    bin:'cap-19-gcode-layer-scrubber-jogger.bin', manifest:'cap-gcode-layer-scrubber-jogger.json' },
+
+  { id:'cap-capacitive-touch-diagnostics', tier:'C', name:'20 — Capacitive Touch Sensor Diagnostics',
+    desc:'Raw sensor inspector: contact coordinate tracer, velocity px/s, gesture register & noise floor.',
+    tags:['Diagnostics','Touch','CST816','Registers','Hardware'],
+    bin:'cap-20-capacitive-touch-diagnostics.bin', manifest:'cap-capacitive-touch-diagnostics.json' }
 ];
 
-const TIER = { B:'Beginner', I:'Intermediate', A:'Advanced' };
+const TIER = { B:'Beginner', I:'Intermediate', A:'Advanced', C:'Capacitive 2.8"' };
 
 /* ── Web Serial check ── */
 const sb = document.getElementById('serial-badge');

@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 08 - Swipe-to-Slice Arcade Game",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-08-swipe-slice-arcade.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-08-swipe-slice-arcade.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-08-swipe-slice-arcade.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

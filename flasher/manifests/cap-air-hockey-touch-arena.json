@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 10 - Air Hockey Touch Arena",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-10-air-hockey-touch-arena.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-10-air-hockey-touch-arena.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-10-air-hockey-touch-arena.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

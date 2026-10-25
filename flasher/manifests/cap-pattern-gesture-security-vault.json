@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 03 - Android 9-Dot Pattern Lock & Vault",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-03-pattern-gesture-security-vault.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-03-pattern-gesture-security-vault.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-03-pattern-gesture-security-vault.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

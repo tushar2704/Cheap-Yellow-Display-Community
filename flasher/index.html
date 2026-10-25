@@ -292,6 +292,7 @@
     .tier-B { background: rgba(0,230,118,.14); color: var(--green);  border: 1px solid rgba(0,230,118,.28); }
     .tier-I { background: rgba(0,229,255,.14); color: var(--cyan);   border: 1px solid rgba(0,229,255,.28); }
     .tier-A { background: rgba(179,136,255,.14);color:var(--purple); border: 1px solid rgba(179,136,255,.28);}
+    .tier-C { background: rgba(255,64,129,.16); color: #ff4081; border: 1px solid rgba(255,64,129,.35); }
 
     .fw-name { font-size: .97rem; font-weight: 700; }
     .fw-desc { font-size: .82rem; color: var(--muted); margin-bottom: .45rem; }
@@ -443,6 +444,7 @@
         <button class="tab" data-f="B">Beginner <span style="opacity:.6">(6)</span></button>
         <button class="tab" data-f="I">Intermediate <span style="opacity:.6">(5)</span></button>
         <button class="tab" data-f="A">Advanced <span style="opacity:.6">(2)</span></button>
+        <button class="tab" data-f="C">Capacitive (2.8" C) <span style="opacity:.6">(20)</span></button>
       </div>
       <input type="search" id="search" placeholder="🔍 Search…" aria-label="Search firmware">
     </div>
@@ -835,11 +837,193 @@ const FIRMWARE = [
     tags: ["AI", "Voice", "LLM", "Smart Speaker", "Home Assistant"],
     manifest: "manifests/ai-voice-smart-speaker-assistant.json",
     bin: "binaries/27-ai-voice-smart-speaker-assistant.bin"
+  },
+
+  // ── Capacitive 2.8" (ESP32-2432S028C) ─────────────────────
+  {
+    id: "cap-01-cardflow",
+    tier: "C",
+    name: "01 — CardFlow Gesture Launcher",
+    desc: "Smartphone OS launcher: 5 modular telemetry cards, fluid horizontal swiping, CST816S gestures & RGB sync.",
+    tags: ["Capacitive", "Gesture", "OS", "Launcher", "CST816"],
+    manifest: "manifests/cap-cardflow-gesture-launcher.json",
+    bin: "binaries/cap-01-cardflow-gesture-launcher.bin"
+  },
+  {
+    id: "cap-pulldown-quicksettings-shade",
+    tier: "C",
+    name: "02 — Pull-Down Quick Settings Shade",
+    desc: "Mobile OS pull-down shade: brightness PWM, volume, WiFi/BT toggles & flashlight.",
+    tags: ["OS", "Quick Settings", "Gesture", "Brightness", "WiFi"],
+    manifest: "manifests/cap-pulldown-quicksettings-shade.json",
+    bin: "binaries/cap-02-pulldown-quicksettings-shade.bin"
+  },
+  {
+    id: "cap-pattern-gesture-security-vault",
+    tier: "C",
+    name: "03 — Android 9-Dot Pattern Lock & Vault",
+    desc: "Security terminal: 9-dot connected pattern gesture unlock, haptic audio click & credential safe.",
+    tags: ["Security", "Pattern Lock", "Gesture", "Vault", "PIN"],
+    manifest: "manifests/cap-pattern-gesture-security-vault.json",
+    bin: "binaries/cap-03-pattern-gesture-security-vault.bin"
+  },
+  {
+    id: "cap-coverflow-media-browser",
+    tier: "C",
+    name: "04 — CoverFlow 3D Media Browser",
+    desc: "Perspective 3D coverflow: kinetic card swiping, reflection mirror & album art explorer.",
+    tags: ["Media", "CoverFlow", "3D UI", "Gesture", "Photos"],
+    manifest: "manifests/cap-coverflow-media-browser.json",
+    bin: "binaries/cap-04-coverflow-media-browser.bin"
+  },
+  {
+    id: "cap-polyphonic-touch-synthesizer",
+    tier: "C",
+    name: "05 — Touch Synthesizer & Ribbon Controller",
+    desc: "Acoustic synthesizer: glissando pitch ribbon, 14 piano keys, octave shift & tone generator.",
+    tags: ["Audio", "Synth", "Music", "Ribbon", "Piano"],
+    manifest: "manifests/cap-polyphonic-touch-synthesizer.json",
+    bin: "binaries/cap-05-polyphonic-touch-synthesizer.bin"
+  },
+  {
+    id: "cap-dj-launchpad-xy-filter",
+    tier: "C",
+    name: "06 — DJ Beat Launchpad & XY Filter Pad",
+    desc: "16-pad drum machine + continuous XY Kaoss-style filter pad with live audio feedback.",
+    tags: ["Music", "DJ", "Launchpad", "XY Pad", "Audio"],
+    manifest: "manifests/cap-dj-launchpad-xy-filter.json",
+    bin: "binaries/cap-06-dj-launchpad-xy-filter.bin"
+  },
+  {
+    id: "cap-smooth-sketchpad-signature",
+    tier: "C",
+    name: "07 — Smooth Glass Sketchpad & Signature",
+    desc: "Anti-aliased drawing canvas: 6-color palette, stroke width slider & flick-to-clear gesture.",
+    tags: ["Art", "Drawing", "Signature", "Canvas", "Touch"],
+    manifest: "manifests/cap-smooth-sketchpad-signature.json",
+    bin: "binaries/cap-07-smooth-sketchpad-signature.bin"
+  },
+  {
+    id: "cap-swipe-slice-arcade",
+    tier: "C",
+    name: "08 — Swipe-to-Slice Arcade Game",
+    desc: "High-speed blade slashing game: parabolic flying targets, blade particle trail & combo counter.",
+    tags: ["Game", "Arcade", "Slice", "Swipe", "Physics"],
+    manifest: "manifests/cap-swipe-slice-arcade.json",
+    bin: "binaries/cap-08-swipe-slice-arcade.bin"
+  },
+  {
+    id: "cap-2048-kinetic-slide-puzzle",
+    tier: "C",
+    name: "09 — 2048 Kinetic Slide Puzzle",
+    desc: "4x4 puzzle with animated sliding tile physics, CST816 directional gestures & score saving.",
+    tags: ["Game", "Puzzle", "2048", "Gestures", "Tiles"],
+    manifest: "manifests/cap-2048-kinetic-slide-puzzle.json",
+    bin: "binaries/cap-09-2048-kinetic-slide-puzzle.bin"
+  },
+  {
+    id: "cap-air-hockey-touch-arena",
+    tier: "C",
+    name: "10 — Air Hockey Touch Arena",
+    desc: "60 FPS 2D puck physics arena: fingertip paddle tracking, AI opponent & digital scoreboard.",
+    tags: ["Game", "Air Hockey", "Physics", "Sports", "Touch"],
+    manifest: "manifests/cap-air-hockey-touch-arena.json",
+    bin: "binaries/cap-10-air-hockey-touch-arena.bin"
+  },
+  {
+    id: "cap-spotify-gesture-companion",
+    tier: "C",
+    name: "11 — Spotify Gesture Remote Companion",
+    desc: "Music remote: swipe to skip/rewind, vertical swipe volume, tap pause & progress scrubber.",
+    tags: ["Spotify", "Music", "Remote", "Gestures", "Audio"],
+    manifest: "manifests/cap-spotify-gesture-companion.json",
+    bin: "binaries/cap-11-spotify-gesture-companion.bin"
+  },
+  {
+    id: "cap-candlestick-finance-navigator",
+    tier: "C",
+    name: "12 — Candlestick Finance Navigator",
+    desc: "Financial chart workstation: interactive crosshair cursor, timeframe selector & OHLC metrics.",
+    tags: ["Crypto", "Stocks", "Charts", "Finance", "Candlestick"],
+    manifest: "manifests/cap-candlestick-finance-navigator.json",
+    bin: "binaries/cap-12-candlestick-finance-navigator.bin"
+  },
+  {
+    id: "cap-kanban-touch-desk-planner",
+    tier: "C",
+    name: "13 — Kanban Card Desk Planner",
+    desc: "3-column Kanban board: touch-and-drag task cards between To-Do, In-Progress & Done.",
+    tags: ["Productivity", "Kanban", "Cards", "Planner", "Tasks"],
+    manifest: "manifests/cap-kanban-touch-desk-planner.json",
+    bin: "binaries/cap-13-kanban-touch-desk-planner.bin"
+  },
+  {
+    id: "cap-rotary-pomodoro-timer",
+    tier: "C",
+    name: "14 — Rotary Gesture Pomodoro Timer",
+    desc: "Circular touch dial: spin finger to dial minutes, tap center to start & RGB breathing alert.",
+    tags: ["Productivity", "Pomodoro", "Dial", "Timer", "Rotary"],
+    manifest: "manifests/cap-rotary-pomodoro-timer.json",
+    bin: "binaries/cap-14-rotary-pomodoro-timer.bin"
+  },
+  {
+    id: "cap-smart-thermostat-circular-dial",
+    tier: "C",
+    name: "15 — Smart Thermostat Circular Dial",
+    desc: "Smart HVAC thermostat: radial dial dragging, 16-30°C range, Heat/Cool modes & flame status.",
+    tags: ["Smart Home", "Thermostat", "HVAC", "Dial", "Climate"],
+    manifest: "manifests/cap-smart-thermostat-circular-dial.json",
+    bin: "binaries/cap-15-smart-thermostat-circular-dial.bin"
+  },
+  {
+    id: "cap-swipeable-room-wall-controller",
+    tier: "C",
+    name: "16 — Swipeable Room Wall Controller",
+    desc: "Smart wall panel: horizontal swipe between 4 rooms, light sliders, climate & scene triggers.",
+    tags: ["Smart Home", "Wall Mount", "Rooms", "Lighting", "Swipes"],
+    manifest: "manifests/cap-swipeable-room-wall-controller.json",
+    bin: "binaries/cap-16-swipeable-room-wall-controller.bin"
+  },
+  {
+    id: "cap-multichannel-light-mixer",
+    tier: "C",
+    name: "17 — Multi-Channel Lighting Dimmer",
+    desc: "4-channel lighting desk: Warm, Cold, Amber & RGB faders with blackout switch.",
+    tags: ["Lighting", "DMX", "Dimmer", "Faders", "Studio"],
+    manifest: "manifests/cap-multichannel-light-mixer.json",
+    bin: "binaries/cap-17-multichannel-light-mixer.bin"
+  },
+  {
+    id: "cap-pinch-pan-logic-analyzer",
+    tier: "C",
+    name: "18 — Touch Logic Waveform Analyzer",
+    desc: "Digital waveform viewer: touch-and-drag timeline scrubber across 4 channels & delta timing.",
+    tags: ["Electronics", "Logic Analyzer", "Waveform", "Oscilloscope", "Debug"],
+    manifest: "manifests/cap-pinch-pan-logic-analyzer.json",
+    bin: "binaries/cap-18-pinch-pan-logic-analyzer.bin"
+  },
+  {
+    id: "cap-gcode-layer-scrubber-jogger",
+    tier: "C",
+    name: "19 — 3D Printer G-Code Scrubber & Jogger",
+    desc: "3D printer pendant: vertical layer scrubber preview + 3-axis continuous motion jog pad.",
+    tags: ["3D Printing", "G-Code", "Klipper", "Jogger", "CNC"],
+    manifest: "manifests/cap-gcode-layer-scrubber-jogger.json",
+    bin: "binaries/cap-19-gcode-layer-scrubber-jogger.bin"
+  },
+  {
+    id: "cap-capacitive-touch-diagnostics",
+    tier: "C",
+    name: "20 — Capacitive Touch Sensor Diagnostics",
+    desc: "Raw sensor inspector: contact coordinate tracer, velocity px/s, gesture register & noise floor.",
+    tags: ["Diagnostics", "Touch", "CST816", "Registers", "Hardware"],
+    manifest: "manifests/cap-capacitive-touch-diagnostics.json",
+    bin: "binaries/cap-20-capacitive-touch-diagnostics.bin"
   }
 ];
 
 /* ── Tier labels ── */
-const TIER_LABEL = { B: "Beginner", I: "Intermediate", A: "Advanced" };
+const TIER_LABEL = { B: "Beginner", I: "Intermediate", A: "Advanced", C: "Capacitive 2.8"" };
 
 /* ── Web Serial check ── */
 const chip = document.getElementById('serial-chip');

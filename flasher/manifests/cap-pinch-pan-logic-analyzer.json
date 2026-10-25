@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 18 - Touch Logic Waveform Analyzer",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-18-pinch-pan-logic-analyzer.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-18-pinch-pan-logic-analyzer.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-18-pinch-pan-logic-analyzer.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

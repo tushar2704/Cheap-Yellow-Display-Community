@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 02 - Pull-Down Quick Settings Shade",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-02-pulldown-quicksettings-shade.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-02-pulldown-quicksettings-shade.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-02-pulldown-quicksettings-shade.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

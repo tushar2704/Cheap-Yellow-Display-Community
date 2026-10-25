@@ -159,6 +159,36 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 
 ---
 
+## 📱 2.8" Capacitive CYD Projects (`ESP32-2432S028C`)
+
+The **ESP32-2432S028C** is the dedicated **Capacitive Touch** variant of the Cheap Yellow Display. It replaces the resistive plastic overlay with **scratch-resistant optical glass** and an **I²C CST816S / CST820 controller** (`SDA: GPIO 33`, `SCL: GPIO 32`, `RST: GPIO 25`, `INT: GPIO 21`).
+
+These 20 projects are purpose-built to take full advantage of smartphone-grade zero-pressure touch, hardware-accelerated gestures (Swipe Up/Down/Left/Right, Double-Tap, Long-Press), and fluid kinetic scrolling:
+
+| # | Project | Description | Rating | Link |
+|---|---|---|---|---|
+| 01 | **CardFlow Gesture Launcher** | 5 modular telemetry cards, fluid horizontal swiping, CST816 gestures & RGB sync | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/01-cardflow-gesture-launcher/) |
+| 02 | **Pull-Down Quick Settings Shade** | Mobile OS pull-down shade: brightness PWM, volume, WiFi/BT toggles & flashlight. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/02-pulldown-quicksettings-shade/) |
+| 03 | **Android 9-Dot Pattern Lock & Vault** | Security terminal: 9-dot connected pattern gesture unlock, haptic audio click & credential safe. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/03-pattern-gesture-security-vault/) |
+| 04 | **CoverFlow 3D Media Browser** | Perspective 3D coverflow: kinetic card swiping, reflection mirror & album art explorer. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/04-coverflow-media-browser/) |
+| 05 | **Touch Synthesizer & Ribbon Controller** | Acoustic synthesizer: glissando pitch ribbon, 14 piano keys, octave shift & tone generator. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/05-polyphonic-touch-synthesizer/) |
+| 06 | **DJ Beat Launchpad & XY Filter Pad** | 16-pad drum machine + continuous XY Kaoss-style filter pad with live audio feedback. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/06-dj-launchpad-xy-filter/) |
+| 07 | **Smooth Glass Sketchpad & Signature** | Anti-aliased drawing canvas: 6-color palette, stroke width slider & flick-to-clear gesture. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/07-smooth-sketchpad-signature/) |
+| 08 | **Swipe-to-Slice Arcade Game** | High-speed blade slashing game: parabolic flying targets, blade particle trail & combo counter. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/08-swipe-slice-arcade/) |
+| 09 | **2048 Kinetic Slide Puzzle** | 4x4 puzzle with animated sliding tile physics, CST816 directional gestures & score saving. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/09-2048-kinetic-slide-puzzle/) |
+| 10 | **Air Hockey Touch Arena** | 60 FPS 2D puck physics arena: fingertip paddle tracking, AI opponent & digital scoreboard. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/10-air-hockey-touch-arena/) |
+| 11 | **Spotify Gesture Remote Companion** | Music remote: swipe to skip/rewind, vertical swipe volume, tap pause & progress scrubber. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/11-spotify-gesture-companion/) |
+| 12 | **Candlestick Finance Navigator** | Financial chart workstation: interactive crosshair cursor, timeframe selector & OHLC metrics. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/12-candlestick-finance-navigator/) |
+| 13 | **Kanban Card Desk Planner** | 3-column Kanban board: touch-and-drag task cards between To-Do, In-Progress & Done. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/13-kanban-touch-desk-planner/) |
+| 14 | **Rotary Gesture Pomodoro Timer** | Circular touch dial: spin finger to dial minutes, tap center to start & RGB breathing alert. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/14-rotary-pomodoro-timer/) |
+| 15 | **Smart Thermostat Circular Dial** | Smart HVAC thermostat: radial dial dragging, 16-30°C range, Heat/Cool modes & flame status. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/15-smart-thermostat-circular-dial/) |
+| 16 | **Swipeable Room Wall Controller** | Smart wall panel: horizontal swipe between 4 rooms, light sliders, climate & scene triggers. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/16-swipeable-room-wall-controller/) |
+| 17 | **Multi-Channel Lighting Dimmer** | 4-channel lighting desk: Warm, Cold, Amber & RGB faders with blackout switch. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/17-multichannel-light-mixer/) |
+| 18 | **Touch Logic Waveform Analyzer** | Digital waveform viewer: touch-and-drag timeline scrubber across 4 channels & delta timing. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/18-pinch-pan-logic-analyzer/) |
+| 19 | **3D Printer G-Code Scrubber & Jogger** | 3D printer pendant: vertical layer scrubber preview + 3-axis continuous motion jog pad. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/19-gcode-layer-scrubber-jogger/) |
+| 20 | **Capacitive Touch Sensor Diagnostics** | Raw sensor inspector: contact coordinate tracer, velocity px/s, gesture register & noise floor. | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/capacitive/20-capacitive-touch-diagnostics/) |
+
+
 ## 🖨️ 3D Printable Enclosures
 
 Custom-engineered 3D printed housings designed by [@Makerrdesigns](https://youtube.com/@Makerrdesigns):

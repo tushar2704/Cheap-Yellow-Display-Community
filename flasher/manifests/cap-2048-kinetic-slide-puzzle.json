@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 09 - 2048 Kinetic Slide Puzzle",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-09-2048-kinetic-slide-puzzle.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-09-2048-kinetic-slide-puzzle.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-09-2048-kinetic-slide-puzzle.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

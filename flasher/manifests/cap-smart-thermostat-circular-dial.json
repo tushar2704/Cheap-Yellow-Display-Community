@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 15 - Smart Thermostat Circular Dial",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-15-smart-thermostat-circular-dial.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-15-smart-thermostat-circular-dial.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-15-smart-thermostat-circular-dial.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

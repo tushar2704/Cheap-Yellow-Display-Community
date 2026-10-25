@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 04 - CoverFlow 3D Media Browser",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-04-coverflow-media-browser.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-04-coverflow-media-browser.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-04-coverflow-media-browser.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 06 - DJ Beat Launchpad & XY Filter Pad",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-06-dj-launchpad-xy-filter.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-06-dj-launchpad-xy-filter.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-06-dj-launchpad-xy-filter.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

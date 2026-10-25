@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 20 - Capacitive Touch Sensor Diagnostics",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-20-capacitive-touch-diagnostics.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-20-capacitive-touch-diagnostics.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-20-capacitive-touch-diagnostics.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

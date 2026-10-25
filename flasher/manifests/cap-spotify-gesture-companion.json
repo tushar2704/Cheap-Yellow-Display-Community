@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 11 - Spotify Gesture Remote Companion",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-11-spotify-gesture-companion.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-11-spotify-gesture-companion.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-11-spotify-gesture-companion.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

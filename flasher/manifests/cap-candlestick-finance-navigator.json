@@ -1,0 +1,25 @@
+{
+  "name": "Capacitive 12 - Candlestick Finance Navigator",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/cap-12-candlestick-finance-navigator.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/cap-12-candlestick-finance-navigator.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/cap-12-candlestick-finance-navigator.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}
