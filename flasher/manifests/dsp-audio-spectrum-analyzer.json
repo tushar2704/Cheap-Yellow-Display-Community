@@ -1,0 +1,16 @@
+{
+  "name": "20 - Real-Time DSP Audio Spectrum Analyzer",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/20-dsp-audio-spectrum-analyzer.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/20-dsp-audio-spectrum-analyzer.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/20-dsp-audio-spectrum-analyzer.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
