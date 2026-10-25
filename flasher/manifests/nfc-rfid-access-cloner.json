@@ -1,0 +1,16 @@
+{
+  "name": "22 - PN532 NFC & RFID Tag Reader / UID Analyzer",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/22-nfc-rfid-access-cloner.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/22-nfc-rfid-access-cloner.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/22-nfc-rfid-access-cloner.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
