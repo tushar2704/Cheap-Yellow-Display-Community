@@ -1,0 +1,16 @@
+{
+  "name": "17 - Solar & Battery Storage MPPT Dashboard",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/17-solar-battery-mppt-dashboard.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/17-solar-battery-mppt-dashboard.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/17-solar-battery-mppt-dashboard.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
