@@ -1,0 +1,16 @@
+{
+  "name": "15 - Bitcoin & Lightning Network Node Telemetry Monitor",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/15-bitcoin-lightning-node-monitor.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/15-bitcoin-lightning-node-monitor.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/15-bitcoin-lightning-node-monitor.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
