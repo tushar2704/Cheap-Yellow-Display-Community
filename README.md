@@ -144,6 +144,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 13 | **CAN Bus OBD-II Gauge** | Real-time tachometer (0-8k RPM), speedometer (MPH/KMH), coolant & shift lights | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/13-can-bus-obd2-gauge/) |
 | 14 | **Thermal Imager (MLX90640)** | Infrared thermal imaging camera: Ironbow/Rainbow heatmaps, min/max spot crosshair & alarm | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/14-flir-thermal-camera/) |
 | 15 | **Bitcoin & Lightning Monitor** | Node status: block height, BTC price, mempool sat/vB fees, channel liquidity & routed sats | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/15-bitcoin-lightning-node-monitor/) |
+| 16 | **Air Quality AQI & CO2 Station** | Environmental station: EPA AQI, SCD40 CO2 ppm, PM2.5, TVOC & 24h rolling trend | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/16-air-quality-pm25-co2-station/) |
 
 ---
 
