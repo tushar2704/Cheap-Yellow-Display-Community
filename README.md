@@ -153,6 +153,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 22 | **NFC & RFID Tag Analyzer** | PN532 card reader: UID hex inspection, Mifare/NTAG type, memory dump & access | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/22-nfc-rfid-access-cloner/) |
 | 23 | **GPS Navigator & Speedometer** | Outdoor HUD: digital speedometer (KMH/MPH), rotating compass & WGS84 coords | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/23-gps-nav-speedometer-compass/) |
 | 24 | **Doppler Weather Radar Map** | Animated NEXRAD rain radar loops, 20-70 dBZ storm reflectivity & storm warnings | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/24-weather-radar-doppler-map/) |
+| 25 | **Electric Meter Pulse Counter** | Optical 1000 imp/kWh pulse counter: real-time kW, daily kWh & electricity tariff bill | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/25-smart-electric-meter-pulse/) |
 
 ---
 
