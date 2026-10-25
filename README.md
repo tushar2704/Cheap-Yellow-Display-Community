@@ -140,6 +140,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 9 | **Digital Oscilloscope** | 100kHz DSO with 8x6 graticule grid, Vpp/Vmax metrics, timebases & trace freeze | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/09-digital-oscilloscope-analyzer/) |
 | 10 | **Spotify Car Thing Remote** | Dedicated music controller: vinyl art, live scrubber, transport controls & volume | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/10-spotify-car-thing-remote/) |
 | 11 | **Stream Deck Controller** | 12-key tactile OBS Studio macro board with mic mute, webcam, live & panic switch | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/11-stream-deck-controller/) |
+| 12 | **LoRa Meshtastic Terminal** | Off-grid communicator with chat log, signal RSSI/SNR, emergency SOS & presets | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/12-lora-mesh-communicator/) |
 
 ---
 

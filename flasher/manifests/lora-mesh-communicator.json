@@ -1,0 +1,16 @@
+{
+  "name": "12 - LoRa Meshtastic Long-Range Terminal",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/12-lora-mesh-communicator.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/12-lora-mesh-communicator.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/12-lora-mesh-communicator.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
