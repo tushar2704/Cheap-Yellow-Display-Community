@@ -1,0 +1,16 @@
+{
+  "name": "19 - GRBL CNC Milling & Laser Engraver Motion Pendant",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/19-cnc-grbl-motion-pendant.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/19-cnc-grbl-motion-pendant.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/19-cnc-grbl-motion-pendant.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

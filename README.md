@@ -147,6 +147,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 16 | **Air Quality AQI & CO2 Station** | Environmental station: EPA AQI, SCD40 CO2 ppm, PM2.5, TVOC & 24h rolling trend | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/16-air-quality-pm25-co2-station/) |
 | 17 | **Solar & MPPT Dashboard** | Off-grid power flow: Solar PV watts, LiFePO4 battery SOC%, daily kWh & load | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/17-solar-battery-mppt-dashboard/) |
 | 18 | **WiFi Spectrum Auditor** | Wireless security audit: Open/WEP/WPA3 cipher check, 14-ch RF spectrum & rogue APs | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/18-wifi-penetration-tester-wardrive/) |
+| 19 | **GRBL CNC Motion Pendant** | Touch jog pendant: 3-axis X/Y/Z D-Pad, 0.1-50mm step selector, WCS readouts & E-STOP | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/19-cnc-grbl-motion-pendant/) |
 
 ---
 
