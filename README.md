@@ -149,6 +149,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 18 | **WiFi Spectrum Auditor** | Wireless security audit: Open/WEP/WPA3 cipher check, 14-ch RF spectrum & rogue APs | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/18-wifi-penetration-tester-wardrive/) |
 | 19 | **GRBL CNC Motion Pendant** | Touch jog pendant: 3-axis X/Y/Z D-Pad, 0.1-50mm step selector, WCS readouts & E-STOP | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/19-cnc-grbl-motion-pendant/) |
 | 20 | **DSP Audio Spectrum Analyzer** | 16-band graphic equalizer: peak-hold decay, Cyberpunk/Inferno themes & beat sync LED | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/20-dsp-audio-spectrum-analyzer/) |
+| 21 | **Plant & Soil Microclimate** | Greenhouse station: 4-zone soil moisture bars, VPD kPa calculation & pump trigger | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/21-plant-soil-microclimate-monitor/) |
 
 ---
 

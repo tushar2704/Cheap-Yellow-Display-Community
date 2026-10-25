@@ -1,0 +1,16 @@
+{
+  "name": "21 - Smart Plant & Soil Microclimate Station",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/21-plant-soil-microclimate-monitor.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/21-plant-soil-microclimate-monitor.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/21-plant-soil-microclimate-monitor.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
