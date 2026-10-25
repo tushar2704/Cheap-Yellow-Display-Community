@@ -1,0 +1,16 @@
+{
+  "name": "13 - Automotive CAN Bus OBD-II Gauge Cluster",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/13-can-bus-obd2-gauge.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/13-can-bus-obd2-gauge.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/13-can-bus-obd2-gauge.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

@@ -141,6 +141,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 10 | **Spotify Car Thing Remote** | Dedicated music controller: vinyl art, live scrubber, transport controls & volume | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/10-spotify-car-thing-remote/) |
 | 11 | **Stream Deck Controller** | 12-key tactile OBS Studio macro board with mic mute, webcam, live & panic switch | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/11-stream-deck-controller/) |
 | 12 | **LoRa Meshtastic Terminal** | Off-grid communicator with chat log, signal RSSI/SNR, emergency SOS & presets | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/12-lora-mesh-communicator/) |
+| 13 | **CAN Bus OBD-II Gauge** | Real-time tachometer (0-8k RPM), speedometer (MPH/KMH), coolant & shift lights | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/13-can-bus-obd2-gauge/) |
 
 ---
 
