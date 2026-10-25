@@ -151,6 +151,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 20 | **DSP Audio Spectrum Analyzer** | 16-band graphic equalizer: peak-hold decay, Cyberpunk/Inferno themes & beat sync LED | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/20-dsp-audio-spectrum-analyzer/) |
 | 21 | **Plant & Soil Microclimate** | Greenhouse station: 4-zone soil moisture bars, VPD kPa calculation & pump trigger | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/21-plant-soil-microclimate-monitor/) |
 | 22 | **NFC & RFID Tag Analyzer** | PN532 card reader: UID hex inspection, Mifare/NTAG type, memory dump & access | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/22-nfc-rfid-access-cloner/) |
+| 23 | **GPS Navigator & Speedometer** | Outdoor HUD: digital speedometer (KMH/MPH), rotating compass & WGS84 coords | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/23-gps-nav-speedometer-compass/) |
 
 ---
 
