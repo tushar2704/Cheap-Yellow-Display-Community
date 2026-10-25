@@ -1,0 +1,16 @@
+{
+  "name": "18 - WiFi Spectrum Security Auditor & Wardrive Scanner",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/18-wifi-penetration-tester-wardrive.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/18-wifi-penetration-tester-wardrive.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/18-wifi-penetration-tester-wardrive.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
