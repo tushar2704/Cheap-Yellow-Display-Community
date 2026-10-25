@@ -1,0 +1,16 @@
+{
+  "name": "26 - Air-Gapped BIP39 Bitcoin & EVM Hardware Cold Wallet",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/26-hardware-crypto-cold-wallet.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/26-hardware-crypto-cold-wallet.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/26-hardware-crypto-cold-wallet.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

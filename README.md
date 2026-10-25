@@ -154,6 +154,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 23 | **GPS Navigator & Speedometer** | Outdoor HUD: digital speedometer (KMH/MPH), rotating compass & WGS84 coords | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/23-gps-nav-speedometer-compass/) |
 | 24 | **Doppler Weather Radar Map** | Animated NEXRAD rain radar loops, 20-70 dBZ storm reflectivity & storm warnings | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/24-weather-radar-doppler-map/) |
 | 25 | **Electric Meter Pulse Counter** | Optical 1000 imp/kWh pulse counter: real-time kW, daily kWh & electricity tariff bill | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/25-smart-electric-meter-pulse/) |
+| 26 | **Air-Gapped Cold Wallet** | Offline crypto signer: BIP39 SegWit derivation, PSBT transaction review & QR emitter | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/26-hardware-crypto-cold-wallet/) |
 
 ---
 
