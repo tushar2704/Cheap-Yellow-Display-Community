@@ -1,0 +1,16 @@
+{
+  "name": "14 - FLIR / MLX90640 Thermal Imager & Heat Map Scanner",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/14-flir-thermal-camera.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/14-flir-thermal-camera.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/14-flir-thermal-camera.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
