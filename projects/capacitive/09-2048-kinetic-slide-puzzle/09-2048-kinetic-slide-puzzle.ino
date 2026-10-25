@@ -1,17 +1,7 @@
 /*
- * ═══════════════════════════════════════════════════════════════════════════
- *  CYD 2.8" Capacitive (ESP32-2432S028C) - Capacitive 09 - 2048 Kinetic Slide Puzzle
- * ═══════════════════════════════════════════════════════════════════════════
- *  Author:       tushar2704 <tushar.inseec@gmail.com>
- *  Repository:   https://github.com/tushar2704/Cheap-Yellow-Display-Community
- *  License:      Dual Licensed:
- *                - GNU AGPLv3 for Source Code
- *                - CC BY-NC-ND 4.0 for Hardware Designs & Media Assets
- *  Credits:      Inspired by community work at @IamNotIntoTech & @Makerrdesigns
- *  Year:         2026
- * ═══════════════════════════════════════════════════════════════════════════
+ * CYD 2.8" Capacitive (ESP32-2432S028C) - 09: 2048 Kinetic Slide Puzzle
+ * Author: tushar2704 <tushar.inseec@gmail.com> | Dual Licensed (AGPLv3 / CC BY-NC-ND 4.0)
  */
-
 #include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -22,194 +12,158 @@
 #define I2C_SCL_PIN   32
 #define TOUCH_RST_PIN 25
 #define TOUCH_INT_PIN 21
-
-#define PIN_LED_R 4
-#define PIN_LED_G 16
-#define PIN_LED_B 17
 #define PIN_AUDIO 26
-#define PIN_LDR   34
 
 TFT_eSPI tft = TFT_eSPI();
 CST816S touch(I2C_SDA_PIN, I2C_SCL_PIN, TOUCH_RST_PIN, TOUCH_INT_PIN);
 
-// Theme Colors
-#define BG_COLOR      0x0821
-#define PANEL_COLOR   0x18C3
-#define BORDER_COLOR  0x2945
-#define ACCENT_COLOR  0x07FF
-#define TEXT_WHITE    0xFFFF
-#define TEXT_MUTED    0x9492
-#define GREEN_COLOR   0x07E0
-#define AMBER_COLOR   0xFDA0
-#define RED_COLOR     0xF800
-#define PURPLE_COLOR  0x915F
+int board[4][4];
+int score = 0;
 
-void playBeep(int freq, int ms) {
-  tone(PIN_AUDIO, freq, ms);
+uint16_t getTileColor(int val) {
+  switch (val) {
+    case 2:    return 0xCE79;
+    case 4:    return 0xCE55;
+    case 8:    return 0xF4AB;
+    case 16:   return 0xF3E6;
+    case 32:   return 0xF324;
+    case 64:   return 0xF240;
+    case 128:  return 0xEE47;
+    case 256:  return 0xEE05;
+    case 512:  return 0x05FD;
+    case 1024: return 0x915F;
+    case 2048: return 0x07E0;
+    default:   return 0x2126;
+  }
 }
 
-void setRgb(uint8_t r, uint8_t g, uint8_t b) {
-  analogWrite(PIN_LED_R, 255 - r);
-  analogWrite(PIN_LED_G, 255 - g);
-  analogWrite(PIN_LED_B, 255 - b);
+void spawnRandom() {
+  int emptyR[16], emptyC[16], count = 0;
+  for (int r = 0; r < 4; r++) {
+    for (int c = 0; c < 4; c++) {
+      if (board[r][c] == 0) { emptyR[count] = r; emptyC[count] = c; count++; }
+    }
+  }
+  if (count > 0) {
+    int idx = random(0, count);
+    board[emptyR[idx]][emptyC[idx]] = (random(0, 10) == 0) ? 4 : 2;
+  }
 }
 
-// Application Specific State Variables
-int currentMode = 0;
-int sliderVal = 50;
-bool toggleState = false;
-unsigned long lastUpdate = 0;
-int lastTouchX = 160;
-int lastTouchY = 120;
-int touchCount = 0;
-
-void drawHeader(const char* title, const char* badge) {
-  tft.fillRect(0, 0, 320, 28, 0x10A2);
-  tft.setTextSize(1);
-  tft.setTextColor(TEXT_WHITE, 0x10A2);
-  tft.setCursor(10, 10);
-  tft.print(title);
-
-  // Badge
-  tft.fillRoundRect(200, 6, 110, 16, 4, 0x28B3);
-  tft.setTextColor(0xDF1F, 0x28B3);
-  tft.setCursor(206, 10);
-  tft.print(badge);
-  tft.drawFastHLine(0, 28, 320, BORDER_COLOR);
-}
-
-void renderUI() {
-  tft.fillRect(0, 29, 320, 211, BG_COLOR);
-
-  // Primary Workspace Panel
-  tft.fillRoundRect(15, 38, 290, 155, 8, PANEL_COLOR);
-  tft.drawRoundRect(15, 38, 290, 155, 8, BORDER_COLOR);
-
-  // Status metrics
+void drawBoard() {
+  tft.fillRect(0, 0, 320, 240, 0x18C3);
+  
+  // Header
+  tft.setTextColor(TFT_WHITE, 0x18C3);
   tft.setTextSize(2);
-  tft.setTextColor(ACCENT_COLOR, PANEL_COLOR);
-  tft.setCursor(30, 52);
-  tft.printf("09 — 2048 Kinetic Slid");
+  tft.setCursor(20, 8);
+  tft.print("2048");
 
   tft.setTextSize(1);
-  tft.setTextColor(TEXT_MUTED, PANEL_COLOR);
-  tft.setCursor(30, 78);
-  tft.printf("Capacitive Glass Touch | CST816S I2C");
+  tft.setCursor(180, 12);
+  tft.printf("SCORE: %d", score);
 
-  // Interactive Graphic / Slider / Visualizer
-  tft.fillRoundRect(30, 96, 260, 26, 4, 0x0841);
-  int fillW = map(sliderVal, 0, 100, 0, 260);
-  tft.fillRoundRect(30, 96, fillW, 26, 4, ACCENT_COLOR);
-  tft.setTextColor(TEXT_WHITE, 0x0841);
-  tft.setCursor(120, 105);
-  tft.printf("Level: %d%%", sliderVal);
+  // 4x4 Grid
+  int startX = 55;
+  int startY = 32;
+  int tileSize = 48;
+  int pad = 5;
 
-  // Toggle Button
-  tft.fillRoundRect(30, 134, 120, 42, 6, toggleState ? GREEN_COLOR : 0x3186);
-  tft.setTextColor(toggleState ? 0x0000 : TEXT_WHITE, toggleState ? GREEN_COLOR : 0x3186);
-  tft.setCursor(42, 148);
-  tft.setTextSize(1);
-  tft.print(toggleState ? "[ ENABLED ]" : "[ DISABLED ]");
+  for (int r = 0; r < 4; r++) {
+    for (int c = 0; c < 4; c++) {
+      int tx = startX + c * (tileSize + pad);
+      int ty = startY + r * (tileSize + pad);
+      int val = board[r][c];
+      uint16_t col = getTileColor(val);
 
-  // Secondary Action Button
-  tft.fillRoundRect(170, 134, 120, 42, 6, PURPLE_COLOR);
-  tft.setTextColor(TEXT_WHITE, PURPLE_COLOR);
-  tft.setCursor(185, 148);
-  tft.printf("MODE %d/4", currentMode + 1);
+      tft.fillRoundRect(tx, ty, tileSize, tileSize, 4, col);
+      if (val > 0) {
+        tft.setTextColor(val <= 4 ? 0x0000 : TFT_WHITE, col);
+        tft.setTextSize(val >= 1000 ? 1 : 2);
+        char buf[8];
+        snprintf(buf, sizeof(buf), "%d", val);
+        int tw = strlen(buf) * (val >= 1000 ? 6 : 12);
+        tft.setCursor(tx + (tileSize - tw) / 2, ty + (tileSize - 14) / 2);
+        tft.print(buf);
+      }
+    }
+  }
+}
 
-  // Bottom Gesture Hint Bar
-  tft.fillRect(0, 204, 320, 36, 0x0000);
-  tft.drawFastHLine(0, 203, 320, BORDER_COLOR);
-  tft.setTextColor(TEXT_MUTED, 0x0000);
-  tft.setCursor(15, 216);
-  tft.printf("Touch X:%03d Y:%03d | Gestures: SWIPE / TAP", lastTouchX, lastTouchY);
+bool slideLeft() {
+  bool moved = false;
+  for (int r = 0; r < 4; r++) {
+    int target = 0;
+    for (int c = 1; c < 4; c++) {
+      if (board[r][c] != 0) {
+        int val = board[r][c];
+        board[r][c] = 0;
+        if (board[r][target] == 0) {
+          board[r][target] = val;
+          moved = true;
+        } else if (board[r][target] == val) {
+          board[r][target] *= 2;
+          score += board[r][target];
+          target++;
+          moved = true;
+        } else {
+          target++;
+          board[r][target] = val;
+          if (target != c) moved = true;
+        }
+      }
+    }
+  }
+  return moved;
+}
+
+void rotateBoard() {
+  int temp[4][4];
+  for (int r = 0; r < 4; r++) {
+    for (int c = 0; c < 4; c++) temp[c][3 - r] = board[r][c];
+  }
+  memcpy(board, temp, sizeof(board));
 }
 
 void setup() {
   Serial.begin(115200);
-  delay(100);
-  Serial.println("Starting Capacitive 09 - 2048 Kinetic Slide Puzzle on ESP32-2432S028C...");
-
-  pinMode(PIN_LED_R, OUTPUT);
-  pinMode(PIN_LED_G, OUTPUT);
-  pinMode(PIN_LED_B, OUTPUT);
   pinMode(PIN_AUDIO, OUTPUT);
-  pinMode(PIN_LDR, INPUT);
-
-  setRgb(0, 180, 255);
-
   tft.init();
-  tft.setRotation(1); // Landscape 320x240
-  tft.fillScreen(BG_COLOR);
-
+  tft.setRotation(1);
   touch.begin();
-  Serial.println("CST816S Capacitive Touch Ready.");
 
-  drawHeader("09 — 2048 Kinetic Sl", "CAPACITIVE 2.8");
-  renderUI();
-  playBeep(2000, 30);
+  memset(board, 0, sizeof(board));
+  spawnRandom();
+  spawnRandom();
+  drawBoard();
 }
 
 void loop() {
   if (touch.available()) {
-    int tx = touch.data.x;
-    int ty = touch.data.y;
-    uint8_t gesture = touch.data.gestureID;
-
-    // Map portrait to landscape
-    lastTouchX = ty;
-    lastTouchY = 240 - tx;
-    touchCount++;
-
-    // Gesture Handling:
-    // 0x01=Up, 0x02=Down, 0x03=Left, 0x04=Right, 0x05=Click, 0x0C=Long Press
-    if (gesture == 0x03) { // Swipe Left
-      currentMode = (currentMode + 1) % 4;
-      playBeep(2200, 20);
-      setRgb(255, 0, 200);
-      renderUI();
-      delay(100);
-    } else if (gesture == 0x04) { // Swipe Right
-      currentMode = (currentMode - 1 + 4) % 4;
-      playBeep(1800, 20);
-      setRgb(0, 255, 100);
-      renderUI();
-      delay(100);
-    } else if (gesture == 0x01) { // Swipe Up
-      sliderVal = min(100, sliderVal + 10);
-      playBeep(2400, 15);
-      renderUI();
-    } else if (gesture == 0x02) { // Swipe Down
-      sliderVal = max(0, sliderVal - 10);
-      playBeep(1600, 15);
-      renderUI();
-    } else if (gesture == 0x05 || gesture == 0x00) { // Tap
-      if (lastTouchY >= 134 && lastTouchY <= 176) {
-        if (lastTouchX >= 30 && lastTouchX <= 150) {
-          toggleState = !toggleState;
-          playBeep(1200, 30);
-          setRgb(toggleState ? 0 : 255, toggleState ? 255 : 0, 100);
-          renderUI();
-        } else if (lastTouchX >= 170 && lastTouchX <= 290) {
-          currentMode = (currentMode + 1) % 4;
-          playBeep(2000, 30);
-          renderUI();
-        }
-      } else if (lastTouchY >= 96 && lastTouchY <= 122) {
-        sliderVal = map(constrain(lastTouchX, 30, 290), 30, 290, 0, 100);
-        playBeep(1500 + sliderVal * 10, 15);
-        renderUI();
-      }
+    uint8_t g = touch.data.gestureID;
+    bool moved = false;
+    // 0x03=Left, 0x04=Right, 0x01=Up, 0x02=Down
+    if (g == 0x03) { // Left
+      moved = slideLeft();
+    } else if (g == 0x04) { // Right
+      rotateBoard(); rotateBoard();
+      moved = slideLeft();
+      rotateBoard(); rotateBoard();
+    } else if (g == 0x01) { // Up
+      rotateBoard(); rotateBoard(); rotateBoard();
+      moved = slideLeft();
+      rotateBoard();
+    } else if (g == 0x02) { // Down
+      rotateBoard();
+      moved = slideLeft();
+      rotateBoard(); rotateBoard(); rotateBoard();
     }
-  }
 
-  // Periodic Telemetry update
-  if (millis() - lastUpdate >= 1000) {
-    lastUpdate = millis();
-    tft.fillRect(15, 216, 290, 12, 0x0000);
-    tft.setTextColor(TEXT_MUTED, 0x0000);
-    tft.setCursor(15, 216);
-    int ldrVal = analogRead(PIN_LDR);
-    tft.printf("Touch X:%03d Y:%03d | LDR:%04d | Mode:%d", lastTouchX, lastTouchY, ldrVal, currentMode);
+    if (moved) {
+      tone(PIN_AUDIO, 1800, 20);
+      spawnRandom();
+      drawBoard();
+      delay(150);
+    }
   }
 }

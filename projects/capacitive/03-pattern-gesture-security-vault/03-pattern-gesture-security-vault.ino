@@ -1,13 +1,11 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
- *  CYD 2.8" Capacitive (ESP32-2432S028C) - Capacitive 03 - Android 9-Dot Pattern Lock & Vault
+ *  CYD 2.8" Capacitive (ESP32-2432S028C) - 03: Android 9-Dot Pattern Lock
  * ═══════════════════════════════════════════════════════════════════════════
  *  Author:       tushar2704 <tushar.inseec@gmail.com>
  *  Repository:   https://github.com/tushar2704/Cheap-Yellow-Display-Community
- *  License:      Dual Licensed:
- *                - GNU AGPLv3 for Source Code
- *                - CC BY-NC-ND 4.0 for Hardware Designs & Media Assets
- *  Credits:      Inspired by community work at @IamNotIntoTech & @Makerrdesigns
+ *  License:      Dual Licensed (AGPLv3 / CC BY-NC-ND 4.0)
+ *  Credits:      Inspired by @IamNotIntoTech & @Makerrdesigns
  *  Year:         2026
  * ═══════════════════════════════════════════════════════════════════════════
  */
@@ -32,21 +30,20 @@
 TFT_eSPI tft = TFT_eSPI();
 CST816S touch(I2C_SDA_PIN, I2C_SCL_PIN, TOUCH_RST_PIN, TOUCH_INT_PIN);
 
-// Theme Colors
-#define BG_COLOR      0x0821
-#define PANEL_COLOR   0x18C3
-#define BORDER_COLOR  0x2945
-#define ACCENT_COLOR  0x07FF
-#define TEXT_WHITE    0xFFFF
-#define TEXT_MUTED    0x9492
-#define GREEN_COLOR   0x07E0
-#define AMBER_COLOR   0xFDA0
-#define RED_COLOR     0xF800
-#define PURPLE_COLOR  0x915F
+// 3x3 Dot Grid Geometry
+const int DOT_RADIUS = 8;
+const int HIT_RADIUS = 26;
+struct Dot { int x, y; bool active; };
+Dot dots[9] = {
+  {70, 70, false},  {160, 70, false},  {250, 70, false},
+  {70, 130, false}, {160, 130, false}, {250, 130, false},
+  {70, 190, false}, {160, 190, false}, {250, 190, false}
+};
 
-void playBeep(int freq, int ms) {
-  tone(PIN_AUDIO, freq, ms);
-}
+int pattern[9];
+int patternLen = 0;
+bool vaultUnlocked = false;
+unsigned long resetAt = 0;
 
 void setRgb(uint8_t r, uint8_t g, uint8_t b) {
   analogWrite(PIN_LED_R, 255 - r);
@@ -54,100 +51,113 @@ void setRgb(uint8_t r, uint8_t g, uint8_t b) {
   analogWrite(PIN_LED_B, 255 - b);
 }
 
-// Application Specific State Variables
-int currentMode = 0;
-int sliderVal = 50;
-bool toggleState = false;
-unsigned long lastUpdate = 0;
-int lastTouchX = 160;
-int lastTouchY = 120;
-int touchCount = 0;
-
-void drawHeader(const char* title, const char* badge) {
-  tft.fillRect(0, 0, 320, 28, 0x10A2);
-  tft.setTextSize(1);
-  tft.setTextColor(TEXT_WHITE, 0x10A2);
-  tft.setCursor(10, 10);
-  tft.print(title);
-
-  // Badge
-  tft.fillRoundRect(200, 6, 110, 16, 4, 0x28B3);
-  tft.setTextColor(0xDF1F, 0x28B3);
-  tft.setCursor(206, 10);
-  tft.print(badge);
-  tft.drawFastHLine(0, 28, 320, BORDER_COLOR);
+void playToneFeedback(int f, int ms) {
+  tone(PIN_AUDIO, f, ms);
 }
 
-void renderUI() {
-  tft.fillRect(0, 29, 320, 211, BG_COLOR);
+void drawPatternLock() {
+  tft.fillRect(0, 0, 320, 240, 0x0821);
+  
+  // Header
+  tft.fillRect(0, 0, 320, 34, 0x10A2);
+  tft.setTextColor(TFT_WHITE, 0x10A2);
+  tft.setTextSize(1);
+  tft.setCursor(15, 12);
+  tft.print("SECURITY TERMINAL");
+  
+  tft.setTextColor(TFT_YELLOW, 0x10A2);
+  tft.setCursor(160, 12);
+  tft.print("[ CONNECT PATTERN ]");
+  tft.drawFastHLine(0, 34, 320, 0x2945);
 
-  // Primary Workspace Panel
-  tft.fillRoundRect(15, 38, 290, 155, 8, PANEL_COLOR);
-  tft.drawRoundRect(15, 38, 290, 155, 8, BORDER_COLOR);
+  // Draw 9 Dots
+  for (int i = 0; i < 9; i++) {
+    tft.drawCircle(dots[i].x, dots[i].y, DOT_RADIUS + 6, 0x3186);
+    tft.fillCircle(dots[i].x, dots[i].y, DOT_RADIUS, TFT_WHITE);
+  }
 
-  // Status metrics
+  tft.setTextColor(0x9492, 0x0821);
+  tft.setCursor(45, 222);
+  tft.print("Correct: Z-Shape (0 -> 1 -> 2 -> 4 -> 6 -> 7 -> 8)");
+}
+
+void drawVaultUnlocked() {
+  tft.fillRect(0, 0, 320, 240, 0x0841);
+  
+  tft.fillRoundRect(20, 20, 280, 200, 10, 0x18C3);
+  tft.drawRoundRect(20, 20, 280, 200, 10, TFT_GREEN);
+
+  tft.setTextColor(TFT_GREEN, 0x18C3);
   tft.setTextSize(2);
-  tft.setTextColor(ACCENT_COLOR, PANEL_COLOR);
-  tft.setCursor(30, 52);
-  tft.printf("03 — Android 9-Dot Pat");
+  tft.setCursor(40, 40);
+  tft.print("VAULT UNLOCKED!");
 
   tft.setTextSize(1);
-  tft.setTextColor(TEXT_MUTED, PANEL_COLOR);
-  tft.setCursor(30, 78);
-  tft.printf("Capacitive Glass Touch | CST816S I2C");
+  tft.setTextColor(TFT_WHITE, 0x18C3);
+  tft.setCursor(40, 75);
+  tft.print("AES-256 Key: 0x9F4B...72A1");
+  tft.setCursor(40, 95);
+  tft.print("WiFi Secret: CYD_IoT_Admin_2026");
+  tft.setCursor(40, 115);
+  tft.print("Relay Pin: GPIO 27 -> ACTIVATED");
+  tft.setCursor(40, 135);
+  tft.print("Master Token: valid for 60s");
 
-  // Interactive Graphic / Slider / Visualizer
-  tft.fillRoundRect(30, 96, 260, 26, 4, 0x0841);
-  int fillW = map(sliderVal, 0, 100, 0, 260);
-  tft.fillRoundRect(30, 96, fillW, 26, 4, ACCENT_COLOR);
-  tft.setTextColor(TEXT_WHITE, 0x0841);
-  tft.setCursor(120, 105);
-  tft.printf("Level: %d%%", sliderVal);
+  // Lock Button
+  tft.fillRoundRect(70, 170, 180, 35, 6, TFT_RED);
+  tft.setTextColor(TFT_WHITE, TFT_RED);
+  tft.setCursor(105, 182);
+  tft.print("LOCK VAULT NOW");
+}
 
-  // Toggle Button
-  tft.fillRoundRect(30, 134, 120, 42, 6, toggleState ? GREEN_COLOR : 0x3186);
-  tft.setTextColor(toggleState ? 0x0000 : TEXT_WHITE, toggleState ? GREEN_COLOR : 0x3186);
-  tft.setCursor(42, 148);
-  tft.setTextSize(1);
-  tft.print(toggleState ? "[ ENABLED ]" : "[ DISABLED ]");
+void resetPattern() {
+  for (int i = 0; i < 9; i++) dots[i].active = false;
+  patternLen = 0;
+  drawPatternLock();
+  setRgb(0, 0, 120);
+}
 
-  // Secondary Action Button
-  tft.fillRoundRect(170, 134, 120, 42, 6, PURPLE_COLOR);
-  tft.setTextColor(TEXT_WHITE, PURPLE_COLOR);
-  tft.setCursor(185, 148);
-  tft.printf("MODE %d/4", currentMode + 1);
+void verifyPattern() {
+  // Correct pattern: Z-shape: 0, 1, 2, 4, 6, 7, 8
+  int correct[7] = {0, 1, 2, 4, 6, 7, 8};
+  bool match = (patternLen == 7);
+  if (match) {
+    for (int i = 0; i < 7; i++) {
+      if (pattern[i] != correct[i]) { match = false; break; }
+    }
+  }
 
-  // Bottom Gesture Hint Bar
-  tft.fillRect(0, 204, 320, 36, 0x0000);
-  tft.drawFastHLine(0, 203, 320, BORDER_COLOR);
-  tft.setTextColor(TEXT_MUTED, 0x0000);
-  tft.setCursor(15, 216);
-  tft.printf("Touch X:%03d Y:%03d | Gestures: SWIPE / TAP", lastTouchX, lastTouchY);
+  if (match) {
+    vaultUnlocked = true;
+    setRgb(0, 255, 0);
+    playToneFeedback(1800, 60);
+    delay(70);
+    playToneFeedback(2400, 100);
+    drawVaultUnlocked();
+  } else {
+    setRgb(255, 0, 0);
+    playToneFeedback(400, 200);
+    tft.setTextColor(TFT_RED, 0x0821);
+    tft.setCursor(90, 222);
+    tft.print("PATTERN INCORRECT!  ");
+    delay(1000);
+    resetPattern();
+  }
 }
 
 void setup() {
   Serial.begin(115200);
-  delay(100);
-  Serial.println("Starting Capacitive 03 - Android 9-Dot Pattern Lock & Vault on ESP32-2432S028C...");
-
   pinMode(PIN_LED_R, OUTPUT);
   pinMode(PIN_LED_G, OUTPUT);
   pinMode(PIN_LED_B, OUTPUT);
   pinMode(PIN_AUDIO, OUTPUT);
-  pinMode(PIN_LDR, INPUT);
-
-  setRgb(0, 180, 255);
+  setRgb(0, 0, 120);
 
   tft.init();
-  tft.setRotation(1); // Landscape 320x240
-  tft.fillScreen(BG_COLOR);
-
+  tft.setRotation(1);
   touch.begin();
-  Serial.println("CST816S Capacitive Touch Ready.");
 
-  drawHeader("03 — Android 9-Dot P", "CAPACITIVE 2.8");
-  renderUI();
-  playBeep(2000, 30);
+  drawPatternLock();
 }
 
 void loop() {
@@ -155,61 +165,47 @@ void loop() {
     int tx = touch.data.x;
     int ty = touch.data.y;
     uint8_t gesture = touch.data.gestureID;
+    int sx = ty;
+    int sy = 240 - tx;
 
-    // Map portrait to landscape
-    lastTouchX = ty;
-    lastTouchY = 240 - tx;
-    touchCount++;
+    if (vaultUnlocked) {
+      // Tap Lock Vault Button
+      if (sx >= 70 && sx <= 250 && sy >= 170 && sy <= 205) {
+        vaultUnlocked = false;
+        playToneFeedback(1200, 40);
+        resetPattern();
+      }
+      return;
+    }
 
-    // Gesture Handling:
-    // 0x01=Up, 0x02=Down, 0x03=Left, 0x04=Right, 0x05=Click, 0x0C=Long Press
-    if (gesture == 0x03) { // Swipe Left
-      currentMode = (currentMode + 1) % 4;
-      playBeep(2200, 20);
-      setRgb(255, 0, 200);
-      renderUI();
-      delay(100);
-    } else if (gesture == 0x04) { // Swipe Right
-      currentMode = (currentMode - 1 + 4) % 4;
-      playBeep(1800, 20);
-      setRgb(0, 255, 100);
-      renderUI();
-      delay(100);
-    } else if (gesture == 0x01) { // Swipe Up
-      sliderVal = min(100, sliderVal + 10);
-      playBeep(2400, 15);
-      renderUI();
-    } else if (gesture == 0x02) { // Swipe Down
-      sliderVal = max(0, sliderVal - 10);
-      playBeep(1600, 15);
-      renderUI();
-    } else if (gesture == 0x05 || gesture == 0x00) { // Tap
-      if (lastTouchY >= 134 && lastTouchY <= 176) {
-        if (lastTouchX >= 30 && lastTouchX <= 150) {
-          toggleState = !toggleState;
-          playBeep(1200, 30);
-          setRgb(toggleState ? 0 : 255, toggleState ? 255 : 0, 100);
-          renderUI();
-        } else if (lastTouchX >= 170 && lastTouchX <= 290) {
-          currentMode = (currentMode + 1) % 4;
-          playBeep(2000, 30);
-          renderUI();
+    // Check hit on any of the 9 dots
+    for (int i = 0; i < 9; i++) {
+      int dist = sq(sx - dots[i].x) + sq(sy - dots[i].y);
+      if (dist <= sq(HIT_RADIUS) && !dots[i].active) {
+        dots[i].active = true;
+        pattern[patternLen++] = i;
+        
+        // Visual green highlight
+        tft.fillCircle(dots[i].x, dots[i].y, DOT_RADIUS + 3, TFT_GREEN);
+        
+        // Connect to previous dot with a line
+        if (patternLen > 1) {
+          int prev = pattern[patternLen - 2];
+          tft.drawLine(dots[prev].x, dots[prev].y, dots[i].x, dots[i].y, TFT_GREEN);
+          tft.drawLine(dots[prev].x + 1, dots[prev].y, dots[i].x + 1, dots[i].y, TFT_GREEN);
         }
-      } else if (lastTouchY >= 96 && lastTouchY <= 122) {
-        sliderVal = map(constrain(lastTouchX, 30, 290), 30, 290, 0, 100);
-        playBeep(1500 + sliderVal * 10, 15);
-        renderUI();
+
+        playToneFeedback(1600 + patternLen * 150, 25);
+        setRgb(0, 100, 255);
+        break;
       }
     }
-  }
 
-  // Periodic Telemetry update
-  if (millis() - lastUpdate >= 1000) {
-    lastUpdate = millis();
-    tft.fillRect(15, 216, 290, 12, 0x0000);
-    tft.setTextColor(TEXT_MUTED, 0x0000);
-    tft.setCursor(15, 216);
-    int ldrVal = analogRead(PIN_LDR);
-    tft.printf("Touch X:%03d Y:%03d | LDR:%04d | Mode:%d", lastTouchX, lastTouchY, ldrVal, currentMode);
+    // Touch release / Gesture complete
+    if (gesture == 0x05 || patternLen >= 7) {
+      if (patternLen > 0) {
+        verifyPattern();
+      }
+    }
   }
 }

@@ -1,13 +1,11 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
- *  CYD 2.8" Capacitive (ESP32-2432S028C) - Capacitive 02 - Pull-Down Quick Settings Shade
+ *  CYD 2.8" Capacitive (ESP32-2432S028C) - 02: Pull-Down Quick Settings Shade
  * ═══════════════════════════════════════════════════════════════════════════
  *  Author:       tushar2704 <tushar.inseec@gmail.com>
  *  Repository:   https://github.com/tushar2704/Cheap-Yellow-Display-Community
- *  License:      Dual Licensed:
- *                - GNU AGPLv3 for Source Code
- *                - CC BY-NC-ND 4.0 for Hardware Designs & Media Assets
- *  Credits:      Inspired by community work at @IamNotIntoTech & @Makerrdesigns
+ *  License:      Dual Licensed (AGPLv3 / CC BY-NC-ND 4.0)
+ *  Credits:      Inspired by @IamNotIntoTech & @Makerrdesigns
  *  Year:         2026
  * ═══════════════════════════════════════════════════════════════════════════
  */
@@ -32,21 +30,16 @@
 TFT_eSPI tft = TFT_eSPI();
 CST816S touch(I2C_SDA_PIN, I2C_SCL_PIN, TOUCH_RST_PIN, TOUCH_INT_PIN);
 
-// Theme Colors
-#define BG_COLOR      0x0821
-#define PANEL_COLOR   0x18C3
-#define BORDER_COLOR  0x2945
-#define ACCENT_COLOR  0x07FF
-#define TEXT_WHITE    0xFFFF
-#define TEXT_MUTED    0x9492
-#define GREEN_COLOR   0x07E0
-#define AMBER_COLOR   0xFDA0
-#define RED_COLOR     0xF800
-#define PURPLE_COLOR  0x915F
-
-void playBeep(int freq, int ms) {
-  tone(PIN_AUDIO, freq, ms);
-}
+// State Variables
+bool shadeOpen = false;
+int shadeY = 0; // 0 = closed, 240 = fully open
+int brightness = 80;
+int volume = 60;
+bool wifiOn = true;
+bool btOn = true;
+bool flashlightOn = false;
+bool dndOn = false;
+unsigned long lastTick = 0;
 
 void setRgb(uint8_t r, uint8_t g, uint8_t b) {
   analogWrite(PIN_LED_R, 255 - r);
@@ -54,100 +47,121 @@ void setRgb(uint8_t r, uint8_t g, uint8_t b) {
   analogWrite(PIN_LED_B, 255 - b);
 }
 
-// Application Specific State Variables
-int currentMode = 0;
-int sliderVal = 50;
-bool toggleState = false;
-unsigned long lastUpdate = 0;
-int lastTouchX = 160;
-int lastTouchY = 120;
-int touchCount = 0;
-
-void drawHeader(const char* title, const char* badge) {
-  tft.fillRect(0, 0, 320, 28, 0x10A2);
-  tft.setTextSize(1);
-  tft.setTextColor(TEXT_WHITE, 0x10A2);
-  tft.setCursor(10, 10);
-  tft.print(title);
-
-  // Badge
-  tft.fillRoundRect(200, 6, 110, 16, 4, 0x28B3);
-  tft.setTextColor(0xDF1F, 0x28B3);
-  tft.setCursor(206, 10);
-  tft.print(badge);
-  tft.drawFastHLine(0, 28, 320, BORDER_COLOR);
+void playChime(int f, int ms) {
+  tone(PIN_AUDIO, f, ms);
 }
 
-void renderUI() {
-  tft.fillRect(0, 29, 320, 211, BG_COLOR);
+void drawDesktop() {
+  tft.fillRect(0, 0, 320, 240, 0x0821);
+  
+  // Status Bar
+  tft.fillRect(0, 0, 320, 24, 0x10A2);
+  tft.setTextColor(TFT_WHITE, 0x10A2);
+  tft.setTextSize(1);
+  tft.setCursor(10, 8);
+  tft.print("10:42 AM");
+  
+  tft.setCursor(110, 8);
+  tft.setTextColor(TFT_CYAN, 0x10A2);
+  tft.print("SWIPE DOWN FOR SHADE");
+  
+  tft.setCursor(275, 8);
+  tft.setTextColor(TFT_GREEN, 0x10A2);
+  tft.print("98%");
+  tft.drawFastHLine(0, 24, 320, 0x2126);
 
-  // Primary Workspace Panel
-  tft.fillRoundRect(15, 38, 290, 155, 8, PANEL_COLOR);
-  tft.drawRoundRect(15, 38, 290, 155, 8, BORDER_COLOR);
+  // App Grid on Desktop
+  const char* apps[4] = {"Terminal", "Files", "Weather", "Sensors"};
+  uint16_t appColors[4] = {TFT_CYAN, TFT_YELLOW, TFT_MAGENTA, TFT_GREEN};
+  for (int i = 0; i < 4; i++) {
+    int ax = 35 + i * 70;
+    int ay = 70;
+    tft.fillRoundRect(ax, ay, 48, 48, 10, appColors[i]);
+    tft.drawRoundRect(ax, ay, 48, 48, 10, TFT_WHITE);
+    tft.setTextColor(TFT_WHITE, 0x0821);
+    tft.setTextSize(1);
+    tft.setCursor(ax - 2, ay + 56);
+    tft.print(apps[i]);
+  }
 
-  // Status metrics
+  // Desktop Widget
+  tft.fillRoundRect(25, 150, 270, 70, 8, 0x18C3);
+  tft.drawRoundRect(25, 150, 270, 70, 8, 0x2945);
+  tft.setTextColor(TFT_WHITE, 0x18C3);
+  tft.setCursor(40, 165);
   tft.setTextSize(2);
-  tft.setTextColor(ACCENT_COLOR, PANEL_COLOR);
-  tft.setCursor(30, 52);
-  tft.printf("02 — Pull-Down Quick S");
-
+  tft.print("CYD Glass OS");
   tft.setTextSize(1);
-  tft.setTextColor(TEXT_MUTED, PANEL_COLOR);
-  tft.setCursor(30, 78);
-  tft.printf("Capacitive Glass Touch | CST816S I2C");
+  tft.setTextColor(0x9492, 0x18C3);
+  tft.setCursor(40, 192);
+  int ldr = analogRead(PIN_LDR);
+  tft.printf("Ambient Lux: %d | Touch CST816 Ready", ldr);
+}
 
-  // Interactive Graphic / Slider / Visualizer
-  tft.fillRoundRect(30, 96, 260, 26, 4, 0x0841);
-  int fillW = map(sliderVal, 0, 100, 0, 260);
-  tft.fillRoundRect(30, 96, fillW, 26, 4, ACCENT_COLOR);
-  tft.setTextColor(TEXT_WHITE, 0x0841);
-  tft.setCursor(120, 105);
-  tft.printf("Level: %d%%", sliderVal);
+void drawShade() {
+  tft.fillRect(0, 0, 320, 240, 0x0842);
 
-  // Toggle Button
-  tft.fillRoundRect(30, 134, 120, 42, 6, toggleState ? GREEN_COLOR : 0x3186);
-  tft.setTextColor(toggleState ? 0x0000 : TEXT_WHITE, toggleState ? GREEN_COLOR : 0x3186);
-  tft.setCursor(42, 148);
+  // Shade Header
+  tft.fillRoundRect(10, 8, 300, 32, 6, 0x18C3);
+  tft.setTextColor(TFT_WHITE, 0x18C3);
   tft.setTextSize(1);
-  tft.print(toggleState ? "[ ENABLED ]" : "[ DISABLED ]");
+  tft.setCursor(20, 18);
+  tft.print("QUICK SETTINGS");
+  tft.setTextColor(TFT_CYAN, 0x18C3);
+  tft.setCursor(200, 18);
+  tft.print("[ SWIPE UP TO CLOSE ]");
 
-  // Secondary Action Button
-  tft.fillRoundRect(170, 134, 120, 42, 6, PURPLE_COLOR);
-  tft.setTextColor(TEXT_WHITE, PURPLE_COLOR);
-  tft.setCursor(185, 148);
-  tft.printf("MODE %d/4", currentMode + 1);
+  // Quick Toggle Tiles (2x2)
+  struct ToggleBtn { int x, y; const char* name; bool state; uint16_t col; };
+  ToggleBtn btns[4] = {
+    {20, 48, "Wi-Fi", wifiOn, TFT_CYAN},
+    {165, 48, "Bluetooth", btOn, TFT_BLUE},
+    {20, 96, "Flashlight", flashlightOn, TFT_YELLOW},
+    {165, 96, "Do Not Disturb", dndOn, TFT_PURPLE}
+  };
 
-  // Bottom Gesture Hint Bar
-  tft.fillRect(0, 204, 320, 36, 0x0000);
-  tft.drawFastHLine(0, 203, 320, BORDER_COLOR);
-  tft.setTextColor(TEXT_MUTED, 0x0000);
-  tft.setCursor(15, 216);
-  tft.printf("Touch X:%03d Y:%03d | Gestures: SWIPE / TAP", lastTouchX, lastTouchY);
+  for (int i = 0; i < 4; i++) {
+    uint16_t bg = btns[i].state ? btns[i].col : 0x2126;
+    tft.fillRoundRect(btns[i].x, btns[i].y, 135, 40, 6, bg);
+    tft.setTextColor(btns[i].state ? 0x0000 : TFT_WHITE, bg);
+    tft.setTextSize(1);
+    tft.setCursor(btns[i].x + 12, btns[i].y + 14);
+    tft.printf("%s: %s", btns[i].name, btns[i].state ? "ON" : "OFF");
+  }
+
+  // Brightness Slider
+  tft.setTextColor(TFT_WHITE, 0x0842);
+  tft.setTextSize(1);
+  tft.setCursor(20, 146);
+  tft.printf("Brightness: %d%%", brightness);
+  tft.fillRoundRect(20, 160, 280, 16, 4, 0x18C3);
+  tft.fillRoundRect(20, 160, (brightness * 280) / 100, 16, 4, TFT_YELLOW);
+
+  // Volume Slider
+  tft.setCursor(20, 186);
+  tft.printf("Volume: %d%%", volume);
+  tft.fillRoundRect(20, 200, 280, 16, 4, 0x18C3);
+  tft.fillRoundRect(20, 200, (volume * 280) / 100, 16, 4, TFT_CYAN);
+
+  // Bottom drag handle pill
+  tft.fillRoundRect(130, 228, 60, 5, 2, 0x632C);
 }
 
 void setup() {
   Serial.begin(115200);
-  delay(100);
-  Serial.println("Starting Capacitive 02 - Pull-Down Quick Settings Shade on ESP32-2432S028C...");
-
   pinMode(PIN_LED_R, OUTPUT);
   pinMode(PIN_LED_G, OUTPUT);
   pinMode(PIN_LED_B, OUTPUT);
   pinMode(PIN_AUDIO, OUTPUT);
   pinMode(PIN_LDR, INPUT);
-
-  setRgb(0, 180, 255);
+  setRgb(0, 0, 0);
 
   tft.init();
-  tft.setRotation(1); // Landscape 320x240
-  tft.fillScreen(BG_COLOR);
-
+  tft.setRotation(1);
   touch.begin();
-  Serial.println("CST816S Capacitive Touch Ready.");
 
-  drawHeader("02 — Pull-Down Quick", "CAPACITIVE 2.8");
-  renderUI();
-  playBeep(2000, 30);
+  drawDesktop();
+  playChime(1800, 20);
 }
 
 void loop() {
@@ -155,61 +169,71 @@ void loop() {
     int tx = touch.data.x;
     int ty = touch.data.y;
     uint8_t gesture = touch.data.gestureID;
+    int sx = ty;
+    int sy = 240 - tx;
 
-    // Map portrait to landscape
-    lastTouchX = ty;
-    lastTouchY = 240 - tx;
-    touchCount++;
-
-    // Gesture Handling:
-    // 0x01=Up, 0x02=Down, 0x03=Left, 0x04=Right, 0x05=Click, 0x0C=Long Press
-    if (gesture == 0x03) { // Swipe Left
-      currentMode = (currentMode + 1) % 4;
-      playBeep(2200, 20);
-      setRgb(255, 0, 200);
-      renderUI();
+    // Gesture: Swipe Down opens shade
+    if (!shadeOpen && (gesture == 0x02 || (sy > 30 && gesture == 0x00))) {
+      shadeOpen = true;
+      playChime(2200, 25);
+      drawShade();
       delay(100);
-    } else if (gesture == 0x04) { // Swipe Right
-      currentMode = (currentMode - 1 + 4) % 4;
-      playBeep(1800, 20);
-      setRgb(0, 255, 100);
-      renderUI();
+    }
+    // Gesture: Swipe Up closes shade
+    else if (shadeOpen && (gesture == 0x01 || sy > 220)) {
+      shadeOpen = false;
+      playChime(1600, 25);
+      drawDesktop();
       delay(100);
-    } else if (gesture == 0x01) { // Swipe Up
-      sliderVal = min(100, sliderVal + 10);
-      playBeep(2400, 15);
-      renderUI();
-    } else if (gesture == 0x02) { // Swipe Down
-      sliderVal = max(0, sliderVal - 10);
-      playBeep(1600, 15);
-      renderUI();
-    } else if (gesture == 0x05 || gesture == 0x00) { // Tap
-      if (lastTouchY >= 134 && lastTouchY <= 176) {
-        if (lastTouchX >= 30 && lastTouchX <= 150) {
-          toggleState = !toggleState;
-          playBeep(1200, 30);
-          setRgb(toggleState ? 0 : 255, toggleState ? 255 : 0, 100);
-          renderUI();
-        } else if (lastTouchX >= 170 && lastTouchX <= 290) {
-          currentMode = (currentMode + 1) % 4;
-          playBeep(2000, 30);
-          renderUI();
-        }
-      } else if (lastTouchY >= 96 && lastTouchY <= 122) {
-        sliderVal = map(constrain(lastTouchX, 30, 290), 30, 290, 0, 100);
-        playBeep(1500 + sliderVal * 10, 15);
-        renderUI();
+    }
+    // Touch interactions inside shade
+    else if (shadeOpen) {
+      // Toggle 1: WiFi
+      if (sx >= 20 && sx <= 155 && sy >= 48 && sy <= 88) {
+        wifiOn = !wifiOn;
+        playChime(2000, 20);
+        drawShade();
+      }
+      // Toggle 2: Bluetooth
+      else if (sx >= 165 && sx <= 300 && sy >= 48 && sy <= 88) {
+        btOn = !btOn;
+        playChime(2000, 20);
+        drawShade();
+      }
+      // Toggle 3: Flashlight
+      else if (sx >= 20 && sx <= 155 && sy >= 96 && sy <= 136) {
+        flashlightOn = !flashlightOn;
+        setRgb(flashlightOn ? 255 : 0, flashlightOn ? 255 : 0, flashlightOn ? 255 : 0);
+        playChime(2400, 20);
+        drawShade();
+      }
+      // Toggle 4: DND
+      else if (sx >= 165 && sx <= 300 && sy >= 96 && sy <= 136) {
+        dndOn = !dndOn;
+        playChime(1800, 20);
+        drawShade();
+      }
+      // Brightness slider
+      else if (sx >= 20 && sx <= 300 && sy >= 155 && sy <= 180) {
+        brightness = constrain(map(sx, 20, 300, 0, 100), 0, 100);
+        drawShade();
+      }
+      // Volume slider
+      else if (sx >= 20 && sx <= 300 && sy >= 195 && sy <= 220) {
+        volume = constrain(map(sx, 20, 300, 0, 100), 0, 100);
+        playChime(1000 + volume * 15, 20);
+        drawShade();
       }
     }
   }
 
-  // Periodic Telemetry update
-  if (millis() - lastUpdate >= 1000) {
-    lastUpdate = millis();
-    tft.fillRect(15, 216, 290, 12, 0x0000);
-    tft.setTextColor(TEXT_MUTED, 0x0000);
-    tft.setCursor(15, 216);
-    int ldrVal = analogRead(PIN_LDR);
-    tft.printf("Touch X:%03d Y:%03d | LDR:%04d | Mode:%d", lastTouchX, lastTouchY, ldrVal, currentMode);
+  if (!shadeOpen && millis() - lastTick > 1000) {
+    lastTick = millis();
+    int ldr = analogRead(PIN_LDR);
+    tft.fillRect(40, 190, 240, 14, 0x18C3);
+    tft.setTextColor(0x9492, 0x18C3);
+    tft.setTextSize(1);
+    tft.setCursor(40, 192);
+    tft.printf("Ambient Lux: %d | Touch CST816 Ready", ldr);
   }
 }
