@@ -1,0 +1,16 @@
+{
+  "name": "27 - Local Voice AI & LLM Smart Assistant Terminal",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/27-ai-voice-smart-speaker-assistant.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/27-ai-voice-smart-speaker-assistant.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/27-ai-voice-smart-speaker-assistant.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}
