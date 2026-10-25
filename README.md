@@ -138,6 +138,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 7 | **3D Printer Terminal** | OctoPrint & Klipper monitor with hotend/bed thermals, progress % & touch controls | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/07-octoprint-klipper-terminal/) |
 | 8 | **NES Retro Arcade** | 8-Bit space invader arcade engine with on-screen D-pad, chiptune audio & score HUD | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/08-nes-game-emulator/) |
 | 9 | **Digital Oscilloscope** | 100kHz DSO with 8x6 graticule grid, Vpp/Vmax metrics, timebases & trace freeze | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/09-digital-oscilloscope-analyzer/) |
+| 10 | **Spotify Car Thing Remote** | Dedicated music controller: vinyl art, live scrubber, transport controls & volume | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/10-spotify-car-thing-remote/) |
 
 ---
 
