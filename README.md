@@ -12,12 +12,45 @@
 
 ---
 
+### 📺 Watch the Tutorials & Custom Builds on YouTube
+[![YouTube IamNotIntoTech](https://img.shields.io/badge/YouTube-@IamNotIntoTech-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@IamNotIntoTech)
+[![YouTube Makerrdesigns](https://img.shields.io/badge/YouTube-@Makerrdesigns-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@Makerrdesigns)
+
+> 🔔 **Subscribe to our YouTube channels for complete guides and project walkthroughs:**
+> - 🎬 **[@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)** — CYD coding masterclasses, ESP32 firmware deep dives, and hardware tests.
+> - 🖨️ **[@Makerrdesigns](https://youtube.com/@Makerrdesigns)** — 3D design, bespoke CYD snap-fit enclosures, cyberdeck builds, and Fusion 360 tutorials.
+
+---
+
+### 💖 Support the Project & Unlock Secret VIP Projects!
+
+[![Patreon](https://img.shields.io/badge/Patreon-Support_%26_Unlock_VIP-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://www.patreon.com/cw/IamNotIntoTech)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-Donate-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/makerr)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_Makerr-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/makerrdesigns)
+
+> [!IMPORTANT]
+> ### 🎁 Exclusive Secret Private Projects for Supporters & Donors!
+> Every public firmware build in this repository and our Web Flasher is 100% free. If our work has saved you time or helped your builds, **consider supporting us on Patreon, Buy Me a Coffee, or Ko-fi**.
+> 
+> **When you donate, you unlock access to our private, unreleased CYD firmware vault containing secret projects:**
+> - 🔒 **Secret Unreleased Firmwares**: Private experimental firmwares, custom multi-tasking engines, and secret wireless tools.
+> - 📐 **Native Editable CAD / STEP Files**: Parametric 3D CAD files for custom CYD enclosures and accessories.
+> - 🚀 **Early Access Builds**: Test bleeding-edge releases before public deployment.
+> - 💬 **Direct Creator Access & VIP Support**: Get priority assistance on your CYD projects.
+
+| Platform | Link | Supporter Benefits |
+|---|---|---|
+| 🧡 **Patreon** | [**patreon.com/cw/IamNotIntoTech**](https://www.patreon.com/cw/IamNotIntoTech) | Secret Private Projects, VIP Discord Role, Early Firmware Access |
+| ☕ **Buy Me a Coffee** | [**buymeacoffee.com/makerr**](https://buymeacoffee.com/makerr) | Instant Support + Direct Link to Secret Firmware & CAD Files |
+| ☕ **Ko-fi** | [**ko-fi.com/makerrdesigns**](https://ko-fi.com/makerrdesigns) | Direct Support + Secret VIP Projects Access |
+
+---
+
 ## ⚡ 1-Click In-Browser Web Flasher
 
 **No Arduino IDE or PlatformIO installation required!** You can flash community firmwares onto your CYD right now using Google Chrome, Edge, or Opera:
 
 👉 **[tushar2704.github.io/Cheap-Yellow-Display-Community/](https://tushar2704.github.io/Cheap-Yellow-Display-Community/)**
-
 
 ---
 
@@ -67,6 +100,12 @@ This project is created and maintained by two YouTube channels — follow both f
 |---|---|---|
 | 🎬 **IamNotIntoTech** | Tech projects with humor — CYD tutorials, ESP32 builds, code breakdowns | [▶️ youtube.com/@IamNotIntoTech](https://youtube.com/@IamNotIntoTech) |
 | 🖨️ **Makerrdesigns** | 3D design & printing — CYD enclosures, Fusion 360 tutorials, maker builds | [▶️ youtube.com/@Makerrdesigns](https://youtube.com/@Makerrdesigns) |
+
+### 💖 Support the Creators & Unlock Secret VIP Projects
+If our tutorials and code save you hours of work, consider supporting us. **Supporters unlock access to our private repository of secret firmware projects & CAD files!**
+- 🧡 **Patreon**: [patreon.com/cw/IamNotIntoTech](https://www.patreon.com/cw/IamNotIntoTech)
+- ☕ **Buy Me a Coffee**: [buymeacoffee.com/makerr](https://buymeacoffee.com/makerr)
+- ☕ **Ko-fi**: [ko-fi.com/makerrdesigns](https://ko-fi.com/makerrdesigns)
 
 ---
 

@@ -375,9 +375,355 @@
       transition: border-color .2s, background .2s;
     }
     .yt-pill:hover { border-color: var(--yellow); background: rgba(255,214,10,.08); text-decoration: none; }
+
+    /* ── Topbar ── */
+    .topbar {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -.01em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .logo span { color: var(--yellow); }
+    .topbar-links {
+      display: flex;
+      gap: .65rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .topbar-pill {
+      font-size: .8rem;
+      font-weight: 600;
+      padding: .35rem .85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      background: var(--surface);
+      transition: all .2s;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .topbar-pill:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,.3);
+      text-decoration: none;
+    }
+    .topbar-pill.yt {
+      border-color: rgba(255,0,0,.35);
+      background: rgba(255,0,0,.08);
+      color: #ff6b6b;
+    }
+    .topbar-pill.yt:hover {
+      background: rgba(255,0,0,.18);
+      border-color: #ff4d4d;
+      color: #fff;
+    }
+    .topbar-pill.unlock-vip {
+      background: linear-gradient(135deg, rgba(255,214,10,.2), rgba(255,107,107,.2));
+      border-color: rgba(255,214,10,.5);
+      color: var(--yellow);
+      font-weight: 700;
+      box-shadow: 0 0 15px rgba(255,214,10,.15);
+      animation: pulse-vip 3s infinite ease-in-out;
+    }
+    .topbar-pill.unlock-vip:hover {
+      background: linear-gradient(135deg, rgba(255,214,10,.35), rgba(255,107,107,.35));
+      border-color: var(--yellow);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    @keyframes pulse-vip {
+      0%, 100% { box-shadow: 0 0 12px rgba(255,214,10,.2); }
+      50% { box-shadow: 0 0 22px rgba(255,214,10,.45); }
+    }
+
+    /* ── VIP Secret Projects Banner ── */
+    .vip-banner {
+      background: linear-gradient(135deg, #1c1829 0%, #171c2b 100%);
+      border: 1px solid rgba(255,214,10,.4);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,.35), 0 0 1px 1px rgba(255,214,10,.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .vip-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #ffd60a, #ff5252, #b388ff);
+    }
+    .vip-banner-content { flex: 1; min-width: 260px; }
+    .vip-badge-tag {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: rgba(255,214,10,.18);
+      border: 1px solid rgba(255,214,10,.4);
+      color: var(--yellow);
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      margin-bottom: .4rem;
+    }
+    .vip-banner-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .25rem;
+    }
+    .vip-banner-desc {
+      font-size: .83rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .btn-vip-action {
+      background: var(--yellow);
+      color: #000;
+      border: none;
+      font-weight: 800;
+      font-size: .85rem;
+      padding: .65rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      white-space: nowrap;
+    }
+    .btn-vip-action:hover {
+      background: #ffe14d;
+      box-shadow: 0 4px 15px rgba(255,214,10,.35);
+      transform: translateY(-1px);
+    }
+
+    /* ── Donate & Secret Projects Modal ── */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    #overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal {
+      background: #141824;
+      border: 1px solid rgba(255,214,10,.35);
+      border-radius: 18px;
+      padding: 2.2rem 2rem;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 28px 70px rgba(0,0,0,.75), 0 0 0 1px rgba(255,214,10,.12);
+      transform: scale(.94);
+      transition: transform .25s ease;
+    }
+    #overlay.show .modal {
+      transform: scale(1);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: color .2s;
+      line-height: 1;
+      padding: .3rem;
+    }
+    .modal-close:hover { color: #fff; }
+    .modal-icon {
+      font-size: 2.6rem;
+      line-height: 1;
+      margin-bottom: .6rem;
+      display: inline-block;
+    }
+    .modal-pill {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: rgba(255,214,10,.15);
+      border: 1px solid rgba(255,214,10,.4);
+      color: var(--yellow);
+      padding: .25rem .75rem;
+      border-radius: 999px;
+      margin-bottom: .75rem;
+    }
+    .modal h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: .6rem;
+      background: linear-gradient(135deg, #fff 40%, var(--yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .modal p {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
+    }
+    .modal p strong { color: var(--text); }
+    .modal-links {
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      margin-bottom: 1.25rem;
+    }
+    .modal-link-card {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: .8rem 1rem;
+      text-align: left;
+      text-decoration: none;
+      transition: all .2s;
+    }
+    .modal-link-card:hover {
+      border-color: var(--yellow);
+      background: rgba(255,214,10,.08);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+    .modal-link-icon {
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+    .modal-link-info {
+      flex: 1;
+    }
+    .modal-link-title {
+      display: block;
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .modal-link-desc {
+      display: block;
+      font-size: .75rem;
+      color: var(--muted);
+    }
+    .modal-link-arrow {
+      color: var(--yellow);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .modal-yt {
+      background: rgba(255,0,0,.08);
+      border: 1px solid rgba(255,0,0,.25);
+      border-radius: 10px;
+      padding: .75rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .modal-yt-title {
+      font-size: .78rem;
+      font-weight: 700;
+      color: #ff8585;
+    }
+    .modal-yt-btns {
+      display: flex;
+      gap: .5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .modal-yt-btn {
+      background: #ff0000;
+      color: #fff;
+      border-radius: 6px;
+      padding: .3rem .75rem;
+      font-size: .75rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .modal-yt-btn:hover {
+      opacity: .9;
+      text-decoration: none;
+      color: #fff;
+    }
+    .btn-modal-skip {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: .6rem 1.25rem;
+      font-size: .83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      width: 100%;
+    }
+    .btn-modal-skip:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,.3);
+    }
+    .modal-fine {
+      font-size: .72rem;
+      color: var(--muted);
+      margin-top: .75rem;
+      opacity: .7;
+    }
   </style>
 </head>
 <body>
+
+<!-- ════════════ TOPBAR ════════════ -->
+<nav class="topbar">
+  <div class="logo">🟡 <span>CYD</span> Web Flasher</div>
+  <div class="topbar-links">
+    <a class="topbar-pill" href="https://github.com/tushar2704/Cheap-Yellow-Display-Community" target="_blank" rel="noopener">⭐ GitHub</a>
+    <a class="topbar-pill yt" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">🎬 @IamNotIntoTech</a>
+    <a class="topbar-pill yt" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns</a>
+    <button class="topbar-pill unlock-vip" id="btn-vip-header">💖 Unlock Secret Projects</button>
+  </div>
+</nav>
 
 <!-- ════════════ HEADER ════════════ -->
 <header>
@@ -457,6 +803,16 @@
 
   <!-- ── Firmware catalogue ── -->
   <div class="card" id="catalogue">
+    <!-- ── VIP Secret Projects Vault Banner ── -->
+    <div class="vip-banner" id="vip-banner">
+      <div class="vip-banner-content">
+        <span class="vip-badge-tag">🔒 VIP Secret Projects Vault</span>
+        <div class="vip-banner-title">Want Access to Private &amp; Secret CYD Projects?</div>
+        <div class="vip-banner-desc">Support our work on Patreon, Buy Me a Coffee, or Ko-fi to unlock private unreleased firmware builds, custom multi-tasking engines, and native 3D CAD/STEP files!</div>
+      </div>
+      <button class="btn-vip-action" id="btn-banner-unlock">💖 Unlock Secret Projects</button>
+    </div>
+
     <div class="controls">
       <div class="tabs" role="tablist">
         <button class="tab on" data-f="all">All <span style="opacity:.6">(13)</span></button>
@@ -482,6 +838,11 @@
   <div class="yt-links">
     <a class="yt-pill" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">📺 @IamNotIntoTech</a>
     <a class="yt-pill" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns</a>
+  </div>
+  <div class="yt-links" style="margin-top:.45rem;">
+    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">🧡 Patreon</a>
+    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">☕ Buy Me a Coffee</a>
+    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">☕ Ko-fi</a>
   </div>
 </footer>
 
@@ -1256,7 +1617,115 @@ document.getElementById('btn-serial-send').addEventListener('click', sendMonText
 document.getElementById('serial-input').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') sendMonText();
 });
+
+/* ════════════════════════════════════
+   DONATE & SECRET PROJECTS MODAL LOGIC
+════════════════════════════════════ */
+const SESSION_KEY     = 'cyd_flasher_donate_seen';
+const overlay         = document.getElementById('overlay');
+const skipBtn         = document.getElementById('modal-skip');
+const closeBtn        = document.getElementById('modal-close-btn');
+const btnVipHeader    = document.getElementById('btn-vip-header');
+const btnBannerUnlock = document.getElementById('btn-banner-unlock');
+
+let pendingInstallBtn = null;
+
+function showModal(afterCb) {
+  pendingInstallBtn = afterCb;
+  overlay.classList.add('show');
+  skipBtn.focus();
+}
+
+function closeModal(shouldFlash) {
+  overlay.classList.remove('show');
+  sessionStorage.setItem(SESSION_KEY, '1');
+  if (shouldFlash && pendingInstallBtn) {
+    setTimeout(() => pendingInstallBtn && pendingInstallBtn(), 250);
+  }
+  pendingInstallBtn = null;
+}
+
+if (btnVipHeader) btnVipHeader.addEventListener('click', () => showModal(null));
+if (btnBannerUnlock) btnBannerUnlock.addEventListener('click', () => showModal(null));
+if (skipBtn) skipBtn.addEventListener('click', () => closeModal(true));
+if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true));
+
+overlay.addEventListener('click', e => {
+  if (e.target === overlay) closeModal(true);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal(true);
+});
+
+// Intercept first install click per session to display modal once
+list.addEventListener('click', e => {
+  const btn = e.target.closest('button[slot="activate"]');
+  if (!btn) return;
+  if (sessionStorage.getItem(SESSION_KEY)) return;
+
+  e.stopImmediatePropagation();
+  e.preventDefault();
+
+  showModal(() => {
+    btn.click();
+  });
+}, true);
 </script>
+
+<!-- ════════════ DONATE & SECRET PROJECTS MODAL ════════════ -->
+<div id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <button class="modal-close" id="modal-close-btn" aria-label="Close modal">✕</button>
+    <div class="modal-icon">🎁</div>
+    <div class="modal-pill">Exclusive Supporter Rewards</div>
+    <h2 id="modal-title">Support &amp; Unlock Secret Projects</h2>
+    <p>
+      Every public firmware project is <strong>100% free to flash</strong>! If this saves you hours of development, please support us.
+      <strong>Donors receive direct access to our private repository of secret VIP firmware projects</strong>, experimental builds, and custom 3D CAD files!
+    </p>
+
+    <div class="modal-links">
+      <a class="modal-link-card" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">
+        <span class="modal-link-icon">🧡</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title">Patreon — @IamNotIntoTech</span>
+          <span class="modal-link-desc">Secret Private Projects · VIP Discord Role · Early Firmware</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+
+      <a class="modal-link-card" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">
+        <span class="modal-link-icon">☕</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title">Buy Me a Coffee — @Makerr</span>
+          <span class="modal-link-desc">Instant Support · Secret Firmware Download Link</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+
+      <a class="modal-link-card" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">
+        <span class="modal-link-icon">☕</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title">Ko-fi — @Makerrdesigns</span>
+          <span class="modal-link-desc">Direct Support · Exclusive Secret Projects Access</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="modal-yt">
+      <span class="modal-yt-title">📺 Watch free CYD tutorials &amp; CAD builds on YouTube:</span>
+      <div class="modal-yt-btns">
+        <a class="modal-yt-btn" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">▶️ @IamNotIntoTech</a>
+        <a class="modal-yt-btn" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">▶️ @Makerrdesigns</a>
+      </div>
+    </div>
+
+    <button class="btn-modal-skip" id="modal-skip">No thanks, continue flashing →</button>
+    <p class="modal-fine">Flashing is free &amp; always will be. Supporting is optional.</p>
+  </div>
+</div>
 
 </body>
 </html>
