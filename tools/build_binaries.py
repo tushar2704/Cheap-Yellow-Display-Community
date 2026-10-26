@@ -5,7 +5,8 @@ Author: Tushar Aggarwal (tushar2704)
 Repository: https://github.com/tushar2704/Cheap-Yellow-Display-Community
 
 Usage:
-    python3 tools/build_binaries.py
+    python3 tools/build_binaries.py                  # Build all projects
+    python3 tools/build_binaries.py <project_folder> # Build a specific project
 """
 
 import os
@@ -24,31 +25,51 @@ def build_project(project_path: Path):
     print(f"\n🔨 Building: {project_path.name}...")
     result = subprocess.run([PIO_CMD, "run"], cwd=project_path, capture_output=True, text=True)
     if result.returncode != 0:
-        print(f"❌ Build failed for {project_path.name}:\n{result.stderr}")
+        print(f"❌ Build failed for {project_path.name}:\n{result.stderr[-500:]}")
         return False
 
-    build_dir = project_path / ".pio" / "build" / "esp32dev"
-    firmware = build_dir / "firmware.bin"
-    bootloader = build_dir / "bootloader.bin"
-    partitions = build_dir / "partitions.bin"
+    pio_build_dir = project_path / ".pio" / "build"
+    firmware = None
+    bootloader = None
+    partitions = None
 
-    if firmware.exists():
+    if pio_build_dir.exists():
+        for env_dir in sorted(pio_build_dir.iterdir()):
+            if env_dir.is_dir() and (env_dir / "firmware.bin").exists():
+                firmware = env_dir / "firmware.bin"
+                bootloader = env_dir / "bootloader.bin"
+                partitions = env_dir / "partitions.bin"
+                break
+
+    if firmware and firmware.exists():
         prefix = project_path.name
         shutil.copy(firmware, OUTPUT_DIR / f"{prefix}.bin")
-        if bootloader.exists():
+        if bootloader and bootloader.exists():
             shutil.copy(bootloader, OUTPUT_DIR / f"{prefix}.bootloader.bin")
-        if partitions.exists():
+        if partitions and partitions.exists():
             shutil.copy(partitions, OUTPUT_DIR / f"{prefix}.partitions.bin")
         print(f"✅ Exported: {prefix}.bin to flasher/binaries/")
         return True
-    return False
+    else:
+        print(f"⚠️ No firmware.bin found in {pio_build_dir}")
+        return False
 
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    
+    if len(sys.argv) > 1:
+        target = sys.argv[1]
+        matches = list(PROJECTS_DIR.glob(f"**/{target}"))
+        if not matches:
+            print(f"❌ Could not find project matching '{target}' in {PROJECTS_DIR}")
+            sys.exit(1)
+        build_project(matches[0])
+        return
+
     success = 0
     total = 0
 
-    for root, dirs, files in os.walk(PROJECTS_DIR):
+    for root, dirs, files in sorted(os.walk(PROJECTS_DIR)):
         if "platformio.ini" in files:
             total += 1
             if build_project(Path(root)):

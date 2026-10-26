@@ -27,6 +27,12 @@
 
 ---
 
+## 📦 Model Files
+
+- [`cyd-2.8-wall-bracket.stl`](cyd-2.8-wall-bracket.stl) — Flush wall bracket with European & US electrical gang box mounting holes.
+
+---
+
 ## 📺 Design & Installation Walkthrough
 - 🎬 [Watch on Makerrdesigns](https://youtube.com/@Makerrdesigns)
 - 💡 [Watch Home Assistant & CYD Tutorials on IamNotIntoTech](https://youtube.com/@IamNotIntoTech)

@@ -23,6 +23,12 @@
 
 ---
 
+## 📦 Model Files
+
+- [`cyd-3.5-angled-case.stl`](cyd-3.5-angled-case.stl) — Rugged 45-degree angled benchtop case with rear cable port.
+
+---
+
 ## 📺 Design & Assembly Tutorial
 - 🎬 [Watch on Makerrdesigns](https://youtube.com/@Makerrdesigns)
 - 💡 [Watch 3.5" CYD Benchtop Projects on IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
