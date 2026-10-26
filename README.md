@@ -167,6 +167,8 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 31 | **CYD-to-CYD Tactical Messenger** | Off-grid communicator with touch QWERTY keyboard, node discovery & chimes | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/31-cyd-to-cyd-tactical-messenger/) |
 | 32 | **CYD-to-CYD Sync Whiteboard** | Real-time shared sketchpad: stylus strokes stream synchronously via ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/32-cyd-to-cyd-collaborative-whiteboard/) |
 | 33 | **CYD-to-CYD Naval Battleship** | Two-player wireless grid warfare with secret armada placement & radar fire | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/33-cyd-to-cyd-naval-battleship/) |
+| 34 | **CYD-to-CYD Walkie-Talkie** | Half-duplex acoustic communicator: tactile PTT, spectrum visualizer & call chimes | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/34-cyd-to-cyd-walkie-talkie/) |
+| 35 | **CYD-to-CYD Extended Display** | Dual-monitor cockpit rig: Master touch surface streams 40Hz telemetry to Slave HUD | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/35-cyd-to-cyd-extended-display/) |
 
 ---
 
@@ -178,6 +180,8 @@ The CYD Community features a first-of-its-kind suite of **multi-device peer-to-p
 - 💬 **[31 - Tactical P2P Messenger](projects/advanced/31-cyd-to-cyd-tactical-messenger/)**: Off-grid emergency communicator with an on-screen touch QWERTY keyboard, automatic peer discovery, and acoustic chime receipts.
 - 🎨 **[32 - Collaborative Whiteboard](projects/advanced/32-cyd-to-cyd-collaborative-whiteboard/)**: Two people drawing simultaneously on separate CYDs with synchronized vector strokes, palettes, and canvas wipes.
 - ⚓ **[33 - Naval Battleship Combat](projects/advanced/33-cyd-to-cyd-naval-battleship/)**: Two-player wireless grid artillery combat with secret armada placement and live radar targeting.
+- 📻 **[34 - Walkie-Talkie & Tone Intercom](projects/advanced/34-cyd-to-cyd-walkie-talkie/)**: Half-duplex audio communications with push-to-talk, live frequency spectrum visualizer, and custom alert chimes.
+- 🎛️ **[35 - Master-Worker Extended Display & HUD](projects/advanced/35-cyd-to-cyd-extended-display/)**: Turn two CYDs into a flight simulator or automotive cockpit rig with 40Hz telemetry streaming.
 
 ---
 

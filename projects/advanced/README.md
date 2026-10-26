@@ -44,6 +44,8 @@
 | 31 | [31 - CYD-to-CYD Tactical Messenger](31-cyd-to-cyd-tactical-messenger/) | Off-grid communicator with touch QWERTY keyboard, node discovery & chimes | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 32 | [32 - CYD-to-CYD Sync Whiteboard](32-cyd-to-cyd-collaborative-whiteboard/) | Real-time shared sketchpad: stylus strokes stream synchronously via ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 33 | [33 - CYD-to-CYD Naval Battleship](33-cyd-to-cyd-naval-battleship/) | Two-player wireless grid warfare with secret armada placement & radar fire | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 34 | [34 - CYD-to-CYD Walkie-Talkie](34-cyd-to-cyd-walkie-talkie/) | Half-duplex acoustic communicator: tactile PTT, spectrum visualizer & call chimes | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 35 | [35 - CYD-to-CYD Extended Display](35-cyd-to-cyd-extended-display/) | Dual-monitor cockpit rig: Master touch surface streams 40Hz telemetry to Slave HUD | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 
 ---
 

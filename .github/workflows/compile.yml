@@ -32,35 +32,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pio-
 
-      - name: Build 01-Hello-CYD
+      - name: Run Repository Verification Audit
+        run: python3 tools/audit_repository.py
+
+      - name: Build 01-Hello-CYD (Beginner)
         run: cd projects/beginner/01-hello-cyd && pio run
 
-      - name: Build 02-WiFi-Scanner
-        run: cd projects/beginner/02-wifi-scanner && pio run
-
-      - name: Build 03-Touch-Paint
-        run: cd projects/beginner/03-touch-paint && pio run
-
-      - name: Build 04-RGB-Sliders
-        run: cd projects/beginner/04-rgb-sliders && pio run
-
-      - name: Build 05-SD-Slideshow
-        run: cd projects/beginner/05-sd-slideshow && pio run
-
-      - name: Build 06-Touch-Buttons
-        run: cd projects/beginner/06-touch-buttons && pio run
-
-      - name: Build 01-Weather-Station
+      - name: Build 01-Weather-Station (Intermediate)
         run: cd projects/intermediate/01-weather-station && pio run
 
-      - name: Build 02-Crypto-Tracker
-        run: cd projects/intermediate/02-crypto-tracker && pio run
+      - name: Build 29-CYD-MultiTask-OS (Dual-Core FreeRTOS)
+        run: cd projects/advanced/29-cyd-multitask-os && pio run
 
-      - name: Build 03-Rolling-Clock
-        run: cd projects/intermediate/03-rolling-clock && pio run
+      - name: Build 30-Cross-Screen-Pong (CYD-to-CYD ESP-NOW)
+        run: cd projects/advanced/30-cyd-to-cyd-cross-screen-pong && pio run
 
-      - name: Build 01-CYD-OS
-        run: cd projects/advanced/01-cyd-os && pio run
-
-      - name: Build 02-Home-Assistant-Touch
-        run: cd projects/advanced/02-home-assistant-touch && pio run
+      - name: Build 01-CardFlow-Launcher (Capacitive CST816S)
+        run: cd projects/capacitive/01-cardflow-gesture-launcher && pio run
