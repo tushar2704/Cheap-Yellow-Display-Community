@@ -435,6 +435,18 @@
       border-color: #ff4d4d;
       color: #fff;
     }
+    .topbar-pill.donate {
+      background: rgba(255,82,82,.14);
+      border-color: rgba(255,82,82,.35);
+      color: #ff5252;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .topbar-pill.donate:hover {
+      background: rgba(255,82,82,.25);
+      border-color: #ff5252;
+      color: #fff;
+    }
     .topbar-pill.unlock-vip {
       background: linear-gradient(135deg, rgba(255,214,10,.2), rgba(255,107,107,.2));
       border-color: rgba(255,214,10,.5);
@@ -721,7 +733,8 @@
     <a class="topbar-pill" href="https://github.com/tushar2704/Cheap-Yellow-Display-Community" target="_blank" rel="noopener">⭐ GitHub</a>
     <a class="topbar-pill yt" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">🎬 @IamNotIntoTech</a>
     <a class="topbar-pill yt" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns</a>
-    <button class="topbar-pill unlock-vip" id="btn-vip-header">💖 Unlock Secret Projects</button>
+    <button class="topbar-pill donate" id="btn-header-donate">❤️ Donate</button>
+    <a class="topbar-pill unlock-vip" id="btn-vip-header" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">🔒 Secret Projects</a>
   </div>
 </nav>
 
@@ -808,9 +821,12 @@
       <div class="vip-banner-content">
         <span class="vip-badge-tag">🔒 VIP Secret Projects Vault</span>
         <div class="vip-banner-title">Want Access to Private &amp; Secret CYD Projects?</div>
-        <div class="vip-banner-desc">Support our work on Patreon, Buy Me a Coffee, or Ko-fi to unlock private unreleased firmware builds, custom multi-tasking engines, and native 3D CAD/STEP files!</div>
+        <div class="vip-banner-desc">Support on Buy Me a Coffee to unlock private unreleased firmware builds, custom multi-tasking engines, and native 3D CAD/STEP files!</div>
       </div>
-      <button class="btn-vip-action" id="btn-banner-unlock">💖 Unlock Secret Projects</button>
+      <div style="display:flex; gap:.6rem; flex-wrap:wrap; align-items:center;">
+        <button class="btn-vip-action" id="btn-banner-donate" style="background:rgba(255,255,255,.12); color:var(--text); border:1px solid rgba(255,255,255,.25);">❤️ Donate</button>
+        <a class="btn-vip-action" id="btn-banner-unlock" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">🔒 Unlock Secret Projects →</a>
+      </div>
     </div>
 
     <div class="controls">
@@ -840,8 +856,9 @@
     <a class="yt-pill" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns</a>
   </div>
   <div class="yt-links" style="margin-top:.45rem;">
+    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">☕ Buy Me a Coffee (@IamNotIntoTech)</a>
     <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">🧡 Patreon</a>
-    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">☕ Buy Me a Coffee</a>
+    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">☕ Buy Me a Coffee (@Makerr)</a>
     <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">☕ Ko-fi</a>
   </div>
 </footer>
@@ -1625,8 +1642,8 @@ const SESSION_KEY     = 'cyd_flasher_donate_seen';
 const overlay         = document.getElementById('overlay');
 const skipBtn         = document.getElementById('modal-skip');
 const closeBtn        = document.getElementById('modal-close-btn');
-const btnVipHeader    = document.getElementById('btn-vip-header');
-const btnBannerUnlock = document.getElementById('btn-banner-unlock');
+const btnHeaderDonate = document.getElementById('btn-header-donate');
+const btnBannerDonate = document.getElementById('btn-banner-donate');
 
 let pendingInstallBtn = null;
 
@@ -1645,8 +1662,8 @@ function closeModal(shouldFlash) {
   pendingInstallBtn = null;
 }
 
-if (btnVipHeader) btnVipHeader.addEventListener('click', () => showModal(null));
-if (btnBannerUnlock) btnBannerUnlock.addEventListener('click', () => showModal(null));
+if (btnHeaderDonate) btnHeaderDonate.addEventListener('click', () => showModal(null));
+if (btnBannerDonate) btnBannerDonate.addEventListener('click', () => showModal(null));
 if (skipBtn) skipBtn.addEventListener('click', () => closeModal(true));
 if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true));
 
@@ -1686,6 +1703,15 @@ list.addEventListener('click', e => {
     </p>
 
     <div class="modal-links">
+      <a class="modal-link-card" style="border-color:var(--yellow); background:rgba(255,214,10,.12);" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">
+        <span class="modal-link-icon">🔒</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title" style="color:var(--yellow); font-weight:800;">Buy Me a Coffee — @IamNotIntoTech (Secret Projects)</span>
+          <span class="modal-link-desc">Unlock Secret Private Projects · Instant VIP Access</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+
       <a class="modal-link-card" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">
         <span class="modal-link-icon">🧡</span>
         <div class="modal-link-info">
@@ -1699,7 +1725,7 @@ list.addEventListener('click', e => {
         <span class="modal-link-icon">☕</span>
         <div class="modal-link-info">
           <span class="modal-link-title">Buy Me a Coffee — @Makerr</span>
-          <span class="modal-link-desc">Instant Support · Secret Firmware Download Link</span>
+          <span class="modal-link-desc">3D CAD Enclosures · Maker Project Support · Files</span>
         </div>
         <span class="modal-link-arrow">→</span>
       </a>

@@ -70,6 +70,18 @@ body{
 .link-pill:hover{color:var(--t);border-color:rgba(255,255,255,.3)}
 .link-pill.yt{border-color:rgba(255,0,0,.35);background:rgba(255,0,0,.08);color:#ff6b6b}
 .link-pill.yt:hover{background:rgba(255,0,0,.18);border-color:#ff4d4d;color:#fff}
+.link-pill.donate-btn{
+  background:rgba(255,82,82,.14);
+  border-color:rgba(255,82,82,.35);
+  color:#ff5252;
+  cursor:pointer;
+  font-weight:700;
+}
+.link-pill.donate-btn:hover{
+  background:rgba(255,82,82,.25);
+  border-color:#ff5252;
+  color:#fff;
+}
 .link-pill.donate{
   background:linear-gradient(135deg,rgba(255,214,10,.2),rgba(255,107,107,.2));
   border-color:rgba(255,214,10,.5);
@@ -419,7 +431,8 @@ footer a{color:var(--y)}
     <a class="link-pill" href="https://github.com/tushar2704/Cheap-Yellow-Display-Community" target="_blank" rel="noopener">⭐ GitHub</a>
     <a class="link-pill yt" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">🎬 @IamNotIntoTech</a>
     <a class="link-pill yt" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns</a>
-    <button class="link-pill donate" id="top-donate">💖 Unlock Secret Projects</button>
+    <button class="link-pill donate-btn" id="top-donate-btn">❤️ Donate</button>
+    <a class="link-pill donate" id="top-secret-btn" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">🔒 Secret Projects</a>
   </div>
 </div>
 
@@ -489,9 +502,12 @@ footer a{color:var(--y)}
       <div class="vip-banner-content">
         <span class="vip-badge-tag">🔒 VIP Secret Projects Vault</span>
         <div class="vip-banner-title">Want Access to Private &amp; Secret CYD Projects?</div>
-        <div class="vip-banner-desc">Support our work on Patreon, Buy Me a Coffee, or Ko-fi to unlock private unreleased firmware builds, custom multi-tasking engines, and native 3D CAD/STEP files!</div>
+        <div class="vip-banner-desc">Support on Buy Me a Coffee to unlock private unreleased firmware builds, custom multi-tasking engines, and native 3D CAD/STEP files!</div>
       </div>
-      <button class="btn-vip-action" id="btn-banner-unlock">💖 Unlock Secret Projects</button>
+      <div style="display:flex; gap:.6rem; flex-wrap:wrap; align-items:center;">
+        <button class="btn-vip-action" id="btn-banner-donate" style="background:rgba(255,255,255,.12); color:var(--t); border:1px solid rgba(255,255,255,.25);">❤️ Donate</button>
+        <a class="btn-vip-action" id="btn-banner-unlock" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">🔒 Unlock Secret Projects →</a>
+      </div>
     </div>
 
     <div class="ctrl">
@@ -519,8 +535,9 @@ footer a{color:var(--y)}
     <a class="yt-p" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns — 3D &amp; Enclosures</a>
   </div>
   <div class="yt-row" style="margin-top:.45rem;">
+    <a class="yt-p" style="border-color:rgba(255,214,10,.35); color:var(--y);" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">☕ Buy Me a Coffee (@IamNotIntoTech)</a>
     <a class="yt-p" style="border-color:rgba(255,214,10,.35); color:var(--y);" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">🧡 Patreon</a>
-    <a class="yt-p" style="border-color:rgba(255,214,10,.35); color:var(--y);" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">☕ Buy Me a Coffee</a>
+    <a class="yt-p" style="border-color:rgba(255,214,10,.35); color:var(--y);" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">☕ Buy Me a Coffee (@Makerr)</a>
     <a class="yt-p" style="border-color:rgba(255,214,10,.35); color:var(--y);" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">☕ Ko-fi</a>
   </div>
 </footer>
@@ -538,6 +555,15 @@ footer a{color:var(--y)}
     </p>
 
     <div class="modal-links">
+      <a class="modal-link-card" style="border-color:var(--y); background:rgba(255,214,10,.12);" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">
+        <span class="modal-link-icon">🔒</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title" style="color:var(--y); font-weight:800;">Buy Me a Coffee — @IamNotIntoTech (Secret Projects)</span>
+          <span class="modal-link-desc">Unlock Secret Private Projects · Instant VIP Access</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+
       <a class="modal-link-card" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">
         <span class="modal-link-icon">🧡</span>
         <div class="modal-link-info">
@@ -551,7 +577,7 @@ footer a{color:var(--y)}
         <span class="modal-link-icon">☕</span>
         <div class="modal-link-info">
           <span class="modal-link-title">Buy Me a Coffee — @Makerr</span>
-          <span class="modal-link-desc">Instant Support · Secret Firmware Download Link</span>
+          <span class="modal-link-desc">3D CAD Enclosures · Maker Project Support · Files</span>
         </div>
         <span class="modal-link-arrow">→</span>
       </a>
@@ -1012,8 +1038,8 @@ const SESSION_KEY     = 'cyd_donate_seen';
 const overlay         = document.getElementById('overlay');
 const skipBtn         = document.getElementById('modal-skip');
 const closeBtn        = document.getElementById('modal-close-btn');
-const topDonate       = document.getElementById('top-donate');
-const bannerUnlock    = document.getElementById('btn-banner-unlock');
+const topDonateBtn    = document.getElementById('top-donate-btn');
+const bannerDonateBtn = document.getElementById('btn-banner-donate');
 
 let pendingInstallBtn = null; // the real esp-web-install-button to trigger after modal
 
@@ -1033,8 +1059,8 @@ function closeModal(shouldFlash) {
   pendingInstallBtn = null;
 }
 
-if (topDonate) topDonate.addEventListener('click', (e) => { e.preventDefault(); showModal(null); });
-if (bannerUnlock) bannerUnlock.addEventListener('click', () => showModal(null));
+if (topDonateBtn) topDonateBtn.addEventListener('click', (e) => { e.preventDefault(); showModal(null); });
+if (bannerDonateBtn) bannerDonateBtn.addEventListener('click', (e) => { e.preventDefault(); showModal(null); });
 if (skipBtn) skipBtn.addEventListener('click', () => closeModal(true));
 if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true));
 

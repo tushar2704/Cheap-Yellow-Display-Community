@@ -24,13 +24,14 @@
 
 ### 💖 Support the Project & Unlock Secret VIP Projects!
 
+[![Buy Me A Coffee IamNotIntoTech](https://img.shields.io/badge/Buy_Me_A_Coffee-Secret_Projects-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/iamnotintotech)
 [![Patreon](https://img.shields.io/badge/Patreon-Support_%26_Unlock_VIP-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://www.patreon.com/cw/IamNotIntoTech)
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-Donate-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/makerr)
+[![Buy Me A Coffee Makerr](https://img.shields.io/badge/Buy_Me_A_Coffee-Makerr-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/makerr)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_Makerr-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/makerrdesigns)
 
 > [!IMPORTANT]
 > ### 🎁 Exclusive Secret Private Projects for Supporters & Donors!
-> Every public firmware build in this repository and our Web Flasher is 100% free. If our work has saved you time or helped your builds, **consider supporting us on Patreon, Buy Me a Coffee, or Ko-fi**.
+> Every public firmware build in this repository and our Web Flasher is 100% free. If our work has saved you time or helped your builds, **consider supporting us on Buy Me a Coffee, Patreon, or Ko-fi**.
 > 
 > **When you donate, you unlock access to our private, unreleased CYD firmware vault containing secret projects:**
 > - 🔒 **Secret Unreleased Firmwares**: Private experimental firmwares, custom multi-tasking engines, and secret wireless tools.
@@ -40,9 +41,10 @@
 
 | Platform | Link | Supporter Benefits |
 |---|---|---|
-| 🧡 **Patreon** | [**patreon.com/cw/IamNotIntoTech**](https://www.patreon.com/cw/IamNotIntoTech) | Secret Private Projects, VIP Discord Role, Early Firmware Access |
-| ☕ **Buy Me a Coffee** | [**buymeacoffee.com/makerr**](https://buymeacoffee.com/makerr) | Instant Support + Direct Link to Secret Firmware & CAD Files |
-| ☕ **Ko-fi** | [**ko-fi.com/makerrdesigns**](https://ko-fi.com/makerrdesigns) | Direct Support + Secret VIP Projects Access |
+| ☕ **Buy Me a Coffee (@IamNotIntoTech)** | [**buymeacoffee.com/iamnotintotech**](https://buymeacoffee.com/iamnotintotech) | **Instant Secret Private Projects Access** + VIP Firmware Vault |
+| 🧡 **Patreon (@IamNotIntoTech)** | [**patreon.com/cw/IamNotIntoTech**](https://www.patreon.com/cw/IamNotIntoTech) | Secret Private Projects, VIP Discord Role, Early Firmware Access |
+| ☕ **Buy Me a Coffee (@Makerr)** | [**buymeacoffee.com/makerr**](https://buymeacoffee.com/makerr) | 3D CAD Enclosure Files + Maker Project Support |
+| ☕ **Ko-fi (@Makerrdesigns)** | [**ko-fi.com/makerrdesigns**](https://ko-fi.com/makerrdesigns) | Direct Support + Secret VIP Projects Access |
 
 ---
 
@@ -103,9 +105,10 @@ This project is created and maintained by two YouTube channels — follow both f
 
 ### 💖 Support the Creators & Unlock Secret VIP Projects
 If our tutorials and code save you hours of work, consider supporting us. **Supporters unlock access to our private repository of secret firmware projects & CAD files!**
-- 🧡 **Patreon**: [patreon.com/cw/IamNotIntoTech](https://www.patreon.com/cw/IamNotIntoTech)
-- ☕ **Buy Me a Coffee**: [buymeacoffee.com/makerr](https://buymeacoffee.com/makerr)
-- ☕ **Ko-fi**: [ko-fi.com/makerrdesigns](https://ko-fi.com/makerrdesigns)
+- ☕ **Buy Me a Coffee (@IamNotIntoTech)**: [buymeacoffee.com/iamnotintotech](https://buymeacoffee.com/iamnotintotech) — Instant secret private project access!
+- 🧡 **Patreon**: [patreon.com/cw/IamNotIntoTech](https://www.patreon.com/cw/IamNotIntoTech) — VIP role, Discord & secret projects!
+- ☕ **Buy Me a Coffee (@Makerr)**: [buymeacoffee.com/makerr](https://buymeacoffee.com/makerr) — Custom CAD enclosures & hardware support!
+- ☕ **Ko-fi**: [ko-fi.com/makerrdesigns](https://ko-fi.com/makerrdesigns) — Direct support & secret project access!
 
 ---
 
