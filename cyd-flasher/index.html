@@ -623,6 +623,31 @@ const FW = [
     tags:['Diagnostic','Benchmark','Display','Touch','Hardware','Audio'],
     bin:'28-hardware-health-benchmark.bin', manifest:'hardware-health-benchmark.json' },
 
+  { id:'cyd-multitask-os', tier:'A', name:'29 — CYD MultiTask OS (Dual-Core FreeRTOS)',
+    desc:'Preemptive multitasking OS: Core 0 background daemons (chiptune synth, WiFi sniffer, LDR sampler), Core 1 60FPS UI, card task switcher & floating PiP widget.',
+    tags:['FreeRTOS','Multitasking','Dual-Core','OS','Audio'],
+    bin:'29-cyd-multitask-os.bin', manifest:'cyd-multitask-os.json' },
+
+  { id:'cyd-to-cyd-cross-screen-pong', tier:'A', name:'30 — CYD-to-CYD Cross-Screen Air Pong',
+    desc:'Seamless dual-display gaming: ball physics pass continuously across physical screen edges via sub-5ms ESP-NOW wireless packets with touch paddles & sound.',
+    tags:['ESP-NOW','CYD-to-CYD','Multiplayer','Game','Physics'],
+    bin:'30-cyd-to-cyd-cross-screen-pong.bin', manifest:'cyd-to-cyd-cross-screen-pong.json' },
+
+  { id:'cyd-to-cyd-tactical-messenger', tier:'A', name:'31 — CYD-to-CYD Tactical P2P Messenger',
+    desc:'Off-grid decentralized communicator: full on-screen touch QWERTY keyboard, node beacon discovery, chat log, acoustic double-chime & RGB alert.',
+    tags:['ESP-NOW','CYD-to-CYD','Messenger','Chat','Off-Grid'],
+    bin:'31-cyd-to-cyd-tactical-messenger.bin', manifest:'cyd-to-cyd-tactical-messenger.json' },
+
+  { id:'cyd-to-cyd-collaborative-whiteboard', tier:'A', name:'32 — CYD-to-CYD Synchronous Whiteboard',
+    desc:'Real-time shared sketchpad: stylus strokes stream synchronously across screens via ESP-NOW vector packets with 6-color palette, eraser & canvas wipe.',
+    tags:['ESP-NOW','CYD-to-CYD','Whiteboard','Creative','Touch'],
+    bin:'32-cyd-to-cyd-collaborative-whiteboard.bin', manifest:'cyd-to-cyd-collaborative-whiteboard.json' },
+
+  { id:'cyd-to-cyd-naval-battleship', tier:'A', name:'33 — CYD-to-CYD Naval Battleship Combat',
+    desc:'Two-player wireless naval warfare: secret armada deployment, enemy radar grid targeting, Hit/Miss acoustic alarms, and victory fanfare over ESP-NOW.',
+    tags:['ESP-NOW','CYD-to-CYD','Multiplayer','Battleship','Game'],
+    bin:'33-cyd-to-cyd-naval-battleship.bin', manifest:'cyd-to-cyd-naval-battleship.json' },
+
   { id:'cap-01-cardflow', tier:'C', name:'01 — CardFlow Gesture Launcher',
     desc:'Smartphone OS launcher: 5 modular telemetry cards, fluid horizontal swiping, CST816S gestures & RGB sync.',
     tags:['Capacitive','Gesture','OS','Launcher','CST816'],

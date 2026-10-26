@@ -39,6 +39,11 @@
 | 26 | [26 - Air-Gapped Crypto Cold Wallet](26-hardware-crypto-cold-wallet/) | Offline hardware wallet with BIP39 seed generator, SegWit & QR PSBT signer | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 27 | [27 - Local Voice AI Smart Assistant](27-ai-voice-smart-speaker-assistant/) | Voice assistant with wake word listening, audio waveform & LLM intent | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 28 | [28 - Hardware Health & Benchmark](28-hardware-health-benchmark/) | SPI throughput benchmark, dead pixel inspector, 9-point touch & audio sweep | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 29 | [29 - CYD MultiTask OS](29-cyd-multitask-os/) | FreeRTOS dual-core multitasking OS: Core 0 daemons, card task switcher & PiP | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 30 | [30 - CYD-to-CYD Cross-Screen Pong](30-cyd-to-cyd-cross-screen-pong/) | Dual-display ball physics passing across physical screens via sub-5ms ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 31 | [31 - CYD-to-CYD Tactical Messenger](31-cyd-to-cyd-tactical-messenger/) | Off-grid communicator with touch QWERTY keyboard, node discovery & chimes | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 32 | [32 - CYD-to-CYD Sync Whiteboard](32-cyd-to-cyd-collaborative-whiteboard/) | Real-time shared sketchpad: stylus strokes stream synchronously via ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 33 | [33 - CYD-to-CYD Naval Battleship](33-cyd-to-cyd-naval-battleship/) | Two-player wireless grid warfare with secret armada placement & radar fire | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 
 ---
 

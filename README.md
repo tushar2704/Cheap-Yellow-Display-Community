@@ -44,6 +44,8 @@ The name "Cheap Yellow Display" comes from the distinctive **yellow PCB** that t
 Unlike fragmented tutorials and outdated code snippets scattered across the internet, **Cheap Yellow Display Community** is engineered from the ground up as a modern, all-in-one ecosystem:
 
 - ⚡ **1-Click Browser Web Flasher**: Flash ready-to-run firmwares directly from Google Chrome, Edge, or Opera via Web Serial. Zero IDEs, compilers, or driver headaches.
+- 🌐 **CYD-to-CYD Wireless Ecosystem**: Zero-router peer-to-peer applications utilizing sub-5ms ESP-NOW frames for cross-screen physics, shared digital whiteboards, tactical text pagers, and two-player naval warfare between multiple CYDs.
+- ⚡ **True FreeRTOS Dual-Core Multitasking Engine**: Pinned background daemons on Core 0 with zero UI stutter, floating Picture-in-Picture (PiP) widgets, card-style app switchers, and thread-safe queues.
 - 📦 **Unified `CYD_Easy` Library**: A 3-line beginners' library in [`library/CYD_Easy/`](library/CYD_Easy/) providing instant hardware initialization, calibrated touch, audio, RGB LED, and LDR light sensing.
 - 🏠 **ESPHome & Home Assistant Suite**: Turnkey YAML configurations in [`hardware/esphome/`](hardware/esphome/) for smart HVAC thermostats, media player remotes, and active Bluetooth proxies.
 - 🐍 **MicroPython Suite**: Pure Python driver in [`hardware/micropython/`](hardware/micropython/) with real-time WiFi scanning and hardware diagnostics.
@@ -160,6 +162,31 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 26 | **Air-Gapped Cold Wallet** | Offline crypto signer: BIP39 SegWit derivation, PSBT transaction review & QR emitter | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/26-hardware-crypto-cold-wallet/) |
 | 27 | **Local Voice AI & Smart Speaker** | Voice assistant: wake word detector, audio spectrum visualizer, LLM parser & TTS | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/27-ai-voice-smart-speaker-assistant/) |
 | 28 | **Hardware Health & Benchmark** | Diagnostic suite: SPI render benchmark, dead pixel tester, 9-point touch & audio sweep | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/28-hardware-health-benchmark/) |
+| 29 | **CYD MultiTask OS** | Preemptive dual-core OS: Core 0 daemons, card task switcher & floating PiP widget | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/29-cyd-multitask-os/) |
+| 30 | **CYD-to-CYD Cross-Screen Pong** | Dual-display ball physics passing across physical screens via sub-5ms ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/30-cyd-to-cyd-cross-screen-pong/) |
+| 31 | **CYD-to-CYD Tactical Messenger** | Off-grid communicator with touch QWERTY keyboard, node discovery & chimes | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/31-cyd-to-cyd-tactical-messenger/) |
+| 32 | **CYD-to-CYD Sync Whiteboard** | Real-time shared sketchpad: stylus strokes stream synchronously via ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/32-cyd-to-cyd-collaborative-whiteboard/) |
+| 33 | **CYD-to-CYD Naval Battleship** | Two-player wireless grid warfare with secret armada placement & radar fire | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/33-cyd-to-cyd-naval-battleship/) |
+
+---
+
+### 🌐 Highlight: CYD-to-CYD Wireless Communication Ecosystem
+> **Connect two or more CYDs with zero Wi-Fi routers, zero internet, and sub-5ms latency!**
+
+The CYD Community features a first-of-its-kind suite of **multi-device peer-to-peer firmware** operating via raw 2.4GHz **Espressif ESP-NOW** frames:
+- 🏓 **[30 - Cross-Screen Air Pong](projects/advanced/30-cyd-to-cyd-cross-screen-pong/)**: Place two CYDs next to each other. When an animated ball leaves one screen, it seamlessly enters the partner screen with identical velocity and angle!
+- 💬 **[31 - Tactical P2P Messenger](projects/advanced/31-cyd-to-cyd-tactical-messenger/)**: Off-grid emergency communicator with an on-screen touch QWERTY keyboard, automatic peer discovery, and acoustic chime receipts.
+- 🎨 **[32 - Collaborative Whiteboard](projects/advanced/32-cyd-to-cyd-collaborative-whiteboard/)**: Two people drawing simultaneously on separate CYDs with synchronized vector strokes, palettes, and canvas wipes.
+- ⚓ **[33 - Naval Battleship Combat](projects/advanced/33-cyd-to-cyd-naval-battleship/)**: Two-player wireless grid artillery combat with secret armada placement and live radar targeting.
+
+---
+
+### ⚡ Highlight: Preemptive FreeRTOS Dual-Core Multitasking Engine
+> **Unlocking the full dual-core power of the ESP32 for 60 FPS lag-free embedded interfaces!**
+
+Most Arduino projects run blocking code in a single loop on Core 1. **[29 - CYD MultiTask OS](projects/advanced/29-cyd-multitask-os/)** introduces a production-grade dual-core architecture:
+- **Core 0 (Background Daemons)**: Dedicated 8-bit chiptune audio sequencer, 2.4GHz RF spectrum sniffer, 12.5Hz sensor sampler, and task CPU load profiler. Never misses a beat or drops audio frames during heavy screen draws!
+- **Core 1 (UI Engine)**: 60 FPS window manager, card-style mobile task switcher, floating Picture-in-Picture (PiP) mini-player widget, and non-blocking slide-down toast notifications via thread-safe FreeRTOS queues.
 
 ---
 
