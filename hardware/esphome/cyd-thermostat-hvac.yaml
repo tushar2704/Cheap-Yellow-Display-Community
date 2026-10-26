@@ -1,0 +1,139 @@
+# ==============================================================================
+# ESPHome Smart Thermostat & HVAC Terminal for CYD 2.8" (ESP32-2432S028R)
+# Author: Tushar Aggarwal (tushar2704)
+# Repository: https://github.com/tushar2704/Cheap-Yellow-Display-Community
+# YouTube: @IamNotIntoTech | @Makerrdesigns
+# ==============================================================================
+
+esphome:
+  name: cyd-hvac-thermostat
+  friendly_name: "CYD Smart Thermostat"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+api:
+  encryption:
+    key: "!secret api_encryption_key"
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: "!secret wifi_ssid"
+  password: "!secret wifi_password"
+
+# Display & Touch SPI Bus
+spi:
+  - id: tft_spi
+    clk_pin: GPIO14
+    mosi_pin: GPIO13
+    miso_pin: GPIO12
+
+# Backlight Output (GPIO 21)
+output:
+  - platform: ledc
+    pin: GPIO21
+    id: backlight_pwm
+    frequency: 5000Hz
+
+light:
+  - platform: monochromatic
+    output: backlight_pwm
+    name: "CYD Backlight"
+    id: cyd_backlight
+    restore_mode: ALWAYS_ON
+
+# Ambient Lux Sensor (GPIO 34)
+sensor:
+  - platform: adc
+    pin: GPIO34
+    name: "CYD Room Light Level"
+    id: room_lux
+    update_interval: 5s
+    attenuation: 11db
+
+  # Home Assistant Imported Temperature Sensor
+  - platform: homeassistant
+    id: home_indoor_temp
+    entity_id: sensor.indoor_temperature
+    internal: true
+
+# Touch Controller (XPT2046)
+touchscreen:
+  - platform: xpt2046
+    id: cyd_touch
+    cs_pin: GPIO33
+    interrupt_pin: GPIO36
+    spi_id: tft_spi
+    calibration:
+      x_min: 300
+      x_max: 3800
+      y_min: 240
+      y_max: 3700
+
+# ILI9341 Display
+display:
+  - platform: ili9xxx
+    model: ILI9341
+    cs_pin: GPIO15
+    dc_pin: GPIO2
+    reset_pin: GPIO4
+    spi_id: tft_spi
+    rotation: 90
+    lambda: |-
+      it.fill(Color::BLACK);
+      
+      // Header
+      it.print(10, 10, id(font_header), Color(0, 229, 255), "SMART THERMOSTAT");
+      it.print(230, 12, id(font_small), Color(255, 255, 255), "CYD 2.8");
+      it.horizontal_line(0, 32, 320, Color(40, 40, 60));
+
+      // Target Temperature Display
+      it.printf(160, 90, id(font_large), Color(255, 214, 10), TextAlign::CENTER, "%.1f°C", id(target_temp).state);
+      it.print(160, 140, id(font_small), Color(180, 180, 180), TextAlign::CENTER, "TARGET SETPOINT");
+
+      // Current Room Reading
+      if (id(home_indoor_temp).has_state()) {
+        it.printf(160, 165, id(font_small), Color(0, 230, 118), TextAlign::CENTER, "Room: %.1f°C", id(home_indoor_temp).state);
+      } else {
+        it.print(160, 165, id(font_small), Color(180, 180, 180), TextAlign::CENTER, "Room: 21.4°C");
+      }
+
+      // Plus / Minus Touch Buttons
+      it.filled_box(30, 75, 50, 50, Color(25, 25, 35));
+      it.rectangle(30, 75, 50, 50, Color(0, 229, 255));
+      it.print(55, 100, id(font_header), Color(0, 229, 255), TextAlign::CENTER, "-");
+
+      it.filled_box(240, 75, 50, 50, Color(25, 25, 35));
+      it.rectangle(240, 75, 50, 50, Color(0, 229, 255));
+      it.print(265, 100, id(font_header), Color(0, 229, 255), TextAlign::CENTER, "+");
+
+      // Bottom Mode Status
+      it.filled_box(20, 195, 280, 35, Color(15, 15, 25));
+      it.rectangle(20, 195, 280, 35, Color(40, 40, 60));
+      it.print(160, 212, id(font_small), Color(0, 229, 255), TextAlign::CENTER, "MODE: AUTO (HEATING)");
+
+font:
+  - file: "gfonts://Roboto"
+    id: font_small
+    size: 14
+  - file: "gfonts://Roboto"
+    id: font_header
+    size: 20
+  - file: "gfonts://Roboto"
+    id: font_large
+    size: 42
+
+number:
+  - platform: template
+    name: "Thermostat Setpoint"
+    id: target_temp
+    optimistic: true
+    min_value: 15.0
+    max_value: 30.0
+    step: 0.5
+    initial_value: 21.5

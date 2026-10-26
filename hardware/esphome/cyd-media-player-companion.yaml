@@ -1,0 +1,120 @@
+# ==============================================================================
+# ESPHome Media Player Desktop Remote for CYD 2.8" (ESP32-2432S028R)
+# Author: Tushar Aggarwal (tushar2704)
+# Repository: https://github.com/tushar2704/Cheap-Yellow-Display-Community
+# YouTube: @IamNotIntoTech | @Makerrdesigns
+# ==============================================================================
+
+esphome:
+  name: cyd-media-remote
+  friendly_name: "CYD Media Player Remote"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+api:
+  encryption:
+    key: "!secret api_encryption_key"
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: "!secret wifi_ssid"
+  password: "!secret wifi_password"
+
+spi:
+  - id: tft_spi
+    clk_pin: GPIO14
+    mosi_pin: GPIO13
+    miso_pin: GPIO12
+
+output:
+  - platform: ledc
+    pin: GPIO21
+    id: backlight_pwm
+    frequency: 5000Hz
+
+light:
+  - platform: monochromatic
+    output: backlight_pwm
+    name: "CYD Backlight"
+    id: cyd_backlight
+    restore_mode: ALWAYS_ON
+
+# Sensors tracking Home Assistant Media Player
+text_sensor:
+  - platform: homeassistant
+    id: media_title
+    entity_id: media_player.spotify
+    attribute: media_title
+    internal: true
+  - platform: homeassistant
+    id: media_artist
+    entity_id: media_player.spotify
+    attribute: media_artist
+    internal: true
+  - platform: homeassistant
+    id: media_state
+    entity_id: media_player.spotify
+    internal: true
+
+display:
+  - platform: ili9xxx
+    model: ILI9341
+    cs_pin: GPIO15
+    dc_pin: GPIO2
+    reset_pin: GPIO4
+    spi_id: tft_spi
+    rotation: 90
+    lambda: |-
+      it.fill(Color(10, 15, 25));
+
+      // Header
+      it.print(15, 10, id(font_hdr), Color(0, 230, 118), "NOW PLAYING (HA)");
+      it.horizontal_line(0, 30, 320, Color(30, 40, 50));
+
+      // Album Art Placeholder Box
+      it.filled_box(20, 45, 90, 90, Color(25, 30, 45));
+      it.rectangle(20, 45, 90, 90, Color(0, 230, 118));
+      it.circle(65, 90, 22, Color(0, 230, 118));
+      it.filled_circle(65, 90, 6, Color::WHITE);
+
+      // Song Title
+      if (id(media_title).has_state()) {
+        it.print(125, 52, id(font_hdr), Color::WHITE, id(media_title).state.c_str());
+      } else {
+        it.print(125, 52, id(font_hdr), Color::WHITE, "Midnight City");
+      }
+
+      // Artist
+      if (id(media_artist).has_state()) {
+        it.print(125, 80, id(font_sub), Color(180, 180, 180), id(media_artist).state.c_str());
+      } else {
+        it.print(125, 80, id(font_sub), Color(180, 180, 180), "M83 • Hurry Up");
+      }
+
+      // Progress Bar
+      it.filled_box(20, 150, 280, 8, Color(40, 40, 50));
+      it.filled_box(20, 150, 180, 8, Color(0, 230, 118));
+
+      // Media Buttons: Prev (<<), Play/Pause (||), Next (>>)
+      it.filled_box(45, 175, 60, 45, Color(25, 35, 45));
+      it.print(75, 197, id(font_hdr), Color::WHITE, TextAlign::CENTER, "<<");
+
+      it.filled_box(130, 175, 60, 45, Color(0, 230, 118));
+      it.print(160, 197, id(font_hdr), Color::BLACK, TextAlign::CENTER, "||");
+
+      it.filled_box(215, 175, 60, 45, Color(25, 35, 45));
+      it.print(245, 197, id(font_hdr), Color::WHITE, TextAlign::CENTER, ">>");
+
+font:
+  - file: "gfonts://Roboto"
+    id: font_sub
+    size: 14
+  - file: "gfonts://Roboto"
+    id: font_hdr
+    size: 18

@@ -106,11 +106,87 @@ void setupSD() {
 - Low-dropout 3.3V regulator (e.g. AP2112K) or 5V Boost Converter (e.g. MT3608)
 
 ### Connection
-Connect the 5V output of your boost converter to the **5V** and **GND** pads of the CYD.
-Deep-sleep consumption can be minimized by cutting the power trace to the display backlight when sleeping.
+Connect the 5V output of your boost converter to the **5V** and **GND** pads of the CYD (via the P3 connector).
+
+### Battery Voltage Sensing (ADC Gauge)
+To monitor remaining battery percentage, build a 2-resistor voltage divider (two 100kΩ resistors) from the LiPo positive terminal (+3.0V to 4.2V) into **GPIO 35** (available on connector P3):
+```cpp
+#define BATTERY_PIN 35
+
+float getBatteryVoltage() {
+  int raw = analogRead(BATTERY_PIN);
+  // 2:1 divider factor: Vbat = Vpin * 2
+  float pinVoltage = (raw / 4095.0) * 3.3;
+  return pinVoltage * 2.0;
+}
+
+int getBatteryPercent() {
+  float v = getBatteryVoltage();
+  return constrain(map((int)(v * 100), 320, 420, 0, 100), 0, 100);
+}
+```
+
+---
+
+## 🎛️ 6. Rotary Encoder (EC11) Physical Knob Mod
+
+### The Goal
+Add physical tactile menu scrolling, audio volume control, or thermostat adjustments using a standard EC11 rotary encoder with integrated push-button.
+
+### Wiring (to CN1 Connector)
+| Rotary Encoder Pin | CYD CN1 Pin | Description |
+| :--- | :--- | :--- |
+| **GND** | Pin 1 (GND) | Ground |
+| **+ (VCC)** | Pin 2 (3.3V) | 3.3V Power |
+| **CLK (A)** | Pin 3 (GPIO 22) | Encoder Channel A |
+| **DT (B)** | Pin 4 (GPIO 27) | Encoder Channel B |
+| **SW (Button)** | P3 Pin 4 (GPIO 35) | Push button input (with pull-up) |
+
+### Code Implementation
+```cpp
+#define ENCODER_CLK 22
+#define ENCODER_DT  27
+#define ENCODER_SW  35
+
+volatile int encoderPos = 0;
+int lastClk = HIGH;
+
+void IRAM_ATTR readEncoder() {
+  int clk = digitalRead(ENCODER_CLK);
+  int dt = digitalRead(ENCODER_DT);
+  if (clk != lastClk) {
+    if (dt != clk) encoderPos++;
+    else encoderPos--;
+    lastClk = clk;
+  }
+}
+
+void setupEncoder() {
+  pinMode(ENCODER_CLK, INPUT_PULLUP);
+  pinMode(ENCODER_DT, INPUT_PULLUP);
+  pinMode(ENCODER_SW, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(ENCODER_CLK), readEncoder, CHANGE);
+}
+```
+
+---
+
+## 🎵 7. Hi-Fi I2S Audio Mod (MAX98357A DAC Amplifier)
+
+### The Problem
+The onboard transistor amplifier on GPIO 26 produces quiet mono audio with slight background hiss during WiFi activity.
+
+### The Upgrade
+Wire a $2 **MAX98357A I2S 3W Class-D amplifier** module to external pins:
+- **LRC (Word Select)**: GPIO 22 (CN1)
+- **BCLK (Bit Clock)**: GPIO 27 (CN1)
+- **DIN (Data In)**: GPIO 26 (P3 / onboard trace)
+- **VIN & GND**: 5V and GND (P3)
+- Connect a 4Ω or 8Ω 3W speaker directly to the MAX98357A screw terminals for rich, room-filling sound on Internet Radio, MP3 playback, and voice assistant responses!
 
 ---
 
 ## 📺 Community Tutorials
 - 🎬 In-depth hardware tear-downs and mods: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
 - 🖨️ Custom battery enclosures & modular snap cases: [@Makerrdesigns](https://youtube.com/@Makerrdesigns)
+

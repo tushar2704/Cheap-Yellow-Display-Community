@@ -10,6 +10,9 @@
 |---|---|---|---|---|
 | **ESP32-2432S028R/C** | 2.8" | 60° Desktop Wedge Stand | 100% Snap-Fit (No screws!) | [View Guide](cyd-2.8-desktop-stand/) |
 | **ESP32-2432S028R/C** | 2.8" | Smart Home Flush Wall Mount | M2.5 or 3M Command Strips | [View Guide](cyd-2.8-wall-mount/) |
+| **ESP32-2432S028R/C** | 2.8" | Handheld Cyberdeck & Battery Shell | 4x M2.5 Screws / Snap-Fit | [View Guide](cyd-2.8-cyberdeck-handheld/) |
+| **ESP32-2432S028R/C** | 2.8" | 3D Printer 2020 T-Slot Mount | 1x M4/M5 T-Nut + Bolt | [View Guide](cyd-2.8-bambu-creality-mount/) |
+| **ESP32-2432S028R/C** | 2.8" | Desk Stand with Rotary Knob Cutout | 100% Snap-Fit + EC11 Boss | [View Guide](cyd-2.8-rotary-desk-stand/) |
 | **ESP32-3248S035R/C** | 3.5" | Heavy-Duty Benchtop Angled Case | 4x M3 Screws / Heat Inserts | [View Guide](cyd-3.5-angled-case/) |
 
 ---

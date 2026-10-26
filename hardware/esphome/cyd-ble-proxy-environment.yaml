@@ -1,0 +1,117 @@
+# ==============================================================================
+# ESPHome BLE Active Proxy & Environmental Terminal for CYD 2.8"
+# Author: Tushar Aggarwal (tushar2704)
+# Repository: https://github.com/tushar2704/Cheap-Yellow-Display-Community
+# YouTube: @IamNotIntoTech | @Makerrdesigns
+# ==============================================================================
+
+esphome:
+  name: cyd-ble-proxy
+  friendly_name: "CYD BLE Tracker Proxy"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+api:
+  encryption:
+    key: "!secret api_encryption_key"
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: "!secret wifi_ssid"
+  password: "!secret wifi_password"
+
+# Active Home Assistant Bluetooth Proxy
+bluetooth_proxy:
+  active: true
+
+esp32_ble_tracker:
+
+# Display Hardware SPI Bus
+spi:
+  - id: tft_spi
+    clk_pin: GPIO14
+    mosi_pin: GPIO13
+    miso_pin: GPIO12
+
+output:
+  - platform: ledc
+    pin: GPIO21
+    id: backlight_pwm
+    frequency: 5000Hz
+
+light:
+  - platform: monochromatic
+    output: backlight_pwm
+    name: "CYD Backlight"
+    id: cyd_backlight
+    restore_mode: ALWAYS_ON
+
+# Ambient Lux & Signal Telemetry
+sensor:
+  - platform: adc
+    pin: GPIO34
+    name: "Room Lux"
+    id: room_lux
+    update_interval: 10s
+    attenuation: 11db
+
+  - platform: wifi_signal
+    name: "CYD WiFi Signal"
+    id: wifi_sig
+    update_interval: 10s
+
+display:
+  - platform: ili9xxx
+    model: ILI9341
+    cs_pin: GPIO15
+    dc_pin: GPIO2
+    reset_pin: GPIO4
+    spi_id: tft_spi
+    rotation: 90
+    lambda: |-
+      it.fill(Color(5, 10, 20));
+
+      // Header
+      it.print(15, 12, id(font_title), Color(0, 229, 255), "HA BLUETOOTH PROXY");
+      it.print(230, 14, id(font_sub), Color(0, 230, 118), "ACTIVE");
+      it.horizontal_line(0, 36, 320, Color(30, 45, 60));
+
+      // BLE Beacon Tracker Box
+      it.filled_box(15, 48, 290, 80, Color(15, 25, 40));
+      it.rectangle(15, 48, 290, 80, Color(0, 229, 255));
+      it.print(25, 58, id(font_sub), Color::WHITE, "Bluetooth Low Energy Proxy");
+      it.print(25, 78, id(font_sub), Color(180, 200, 220), "Tracking: iBeacons, RuuviTag & Watches");
+      it.print(25, 98, id(font_sub), Color(0, 230, 118), "Relaying advertisements to Home Assistant");
+
+      // Signal & Lux Telemetry
+      it.filled_box(15, 140, 140, 80, Color(15, 25, 40));
+      it.rectangle(15, 140, 140, 80, Color(40, 60, 80));
+      it.print(25, 150, id(font_sub), Color(180, 180, 180), "WiFi RSSI");
+      if (id(wifi_sig).has_state()) {
+        it.printf(25, 175, id(font_title), Color::WHITE, "%.0f dBm", id(wifi_sig).state);
+      } else {
+        it.print(25, 175, id(font_title), Color::WHITE, "-58 dBm");
+      }
+
+      it.filled_box(165, 140, 140, 80, Color(15, 25, 40));
+      it.rectangle(165, 140, 140, 80, Color(40, 60, 80));
+      it.print(175, 150, id(font_sub), Color(180, 180, 180), "Ambient Light");
+      if (id(room_lux).has_state()) {
+        it.printf(175, 175, id(font_title), Color(255, 214, 10), "%.0f mV", id(room_lux).state * 1000);
+      } else {
+        it.print(175, 175, id(font_title), Color(255, 214, 10), "840 mV");
+      }
+
+font:
+  - file: "gfonts://Roboto"
+    id: font_sub
+    size: 13
+  - file: "gfonts://Roboto"
+    id: font_title
+    size: 18

@@ -335,6 +335,25 @@ footer a{color:var(--y)}
         <li><strong>Manual flash?</strong> Download <code>.BIN</code> and run: <code>esptool.py --port /dev/ttyUSB0 write_flash 0x10000 firmware.bin</code></li>
       </ul>
     </details>
+  <!-- Web Serial Monitor -->
+  <div class="card" id="serial-terminal-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; margin-bottom:.75rem;">
+      <p class="card-hd" style="margin:0;">📟 Live Web Serial Monitor &amp; Terminal</p>
+      <div style="display:flex; gap:.5rem; align-items:center;">
+        <select id="baud-rate" style="background:var(--s2); color:var(--t); border:1px solid rgba(255,255,255,.1); padding:.3rem .6rem; border-radius:6px; font-size:.8rem;">
+          <option value="115200" selected>115200 baud</option>
+          <option value="9600">9600 baud</option>
+          <option value="74880">74880 baud</option>
+        </select>
+        <button id="btn-serial-connect" class="btn-dl" style="cursor:pointer; background:rgba(0,229,255,.15); color:var(--c); border-color:var(--c);">🔌 Connect Monitor</button>
+        <button id="btn-serial-clear" class="btn-dl" style="cursor:pointer;">Clear</button>
+      </div>
+    </div>
+    <div id="serial-output" style="background:#050811; color:#00e5ff; font-family:var(--fm); font-size:.78rem; height:180px; overflow-y:auto; padding:.8rem; border-radius:8px; border:1px solid rgba(255,255,255,.08); white-space:pre-wrap;">Connect your CYD via USB to view live serial logs, debug printouts, or WiFi credentials...</div>
+    <div style="display:flex; gap:.5rem; margin-top:.6rem;">
+      <input type="text" id="serial-input" placeholder="Send serial command to CYD..." style="flex:1; background:var(--s2); border:1px solid rgba(255,255,255,.1); color:var(--t); padding:.4rem .8rem; border-radius:6px; font-family:var(--fm); font-size:.8rem;">
+      <button id="btn-serial-send" class="btn-dl" style="cursor:pointer;">Send</button>
+    </div>
   </div>
 
   <!-- Firmware catalogue -->
@@ -840,6 +859,77 @@ list.addEventListener('click', e => {
     btn.click();
   });
 }, true); // capture phase — must run before esp-web-tools handler
+
+/* ════════════════════════════════════
+   LIVE WEB SERIAL MONITOR / TERMINAL
+════════════════════════════════════ */
+let monPort = null;
+let monReader = null;
+const btnMonConnect = document.getElementById('btn-serial-connect');
+const monTerminal = document.getElementById('serial-output');
+
+btnMonConnect.addEventListener('click', async () => {
+  if (!navigator.serial) {
+    alert("Web Serial is supported in Chrome, Edge, Brave, and Opera.");
+    return;
+  }
+  if (monPort) {
+    try {
+      if (monReader) await monReader.cancel();
+      await monPort.close();
+    } catch(e){}
+    monPort = null;
+    btnMonConnect.textContent = "🔌 Connect Monitor";
+    btnMonConnect.style.color = "var(--c)";
+    monTerminal.textContent += "\n[Monitor Disconnected]\n";
+    return;
+  }
+  try {
+    const baud = parseInt(document.getElementById('baud-rate').value, 10);
+    monPort = await navigator.serial.requestPort();
+    await monPort.open({ baudRate: baud });
+    btnMonConnect.textContent = "⏹ Disconnect";
+    btnMonConnect.style.color = "var(--r)";
+    monTerminal.textContent += `\n[Connected to CYD at ${baud} baud]\n`;
+
+    const decoder = new TextDecoderStream();
+    monPort.readable.pipeTo(decoder.writable);
+    const inputStream = decoder.readable;
+    monReader = inputStream.getReader();
+
+    while (true) {
+      const { value, done } = await monReader.read();
+      if (done) break;
+      if (value) {
+        monTerminal.textContent += value;
+        monTerminal.scrollTop = monTerminal.scrollHeight;
+      }
+    }
+  } catch (err) {
+    monTerminal.textContent += `\n[Serial Error: ${err.message}]\n`;
+    monPort = null;
+    btnMonConnect.textContent = "🔌 Connect Monitor";
+  }
+});
+
+document.getElementById('btn-serial-clear').addEventListener('click', () => {
+  monTerminal.textContent = "";
+});
+
+async function sendMonText() {
+  const inp = document.getElementById('serial-input');
+  if (!monPort || !inp.value) return;
+  const encoder = new TextEncoder();
+  const writer = monPort.writable.getWriter();
+  await writer.write(encoder.encode(inp.value + "\n"));
+  writer.releaseLock();
+  inp.value = "";
+}
+
+document.getElementById('btn-serial-send').addEventListener('click', sendMonText);
+document.getElementById('serial-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendMonText();
+});
 </script>
 </body>
 </html>

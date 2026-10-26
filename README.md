@@ -44,10 +44,13 @@ The name "Cheap Yellow Display" comes from the distinctive **yellow PCB** that t
 Unlike fragmented tutorials and outdated code snippets scattered across the internet, **Cheap Yellow Display Community** is engineered from the ground up as a modern, all-in-one ecosystem:
 
 - ⚡ **1-Click Browser Web Flasher**: Flash ready-to-run firmwares directly from Google Chrome, Edge, or Opera via Web Serial. Zero IDEs, compilers, or driver headaches.
+- 📦 **Unified `CYD_Easy` Library**: A 3-line beginners' library in [`library/CYD_Easy/`](library/CYD_Easy/) providing instant hardware initialization, calibrated touch, audio, RGB LED, and LDR light sensing.
+- 🏠 **ESPHome & Home Assistant Suite**: Turnkey YAML configurations in [`hardware/esphome/`](hardware/esphome/) for smart HVAC thermostats, media player remotes, and active Bluetooth proxies.
+- 🐍 **MicroPython Suite**: Pure Python driver in [`hardware/micropython/`](hardware/micropython/) with real-time WiFi scanning and hardware diagnostics.
 - 📐 **Universal Hardware Scope**: First-class support for **all 7+ CYD display sizes** (2.4", 2.8", 3.2", 3.5", 4.0", 5.0", 7.0"), covering both **Resistive** and **Capacitive** touch controllers.
 - 🔌 **Universal Pin Abstraction (`cyd_pins.h`)**: A single unified header that automatically configures display, touch, MicroSD, audio, and RGB LED pins with one line of code.
 - 📱 **Smartphone-Grade Embedded UI**: Pre-configured setups for **LVGL v8/v9** and **DMA LovyanGFX** alongside standard TFT_eSPI for ultra-smooth 60 FPS interfaces.
-- 🖨️ **Tailor-Made 3D Printable Enclosures**: Custom snap-fit desktop stands, smart home wall bezels, and benchtop cases engineered by [@Makerrdesigns](https://youtube.com/@Makerrdesigns).
+- 🖨️ **Tailor-Made 3D Printable Enclosures**: Custom snap-fit desktop stands, smart home wall bezels, cyberdeck shells, and printer mounts engineered by [@Makerrdesigns](https://youtube.com/@Makerrdesigns).
 - 🎬 **Dedicated Video Masterclasses**: Comprehensive code walkthroughs, hardware teardowns, and CAD tutorials on [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech) and [@Makerrdesigns](https://youtube.com/@Makerrdesigns).
 - 🛡️ **Dual AGPLv3 + Creative Commons Licensing**: Strong open-source copyleft protection for code combined with commercial protection for 3D enclosures and assets.
 - 🤖 **Continuous Integration (CI/CD)**: Every firmware project is automatically compiled with PlatformIO on every commit to ensure 100% bug-free builds.
@@ -195,6 +198,9 @@ Custom-engineered 3D printed housings designed by [@Makerrdesigns](https://youtu
 
 - 📐 **[2.8" Desktop Wedge Stand](enclosures/cyd-2.8-desktop-stand/)** — 60° ergonomic desk angle, 100% snap-fit (no screws!)
 - 🧱 **[2.8" Flush Wall Mount](enclosures/cyd-2.8-wall-mount/)** — Slimline smart home wall controller housing
+- 🎮 **[2.8" Handheld Cyberdeck Shell](enclosures/cyd-2.8-cyberdeck-handheld/)** — Portable gaming & field shell with internal LiPo battery bay
+- 🖨️ **[2.8" 3D Printer 2020 T-Slot Mount](enclosures/cyd-2.8-bambu-creality-mount/)** — Rigid frame mount for Bambu, Ender-3 & Voron
+- 🎛️ **[2.8" Rotary Knob Desk Stand](enclosures/cyd-2.8-rotary-desk-stand/)** — 45° desk cradle with EC11 rotary encoder boss
 - 📐 **[3.5" Heavy-Duty Angled Stand](enclosures/cyd-3.5-angled-case/)** — 45° instrument stand with M3 hardware
 
 ---

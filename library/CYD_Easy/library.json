@@ -1,0 +1,24 @@
+{
+  "name": "CYD_Easy",
+  "version": "1.0.0",
+  "description": "Unified 3-line library for Cheap Yellow Display (CYD) ESP32-2432S028R & ESP32-2432S028C. Manages display, calibrated touch, RGB LED, audio speaker, LDR lux meter & backlight PWM.",
+  "keywords": "cyd, esp32, display, touch, xpt2046, cst816, ili9341, tft",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tushar2704/Cheap-Yellow-Display-Community.git"
+  },
+  "authors": [
+    {
+      "name": "tushar2704",
+      "email": "tushar.inseec@gmail.com"
+    }
+  ],
+  "license": "AGPL-3.0",
+  "frameworks": "arduino",
+  "platforms": "espressif32",
+  "dependencies": {
+    "bodmer/TFT_eSPI": "^2.5.43",
+    "https://github.com/PaulStoffregen/XPT2046_Touchscreen.git": "*",
+    "fbiego/CST816S": "^1.1.1"
+  }
+}
