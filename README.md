@@ -159,6 +159,7 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 25 | **Electric Meter Pulse Counter** | Optical 1000 imp/kWh pulse counter: real-time kW, daily kWh & electricity tariff bill | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/25-smart-electric-meter-pulse/) |
 | 26 | **Air-Gapped Cold Wallet** | Offline crypto signer: BIP39 SegWit derivation, PSBT transaction review & QR emitter | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/26-hardware-crypto-cold-wallet/) |
 | 27 | **Local Voice AI & Smart Speaker** | Voice assistant: wake word detector, audio spectrum visualizer, LLM parser & TTS | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/27-ai-voice-smart-speaker-assistant/) |
+| 28 | **Hardware Health & Benchmark** | Diagnostic suite: SPI render benchmark, dead pixel tester, 9-point touch & audio sweep | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/28-hardware-health-benchmark/) |
 
 ---
 

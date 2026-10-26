@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CYD Web Flasher — 1-Click ESP32 Cheap Yellow Display Firmware Installer</title>
-  <meta name="description" content="Flash ESP32 Cheap Yellow Display firmware in one click. No IDE, no install. Supports 13 projects: weather station, crypto ticker, CYD-OS, touch paint, internet radio and more.">
-  <meta name="keywords" content="cheap yellow display, CYD, ESP32-2432S028R, web flasher, ESP32 flash browser, esp-web-tools">
+  <meta name="description" content="Flash ESP32 Cheap Yellow Display firmware in one click. No IDE, no install. Over 60 turnkey projects for Resistive & Capacitive CYDs: CYD-OS, 3D CoverFlow, Home Assistant, Oscilloscope, Audio DSP, Games & more.">
+  <meta name="keywords" content="cheap yellow display, CYD, ESP32-2432S028R, ESP32-2432S028C, capacitive touch, web flasher, ESP32 flash browser, esp-web-tools">
   <meta property="og:title" content="CYD Web Flasher — Flash ESP32 Cheap Yellow Display in Your Browser">
-  <meta property="og:description" content="1-click in-browser ESP32 firmware flasher for the Cheap Yellow Display. No IDE needed.">
+  <meta property="og:description" content="1-click in-browser ESP32 firmware flasher for Cheap Yellow Display (Resistive & Capacitive). 60+ projects with live Web Serial terminal.">
   <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
   <style>
     /* ── Reset & tokens ────────────────────────────────── */
@@ -856,6 +856,15 @@ const FIRMWARE = [
     tags: ["AI", "Voice", "LLM", "Smart Speaker", "Home Assistant"],
     manifest: "manifests/ai-voice-smart-speaker-assistant.json",
     bin: "binaries/27-ai-voice-smart-speaker-assistant.bin"
+  },
+  {
+    id: "hardware-health-benchmark",
+    tier: "A",
+    name: "28 — Hardware Health & Benchmark Suite",
+    desc: "Complete diagnostic suite: SPI render throughput benchmark, dead pixel color purity test, 9-point touch linearity calibration, FM8002A audio sweep & LDR light sensor graph.",
+    tags: ["Diagnostic", "Benchmark", "Display", "Touch", "Hardware", "Audio"],
+    manifest: "manifests/hardware-health-benchmark.json",
+    bin: "binaries/28-hardware-health-benchmark.bin"
   },
 
   // ── Capacitive 2.8" (ESP32-2432S028C) ─────────────────────

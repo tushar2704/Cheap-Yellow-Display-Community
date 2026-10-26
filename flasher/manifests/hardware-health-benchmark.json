@@ -1,0 +1,16 @@
+{
+  "name": "28 - Hardware Health & Benchmark Suite",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "../binaries/28-hardware-health-benchmark.bootloader.bin", "offset": 4096 },
+        { "path": "../binaries/28-hardware-health-benchmark.partitions.bin", "offset": 32768 },
+        { "path": "../binaries/28-hardware-health-benchmark.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

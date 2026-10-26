@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CYD Flasher — Flash Cheap Yellow Display in Your Browser</title>
-<meta name="description" content="Flash ESP32 Cheap Yellow Display firmware in 1 click. No IDE, no install needed. 13 ready-to-flash projects — weather station, crypto ticker, CYD-OS, radio, touch paint and more.">
-<meta name="keywords" content="cheap yellow display, CYD, ESP32-2432S028R, web flasher, esp32 flash, esp-web-tools, browser flash">
+<meta name="description" content="Flash ESP32 Cheap Yellow Display firmware in 1 click. No IDE, no install needed. Over 60 turnkey projects for Resistive & Capacitive CYDs: CYD-OS, CoverFlow, Home Assistant, Audio DSP & more.">
+<meta name="keywords" content="cheap yellow display, CYD, ESP32-2432S028R, ESP32-2432S028C, capacitive touch, web flasher, esp32 flash, esp-web-tools, browser flash">
 <meta property="og:title" content="CYD Flasher — 1-Click ESP32 Firmware Installer">
-<meta property="og:description" content="Flash Cheap Yellow Display projects directly in your browser. Zero install required.">
+<meta property="og:description" content="Flash Cheap Yellow Display projects directly in your browser. Over 60 projects with live Web Serial terminal. Zero install required.">
 <meta property="og:url" content="https://cyd-flasher.vercel.app">
 
 <!-- esp-web-tools: the only external dependency -->
@@ -617,6 +617,11 @@ const FW = [
     desc:'Voice LLM companion: wake word listening, audio waveform visualizer, Home Assistant Assist / OpenAI intent parser & TTS speech playback.',
     tags:['AI','Voice','LLM','Smart Speaker','Home Assistant'],
     bin:'27-ai-voice-smart-speaker-assistant.bin', manifest:'ai-voice-smart-speaker-assistant.json' },
+
+  { id:'hardware-health-benchmark', tier:'A', name:'28 — Hardware Health & Benchmark Suite',
+    desc:'Complete diagnostic suite: SPI render throughput benchmark, dead pixel color purity test, 9-point touch linearity calibration, FM8002A audio sweep & LDR light sensor graph.',
+    tags:['Diagnostic','Benchmark','Display','Touch','Hardware','Audio'],
+    bin:'28-hardware-health-benchmark.bin', manifest:'hardware-health-benchmark.json' },
 
   { id:'cap-01-cardflow', tier:'C', name:'01 — CardFlow Gesture Launcher',
     desc:'Smartphone OS launcher: 5 modular telemetry cards, fluid horizontal swiping, CST816S gestures & RGB sync.',
