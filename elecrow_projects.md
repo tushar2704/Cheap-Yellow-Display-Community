@@ -68,7 +68,7 @@ elecrow_projects/
 | **11** | **Orbital Rocket & ISS Tracker** | [`11-iss-rocket-tracker`](./11-iss-rocket-tracker) | ✅ Complete | Local SGP4 orbital propagator calculating visible ISS flyovers and real-time rocket launch countdowns. |
 | **12** | **Pilot's Desk METAR/TAF Decoder** | [`12-metar-weather-decoder`](./12-metar-weather-decoder) | ✅ Complete | Plain-English aviation weather decoder with dynamic crosswind component calculations for favorite runways. |
 | **13** | **HamClock Mini Dashboard** | [`13-hamclock-mini`](./13-hamclock-mini) | ✅ Complete | Solar Flux Index (SFI), geomagnetic K-index gauge, and POTA/SOTA live spotter list with Maidenhead calculations. |
-| **14** | **Minimalist Vector Flight Tracker** | Ultra-high contrast distant-readability card displaying nearest overhead flight number, altitude, and path. |
+| **14** | **Minimalist Vector Flight Tracker** | [`14-vector-flight-tracker`](./14-vector-flight-tracker) | ✅ Complete | Ultra-high contrast distant-readability card displaying nearest overhead flight number, altitude, and path. |
 | **15** | **GPS Stratum Triple Clock** | 100% offline atomic clock using UART GPS receiver showing Local, UTC/Zulu, and satellite constellation SNR. |
 | **16** | **Live Coastal Tide Chart** | Continuous harmonic sine-wave tidal curve with golden hour sunrise/sunset markers and lunar illumination. |
 | **17** | **Offline OSM Trail Navigator** | Glove-friendly resistive touch map viewer rendering offline 256x256 OSM tiles from MicroSD with GPX tracking. |
