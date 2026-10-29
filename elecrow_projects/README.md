@@ -125,7 +125,7 @@ elecrow_projects/
 | **47** | **Neon Vector Spirograph** | [`47-neon-vector-spirograph`](./47-neon-vector-spirograph) | ✅ Complete | Rotational symmetry mandala engine with glowing RGB565 brush strokes and parametric hypotrochoids. |
 | **48** | **Modular Sensor Starter Kit** | [`48-modular-sensor-workbench`](./48-modular-sensor-workbench) | ✅ Complete | Swipeable multi-page dashboard automatically plotting live data for plug-and-play Crowtail sensors via HY2.0. |
 | **49** | **Smart 3D Filament Scale** | [`49-filament-scale-monitor`](./49-filament-scale-monitor) | ✅ Complete | HX711 load cell interface with tare presets for major filament brands and remaining meter estimation. |
-| **50** | **Wet-Finger Kitchen Timer** | `50-wetfinger-kitchen-hub` | 📋 Planned | 4-zone simultaneous kitchen timer with meat probe temperature alarms and recipe step checklist. |
+| **50** | **Wet-Finger Kitchen Timer** | [`50-wetfinger-kitchen-hub`](./50-wetfinger-kitchen-hub) | ✅ Complete | 4-zone simultaneous kitchen timer with meat probe temperature alarms and recipe step checklist. |
 
 ---
 
