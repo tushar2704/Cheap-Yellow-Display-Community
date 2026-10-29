@@ -122,7 +122,7 @@ elecrow_projects/
 | **44** | **ArdOS Retro Window Manager** | [`44-ardos-window-manager`](./44-ardos-window-manager) | ✅ Complete | Retro desktop GUI with draggable overlapping windows, taskbar, Notepad, Calculator, and Minesweeper. |
 | **45** | **PyDOS Handheld Computer** | [`45-pydos-handheld-pc`](./45-pydos-handheld-pc) | ✅ Complete | MicroPython/DOS command-line PC with full on-screen stylus QWERTY virtual keyboard. |
 | **46** | **Boids Artificial Life Toy** | [`46-boids-physics-toy`](./46-boids-physics-toy) | ✅ Complete | Autonomous flocking simulation with touch predator repulsors and real-time rotating 4D wireframe tesseract. |
-| **47** | **Neon Vector Spirograph** | `47-neon-vector-spirograph` | 📋 Planned | LovyanGFX rotational symmetry mandala engine with glowing RGB565 brush strokes and SD BMP export. |
+| **47** | **Neon Vector Spirograph** | [`47-neon-vector-spirograph`](./47-neon-vector-spirograph) | ✅ Complete | Rotational symmetry mandala engine with glowing RGB565 brush strokes and parametric hypotrochoids. |
 | **48** | **Modular Sensor Starter Kit** | `48-modular-sensor-workbench` | 📋 Planned | Swipeable multi-page dashboard automatically plotting live data for plug-and-play Crowtail sensors. |
 | **49** | **Smart 3D Filament Scale** | `49-filament-scale-monitor` | 📋 Planned | HX711 load cell interface with tare presets for major filament brands and remaining meter estimation. |
 | **50** | **Wet-Finger Kitchen Timer** | `50-wetfinger-kitchen-hub` | 📋 Planned | 4-zone simultaneous kitchen timer with meat probe temperature alarms and recipe step checklist. |
