@@ -55,7 +55,7 @@ elecrow_projects/
 | **05** | **Local AI Desk Terminal** | [`05-local-ai-desk-terminal`](./05-local-ai-desk-terminal) | ✅ Complete | Local-first private Ollama LLM client streaming tokens directly to an on-screen terminal window. |
 | **06** | **Ad-Blocking DNS Sinkhole** | [`06-dns-sinkhole-monitor`](./06-dns-sinkhole-monitor) | ✅ Complete | Standalone UDP port 53 DNS sinkhole server with 5-minute temporary snooze and live traffic metrics. |
 | **07** | **Bambu Dual-Printer Monitor** | [`07-bambu-telemetry-monitor`](./07-bambu-telemetry-monitor) | ✅ Complete | MQTT 3D printer fleet monitor with live nozzle/bed temperatures, layer progress, and spool cost calculation. |
-| **08** | **Klipper Command Deck** | [`08-klipper-command-deck`](./08-klipper-command-deck) | 🔨 Building | Moonraker REST control panel with babystepping Z-offset, preheat macros, E-stop, and DS18B20 chamber sensor. |
+| **08** | **Klipper Command Deck** | [`08-klipper-command-deck`](./08-klipper-command-deck) | ✅ Complete | Moonraker REST control panel with babystepping Z-offset, preheat macros, E-stop, and DS18B20 chamber sensor. |
 
 ---
 
