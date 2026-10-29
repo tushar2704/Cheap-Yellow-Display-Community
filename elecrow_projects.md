@@ -93,9 +93,9 @@ elecrow_projects/
 
 ### Cluster 4: Offline Knowledge, Media, Smart Home & Desk Productivity (Projects 27–38)
 
-| # | Project Name | Description |
-|---|---|---|
-| **27** | **Offline Survival Encyclopedia** | MicroSD SQLite3 offline reader for emergency first-aid procedures, knots, and water purification guides. |
+| # | Project Name | Directory | Status | Description |
+|---|---|---|---|---|
+| **27** | **Offline Survival Encyclopedia** | [`27-offline-survival-encyclopedia`](./27-offline-survival-encyclopedia) | ✅ Complete | MicroSD SQLite3 offline reader for emergency first-aid procedures, knots, and water purification guides. |
 | **28** | **Spotify Album Art Media Remote** | Live album art decoding, ambient dominant color extractor, and resistive swipe playback gestures. |
 | **29** | **Formula 1 Pit Wall Clock** | Session countdown clocks, local timezone converter, 2D vector circuit layouts, and constructor standings. |
 | **30** | **Catppuccin Weather Station** | Zero-API-key Open-Meteo weather station with 7-day forecasts and automatic LDR night-mode dimming. |
