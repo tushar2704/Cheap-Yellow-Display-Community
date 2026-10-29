@@ -99,7 +99,7 @@ elecrow_projects/
 | **28** | **Spotify Album Art Media Remote** | [`28-spotify-album-remote`](./28-spotify-album-remote) | ✅ Complete | Live album art decoding, ambient dominant color extractor, and resistive swipe playback gestures. |
 | **29** | **Formula 1 Pit Wall Clock** | [`29-f1-pitwall-dashboard`](./29-f1-pitwall-dashboard) | ✅ Complete | Live F1 pit telemetry, sector delta intervals, tyre wear matrix, flag alerts, and driver standings. |
 | **30** | **Catppuccin Weather Station** | [`30-catppuccin-weather`](./30-catppuccin-weather) | ✅ Complete | Zero-API-key Open-Meteo weather station with 7-day forecasts and automatic LDR night-mode dimming. |
-| **31** | **CO2 Indoor Air Quality Monitor** | Sensirion SCD40/SCD41 photoacoustic CO2 sensor interface with 24h ppm trend and ventilation alert. |
+| **31** | **CO2 Indoor Air Quality Monitor** | [`31-co2-air-quality-monitor`](./31-co2-air-quality-monitor) | ✅ Complete | Sensirion SCD40/SCD41 photoacoustic CO2 sensor interface with 24h ppm trend and ventilation alert. |
 | **32** | **Smart Home Touch Switch Plate** | openHASP touchscreen control plate for lighting sliders, HVAC thermostat dial, and master scene toggles. |
 | **33** | **Streaming Internet Lo-Fi Radio** | MP3/AAC worldwide web radio streamer with animated 16-band real-time FFT spectrum visualizer. |
 | **34** | **Local Thermal Imaging Camera** | MLX90640 32x24 IR array interface with bilinear interpolation rendering 320x240 false-color heatmaps. |
