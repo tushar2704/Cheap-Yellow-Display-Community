@@ -120,7 +120,7 @@ elecrow_projects/
 | **42** | **Tamagotchi Pomodoro Pet** | [`42-tamagotchi-pomodoro`](./42-tamagotchi-pomodoro) | ✅ Complete | Desk companion whose happiness and health are tied to 25-minute Pomodoro study/work sessions. |
 | **43** | **Procedural Emotive Robot Eyes** | [`43-emotive-robot-eyes`](./43-emotive-robot-eyes) | ✅ Complete | 60 FPS Bezier procedural animated eyes reacting to touch gestures and room ambient light levels. |
 | **44** | **ArdOS Retro Window Manager** | [`44-ardos-window-manager`](./44-ardos-window-manager) | ✅ Complete | Retro desktop GUI with draggable overlapping windows, taskbar, Notepad, Calculator, and Minesweeper. |
-| **45** | **PyDOS Handheld Computer** | `45-pydos-handheld-pc` | 📋 Planned | MicroPython command-line PC with full on-screen stylus QWERTY virtual keyboard. |
+| **45** | **PyDOS Handheld Computer** | [`45-pydos-handheld-pc`](./45-pydos-handheld-pc) | ✅ Complete | MicroPython/DOS command-line PC with full on-screen stylus QWERTY virtual keyboard. |
 | **46** | **Boids Artificial Life Toy** | `46-boids-physics-toy` | 📋 Planned | Autonomous flocking simulation with touch predator repulsors and real-time rotating 3D wireframe hypercube. |
 | **47** | **Neon Vector Spirograph** | `47-neon-vector-spirograph` | 📋 Planned | LovyanGFX rotational symmetry mandala engine with glowing RGB565 brush strokes and SD BMP export. |
 | **48** | **Modular Sensor Starter Kit** | `48-modular-sensor-workbench` | 📋 Planned | Swipeable multi-page dashboard automatically plotting live data for plug-and-play Crowtail sensors. |
