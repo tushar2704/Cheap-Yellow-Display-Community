@@ -106,26 +106,26 @@ elecrow_projects/
 | **35** | **Solar & Battery Flow Dashboard** | [`35-solar-energy-flow`](./35-solar-energy-flow) | ✅ Complete | Animated energy flow nodes (Solar -> Inverter -> Battery -> Home) over Modbus/TCP or MQTT. |
 | **36** | **Stylus Note Messenger** | [`36-stylus-note-messenger`](./36-stylus-note-messenger) | ✅ Complete | High-precision resistive touch sketchpad exporting handwritten doodles and notes via webhook. |
 | **37** | **Stylus RPN Calculator** | [`37-stylus-rpn-calculator`](./37-stylus-rpn-calculator) | ✅ Complete | HP-16C programmer's bitwise calc and HP-12C financial calc emulator with 32-bit register bit flipping. |
-| **38** | **Sim-Racing Telemetry Dash** | 60Hz UDP telemetry parser displaying gear indicator, RPM shift light bar, and Discord mute button. |
+| **38** | **Sim-Racing Telemetry Dash** | [`38-simracing-telemetry`](./38-simracing-telemetry) | ✅ Complete | 60Hz UDP telemetry parser displaying gear indicator, RPM shift light bar, and Discord mute button. |
 
 ---
 
 ### Cluster 5: Retro Gaming, Generative Art, Virtual Pets & OS Environments (Projects 39–50)
 
-| # | Project Name | Description |
-|---|---|---|
-| **39** | **5-in-1 Pocket Arcade Deluxe** | Suite of 5 touch arcade games using zero-flicker dirty-rectangle rendering and persistent high scores. |
-| **40** | **Playable No-PSRAM FreeDOOM** | Bare-metal 3D Doom port running in 520KB SRAM with translucent touch controls and Bluetooth gamepad support. |
-| **41** | **Minimax AI Gomoku & Snake** | Tactical 5-in-a-Row game with an Alpha-Beta pruning AI engine showing live evaluation heuristics. |
-| **42** | **Tamagotchi Pomodoro Pet** | Desk companion whose happiness and health are tied to 25-minute Pomodoro study/work sessions. |
-| **43** | **Procedural Emotive Robot Eyes** | 60 FPS Bezier procedural animated eyes reacting to touch gestures and room ambient light levels. |
-| **44** | **ArdOS Retro Window Manager** | Retro desktop GUI with draggable overlapping windows, taskbar, Notepad, Calculator, and Minesweeper. |
-| **45** | **PyDOS Handheld Computer** | MicroPython command-line PC with full on-screen stylus QWERTY virtual keyboard. |
-| **46** | **Boids Artificial Life Toy** | Autonomous flocking simulation with touch predator repulsors and real-time rotating 3D wireframe hypercube. |
-| **47** | **Neon Vector Spirograph** | LovyanGFX rotational symmetry mandala engine with glowing RGB565 brush strokes and SD BMP export. |
-| **48** | **Modular Sensor Starter Kit** | Swipeable multi-page dashboard automatically plotting live data for plug-and-play Crowtail sensors. |
-| **49** | **Smart 3D Filament Scale** | HX711 load cell interface with tare presets for major filament brands and remaining meter estimation. |
-| **50** | **Wet-Finger Kitchen Timer** | 4-zone simultaneous kitchen timer with meat probe temperature alarms and recipe step checklist. |
+| # | Project Name | Directory | Status | Description |
+|---|---|---|---|---|
+| **39** | **5-in-1 Pocket Arcade Deluxe** | `39-pocket-arcade-deluxe` | 📋 Planned | Suite of 5 touch arcade games using zero-flicker dirty-rectangle rendering and persistent high scores. |
+| **40** | **Playable No-PSRAM FreeDOOM** | `40-freedoom-touch` | 📋 Planned | Bare-metal 3D Doom port running in 520KB SRAM with translucent touch controls and Bluetooth gamepad support. |
+| **41** | **Minimax AI Gomoku & Snake** | `41-minimax-ai-gomoku` | 📋 Planned | Tactical 5-in-a-Row game with an Alpha-Beta pruning AI engine showing live evaluation heuristics. |
+| **42** | **Tamagotchi Pomodoro Pet** | `42-tamagotchi-pomodoro` | 📋 Planned | Desk companion whose happiness and health are tied to 25-minute Pomodoro study/work sessions. |
+| **43** | **Procedural Emotive Robot Eyes** | `43-emotive-robot-eyes` | 📋 Planned | 60 FPS Bezier procedural animated eyes reacting to touch gestures and room ambient light levels. |
+| **44** | **ArdOS Retro Window Manager** | `44-ardos-window-manager` | 📋 Planned | Retro desktop GUI with draggable overlapping windows, taskbar, Notepad, Calculator, and Minesweeper. |
+| **45** | **PyDOS Handheld Computer** | `45-pydos-handheld-pc` | 📋 Planned | MicroPython command-line PC with full on-screen stylus QWERTY virtual keyboard. |
+| **46** | **Boids Artificial Life Toy** | `46-boids-physics-toy` | 📋 Planned | Autonomous flocking simulation with touch predator repulsors and real-time rotating 3D wireframe hypercube. |
+| **47** | **Neon Vector Spirograph** | `47-neon-vector-spirograph` | 📋 Planned | LovyanGFX rotational symmetry mandala engine with glowing RGB565 brush strokes and SD BMP export. |
+| **48** | **Modular Sensor Starter Kit** | `48-modular-sensor-workbench` | 📋 Planned | Swipeable multi-page dashboard automatically plotting live data for plug-and-play Crowtail sensors. |
+| **49** | **Smart 3D Filament Scale** | `49-filament-scale-monitor` | 📋 Planned | HX711 load cell interface with tare presets for major filament brands and remaining meter estimation. |
+| **50** | **Wet-Finger Kitchen Timer** | `50-wetfinger-kitchen-hub` | 📋 Planned | 4-zone simultaneous kitchen timer with meat probe temperature alarms and recipe step checklist. |
 
 ---
 
