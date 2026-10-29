@@ -46,8 +46,3 @@ pio run -t upload
 ```
 
 Or open the folder in VS Code with the PlatformIO extension installed and click **Upload**.
-
----
-
-## 🖨️ 3D Enclosure Concept
-* **Keycap-Angled Desk Wedge**: 35-degree mechanical-keyboard-matching tilt stand with an integrated top trough to dock the resistive stylus pen.

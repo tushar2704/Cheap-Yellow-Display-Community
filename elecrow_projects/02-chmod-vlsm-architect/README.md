@@ -48,8 +48,3 @@ Using PlatformIO CLI:
 cd elecrow_projects/02-chmod-vlsm-architect
 pio run -t upload
 ```
-
----
-
-## 🖨️ 3D Enclosure Concept
-* **Server-Rack Magnetic Puck**: Rear recesses for two 10x2mm neodymium magnets so the 2.8" panel snaps directly onto steel server racks or patch panels.

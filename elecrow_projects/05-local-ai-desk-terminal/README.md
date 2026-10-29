@@ -52,8 +52,3 @@ Using PlatformIO CLI:
 cd elecrow_projects/05-local-ai-desk-terminal
 pio run -t upload
 ```
-
----
-
-## 🖨️ 3D Enclosure Concept
-* **Retro 1980s CRT Terminal Shell**: Miniature vintage beige desktop casing with molded cooling louvers and a tilted bezel.

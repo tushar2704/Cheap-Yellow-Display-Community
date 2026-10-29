@@ -47,8 +47,3 @@ Using PlatformIO CLI:
 cd elecrow_projects/03-homelab-wol-deck
 pio run -t upload
 ```
-
----
-
-## 🖨️ 3D Enclosure Concept
-* **1U Mini-Rack Ear Mount**: Snap-in bezel designed to mount directly into a 10-inch or standard 19-inch homelab server rack faceplate.

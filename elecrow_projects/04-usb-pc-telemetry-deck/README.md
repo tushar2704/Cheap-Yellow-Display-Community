@@ -56,8 +56,3 @@
    pip install pyserial psutil
    python bridge.py
    ```
-
----
-
-## 🖨️ 3D Enclosure Concept
-* **Under-Monitor Clip Pod**: Low-profile clamp that suspends the 2.8" display right beneath the bottom bezel of your computer monitor.
