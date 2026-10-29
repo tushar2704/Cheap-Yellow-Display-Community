@@ -96,7 +96,7 @@ elecrow_projects/
 | # | Project Name | Directory | Status | Description |
 |---|---|---|---|---|
 | **27** | **Offline Survival Encyclopedia** | [`27-offline-survival-encyclopedia`](./27-offline-survival-encyclopedia) | ✅ Complete | MicroSD SQLite3 offline reader for emergency first-aid procedures, knots, and water purification guides. |
-| **28** | **Spotify Album Art Media Remote** | Live album art decoding, ambient dominant color extractor, and resistive swipe playback gestures. |
+| **28** | **Spotify Album Art Media Remote** | [`28-spotify-album-remote`](./28-spotify-album-remote) | ✅ Complete | Live album art decoding, ambient dominant color extractor, and resistive swipe playback gestures. |
 | **29** | **Formula 1 Pit Wall Clock** | Session countdown clocks, local timezone converter, 2D vector circuit layouts, and constructor standings. |
 | **30** | **Catppuccin Weather Station** | Zero-API-key Open-Meteo weather station with 7-day forecasts and automatic LDR night-mode dimming. |
 | **31** | **CO2 Indoor Air Quality Monitor** | Sensirion SCD40/SCD41 photoacoustic CO2 sensor interface with 24h ppm trend and ventilation alert. |
