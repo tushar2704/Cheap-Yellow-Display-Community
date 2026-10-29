@@ -70,7 +70,7 @@ elecrow_projects/
 | **13** | **HamClock Mini Dashboard** | [`13-hamclock-mini`](./13-hamclock-mini) | ✅ Complete | Solar Flux Index (SFI), geomagnetic K-index gauge, and POTA/SOTA live spotter list with Maidenhead calculations. |
 | **14** | **Minimalist Vector Flight Tracker** | [`14-vector-flight-tracker`](./14-vector-flight-tracker) | ✅ Complete | Ultra-high contrast distant-readability card displaying nearest overhead flight number, altitude, and path. |
 | **15** | **GPS Stratum Triple Clock** | [`15-gps-stratum-clock`](./15-gps-stratum-clock) | ✅ Complete | 100% offline atomic clock using UART GPS receiver showing Local, UTC/Zulu, and satellite constellation SNR. |
-| **16** | **Live Coastal Tide Chart** | Continuous harmonic sine-wave tidal curve with golden hour sunrise/sunset markers and lunar illumination. |
+| **16** | **Live Coastal Tide Chart** | [`16-coastal-tide-chart`](./16-coastal-tide-chart) | ✅ Complete | Continuous harmonic sine-wave tidal curve with golden hour sunrise/sunset markers and lunar illumination. |
 | **17** | **Offline OSM Trail Navigator** | Glove-friendly resistive touch map viewer rendering offline 256x256 OSM tiles from MicroSD with GPX tracking. |
 | **18** | **ESP-NOW Marine Instrument Repeater** | Router-free wireless receiver listening to outdoor battery sensor nodes for wind speed, polar rose, and barograph. |
 
