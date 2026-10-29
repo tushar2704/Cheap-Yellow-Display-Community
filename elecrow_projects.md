@@ -82,7 +82,7 @@ elecrow_projects/
 |---|---|---|---|---|
 | **19** | **Defensive Wi-Fi Channel Auditor** | [`19-wifi-channel-auditor`](./19-wifi-channel-auditor) | ✅ Complete | 2.4GHz spectrum analyzer visualizing 802.11 channels 1-14 overlap curves with channel recommendation. |
 | **20** | **Privacy Shield BLE Tracker Detector** | [`20-privacy-shield-detector`](./20-privacy-shield-detector) | ✅ Complete | Passive BLE advertisement analyzer identifying Apple FindMy, Tile, and SmartTag devices by proximity RSSI. |
-| **21** | **Retro CRT Phosphor Oscilloscope** | Analog ADC DMA waveform visualizer with simulated phosphor decay and touch-adjustable PWM generator. |
+| **21** | **Retro CRT Phosphor Oscilloscope** | [`21-crt-phosphor-scope`](./21-crt-phosphor-scope) | ✅ Complete | Analog ADC DMA waveform visualizer with simulated phosphor decay and touch-adjustable PWM generator. |
 | **22** | **CYD Hardware Diagnostic Suite** | Interactive hardware bench testing LDR curve, RGB LEDs, speaker sweeps, MicroSD benchmarks, and touch calibration. |
 | **23** | **Multi-Firmware SD Bootloader** | Graphical touch launcher booting pre-compiled `.bin` files from MicroSD via OTA partition swapping. |
 | **24** | **Pocket RF & IR Multi-Tool** | Infrared transceiver cloner and raw pulse analyzer with dynamic Wi-Fi QR credential generation. |
