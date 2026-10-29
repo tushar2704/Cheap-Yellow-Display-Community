@@ -101,7 +101,7 @@ elecrow_projects/
 | **30** | **Catppuccin Weather Station** | [`30-catppuccin-weather`](./30-catppuccin-weather) | ✅ Complete | Zero-API-key Open-Meteo weather station with 7-day forecasts and automatic LDR night-mode dimming. |
 | **31** | **CO2 Indoor Air Quality Monitor** | [`31-co2-air-quality-monitor`](./31-co2-air-quality-monitor) | ✅ Complete | Sensirion SCD40/SCD41 photoacoustic CO2 sensor interface with 24h ppm trend and ventilation alert. |
 | **32** | **Smart Home Touch Switch Plate** | [`32-openhasp-switch-plate`](./32-openhasp-switch-plate) | ✅ Complete | Smart home control plate for lighting toggles & sliders, HVAC thermostat, and master scene presets. |
-| **33** | **Streaming Internet Lo-Fi Radio** | MP3/AAC worldwide web radio streamer with animated 16-band real-time FFT spectrum visualizer. |
+| **33** | **Streaming Internet Lo-Fi Radio** | [`33-internet-lofi-radio`](./33-internet-lofi-radio) | ✅ Complete | MP3/AAC worldwide web radio streamer with animated 16-band real-time FFT spectrum visualizer. |
 | **34** | **Local Thermal Imaging Camera** | MLX90640 32x24 IR array interface with bilinear interpolation rendering 320x240 false-color heatmaps. |
 | **35** | **Solar & Battery Flow Dashboard** | Animated energy flow nodes (Solar -> Inverter -> Battery -> Home) over Modbus/TCP or MQTT. |
 | **36** | **Stylus Note Messenger** | High-precision resistive touch sketchpad exporting handwritten doodles and notes via webhook. |
