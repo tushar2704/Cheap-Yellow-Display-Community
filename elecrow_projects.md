@@ -117,7 +117,7 @@ elecrow_projects/
 | **39** | **5-in-1 Pocket Arcade Deluxe** | [`39-pocket-arcade-deluxe`](./39-pocket-arcade-deluxe) | ✅ Complete | Suite of 5 touch arcade games using zero-flicker dirty-rectangle rendering and persistent high scores. |
 | **40** | **Playable No-PSRAM FreeDOOM** | [`40-freedoom-touch`](./40-freedoom-touch) | ✅ Complete | Bare-metal 3D Doom port running in 520KB SRAM with translucent touch controls and Bluetooth gamepad support. |
 | **41** | **Minimax AI Gomoku & Snake** | [`41-minimax-ai-gomoku`](./41-minimax-ai-gomoku) | ✅ Complete | Tactical 5-in-a-Row game with an Alpha-Beta pruning AI engine showing live evaluation heuristics. |
-| **42** | **Tamagotchi Pomodoro Pet** | `42-tamagotchi-pomodoro` | 📋 Planned | Desk companion whose happiness and health are tied to 25-minute Pomodoro study/work sessions. |
+| **42** | **Tamagotchi Pomodoro Pet** | [`42-tamagotchi-pomodoro`](./42-tamagotchi-pomodoro) | ✅ Complete | Desk companion whose happiness and health are tied to 25-minute Pomodoro study/work sessions. |
 | **43** | **Procedural Emotive Robot Eyes** | `43-emotive-robot-eyes` | 📋 Planned | 60 FPS Bezier procedural animated eyes reacting to touch gestures and room ambient light levels. |
 | **44** | **ArdOS Retro Window Manager** | `44-ardos-window-manager` | 📋 Planned | Retro desktop GUI with draggable overlapping windows, taskbar, Notepad, Calculator, and Minesweeper. |
 | **45** | **PyDOS Handheld Computer** | `45-pydos-handheld-pc` | 📋 Planned | MicroPython command-line PC with full on-screen stylus QWERTY virtual keyboard. |
