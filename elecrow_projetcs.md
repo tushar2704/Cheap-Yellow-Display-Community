@@ -85,7 +85,7 @@ elecrow_projects/
 | **21** | **Retro CRT Phosphor Oscilloscope** | [`21-crt-phosphor-scope`](./21-crt-phosphor-scope) | ✅ Complete | Analog ADC DMA waveform visualizer with simulated phosphor decay and touch-adjustable PWM generator. |
 | **22** | **CYD Hardware Diagnostic Suite** | [`22-cyd-diagnostic-suite`](./22-cyd-diagnostic-suite) | ✅ Complete | Interactive hardware bench testing LDR curve, RGB LEDs, speaker sweeps, MicroSD benchmarks, and touch calibration. |
 | **23** | **Multi-Firmware SD Bootloader** | [`23-sd-firmware-launcher`](./23-sd-firmware-launcher) | ✅ Complete | Graphical touch launcher booting pre-compiled `.bin` files from MicroSD via OTA partition swapping. |
-| **24** | **Pocket RF & IR Multi-Tool** | Infrared transceiver cloner and raw pulse analyzer with dynamic Wi-Fi QR credential generation. |
+| **24** | **Pocket RF & IR Multi-Tool** | [`24-pocket-rf-ir-tool`](./24-pocket-rf-ir-tool) | ✅ Complete | Infrared transceiver cloner and raw pulse analyzer with dynamic Wi-Fi QR credential generation. |
 | **25** | **Wi-Fi Deauth Defense Sentinel** | Promiscuous 802.11 management frame monitor alerting on camera deauthentication floods and attacks. |
 | **26** | **Wearable Conference Badge** | Battery-powered touch badge with dynamic vCard QR codes, animated avatars, and ambient RF activity meter. |
 
