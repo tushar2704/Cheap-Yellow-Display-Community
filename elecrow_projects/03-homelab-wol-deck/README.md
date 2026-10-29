@@ -1,17 +1,14 @@
 # 🖥️ Project 03: Standalone Homelab Wake-on-LAN (WoL) Touch Deck
 
 > **Elecrow 2.8" CYD Series**  
-> **Channel Branding**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
+> **Channel**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
 > **Hardware**: Elecrow CrowPanel 2.8" / ESP32-2432S028R  
-> **Open-Source Base**: [crowpanel WoL community](https://github.com/topics/crowpanel)
 
 ---
 
-## 📺 YouTube Presentation & Angles
+## 📺 Channel & Tutorial
 
-* **Channel**: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
-* **Video Title**: *"I Built a Physical 'Turn On My PC' Button That Cuts My Power Bill"*
-* **Hook**: Leaving multi-terabyte NAS arrays, GPU workstations, and virtualization servers running 24/7 drains hundreds of dollars in electricity every year. This dedicated bedside/desk touchscreen broadcasts standard 102-byte UDP Magic Packets with physical security PIN authentication so you only boot hardware when you need it!
+📺 **Tutorial**: [Watch on IamNotIntoTech](https://youtube.com/@IamNotIntoTech)  
 
 ---
 

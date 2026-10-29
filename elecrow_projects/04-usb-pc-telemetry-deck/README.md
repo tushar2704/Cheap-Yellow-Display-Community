@@ -1,17 +1,14 @@
 # 🎛️ Project 04: USB Serial PC Telemetry & Macro Deck
 
 > **Elecrow 2.8" CYD Series**  
-> **Channel Branding**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
+> **Channel**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
 > **Hardware**: Elecrow CrowPanel 2.8" / ESP32-2432S028R  
-> **Open-Source Base**: [lepczynski-cloud/ESP32-PC-Control-Deck](https://github.com/lepczynski-cloud/ESP32-PC-Control-Deck)
 
 ---
 
-## 📺 YouTube Presentation & Angles
+## 📺 Channel & Tutorial
 
-* **Channel**: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
-* **Video Title**: *"Why Pay $150 for a Stream Deck When This $15 Screen Exists?"*
-* **Hook**: Commercial stream decks and PC sensor panels cost an arm and a leg. By using the built-in CH340 USB-Serial port on the Elecrow 2.8" CYD paired with a lightweight Python bridge daemon, you get live CPU/GPU/VRAM bar graphs and 6 physical touch macro buttons right under your monitor!
+📺 **Tutorial**: [Watch on IamNotIntoTech](https://youtube.com/@IamNotIntoTech)  
 
 ---
 

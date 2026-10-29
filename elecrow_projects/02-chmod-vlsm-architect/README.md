@@ -1,17 +1,14 @@
 # 🌐 Project 02: Chmod & VLSM Visual Network Architect
 
 > **Elecrow 2.8" CYD Series**  
-> **Channel Branding**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
+> **Channel**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
 > **Hardware**: Elecrow CrowPanel 2.8" / ESP32-2432S028R  
-> **Open-Source Base**: [lepczynski-cloud/crowpanel-Admin-Pocket-Toolkit (V2)](https://github.com/lepczynski-cloud/crowpanel-Admin-Pocket-Toolkit)
 
 ---
 
-## 📺 YouTube Presentation & Angles
+## 📺 Channel & Tutorial
 
-* **Channel**: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
-* **Video Title**: *"Stop Using Sketchy Websites to Calculate Subnets"*
-* **Hook**: Don't leak private IP architectures or risk typos with online subnet calculators during server configurations. This dedicated $15 hardware architect calculates CIDR slices and chmod permission octals completely offline with tactile touch feedback.
+📺 **Tutorial**: [Watch on IamNotIntoTech](https://youtube.com/@IamNotIntoTech)  
 
 ---
 

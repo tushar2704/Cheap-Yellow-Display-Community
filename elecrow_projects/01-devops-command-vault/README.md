@@ -1,17 +1,14 @@
 # ⚡ Project 01: DevOps Command Vault (Docker, Git & Exit Codes)
 
 > **Elecrow 2.8" CYD Series**  
-> **Channel Branding**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
+> **Channel**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
 > **Hardware**: Elecrow CrowPanel 2.8" / ESP32-2432S028R  
-> **Open-Source Inspiration**: [lepczynski-cloud/crowpanel-Admin-Pocket-Toolkit](https://github.com/lepczynski-cloud/crowpanel-Admin-Pocket-Toolkit)
 
 ---
 
-## 📺 YouTube Presentation & Angles
+## 📺 Channel & Tutorial
 
-* **Channel**: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)
-* **Video Title**: *"The $15 Cheat Code Screen That Saved My Coding Job"*
-* **Hook**: Stop tab-switching and scouring StackOverflow for arcane Docker commands, Git detached HEAD rescues, or Linux kill signals. This dedicated touch panel gives you an instant offline cheat sheet on your desk with one-touch USB Serial output!
+📺 **Tutorial**: [Watch on IamNotIntoTech](https://youtube.com/@IamNotIntoTech)  
 
 ---
 
