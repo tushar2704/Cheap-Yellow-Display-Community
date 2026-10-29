@@ -66,7 +66,7 @@ elecrow_projects/
 | **09** | **ATC Rotating Sweep Flight Radar** | [`09-atc-flight-radar`](./09-atc-flight-radar) | ✅ Complete | Dual-core radar with CRT sweep display, altitude filters, and emergency squawk proximity audio chirps. |
 | **10** | **Sky-Spotter Flight Deck** | [`10-sky-spotter-station`](./10-sky-spotter-station) | ✅ Complete | Airline departures, arrivals, and spotter elevation/compass line calculation for overhead aircraft. |
 | **11** | **Orbital Rocket & ISS Tracker** | [`11-iss-rocket-tracker`](./11-iss-rocket-tracker) | ✅ Complete | Local SGP4 orbital propagator calculating visible ISS flyovers and real-time rocket launch countdowns. |
-| **12** | **Pilot's Desk METAR/TAF Decoder** | Plain-English aviation weather decoder with dynamic crosswind component calculations for favorite runways. |
+| **12** | **Pilot's Desk METAR/TAF Decoder** | [`12-metar-weather-decoder`](./12-metar-weather-decoder) | ✅ Complete | Plain-English aviation weather decoder with dynamic crosswind component calculations for favorite runways. |
 | **13** | **HamClock Mini Dashboard** | Solar Flux Index (SFI), geomagnetic K-index gauge, and POTA/SOTA live spotter list with Maidenhead calculations. |
 | **14** | **Minimalist Vector Flight Tracker** | Ultra-high contrast distant-readability card displaying nearest overhead flight number, altitude, and path. |
 | **15** | **GPS Stratum Triple Clock** | 100% offline atomic clock using UART GPS receiver showing Local, UTC/Zulu, and satellite constellation SNR. |
