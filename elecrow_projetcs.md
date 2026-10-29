@@ -78,9 +78,9 @@ elecrow_projects/
 
 ### Cluster 3: Cybersecurity Auditing, RF Diagnostics & Bench Instruments (Projects 19–26)
 
-| # | Project Name | Description |
-|---|---|---|
-| **19** | **Defensive Wi-Fi Channel Auditor** | 2.4GHz spectrum analyzer visualizing 802.11 channels 1-14 overlap curves with channel recommendation. |
+| # | Project Name | Directory | Status | Description |
+|---|---|---|---|---|
+| **19** | **Defensive Wi-Fi Channel Auditor** | [`19-wifi-channel-auditor`](./19-wifi-channel-auditor) | ✅ Complete | 2.4GHz spectrum analyzer visualizing 802.11 channels 1-14 overlap curves with channel recommendation. |
 | **20** | **Privacy Shield BLE Tracker Detector** | Passive BLE advertisement analyzer identifying Apple FindMy, Tile, and SmartTag devices by proximity RSSI. |
 | **21** | **Retro CRT Phosphor Oscilloscope** | Analog ADC DMA waveform visualizer with simulated phosphor decay and touch-adjustable PWM generator. |
 | **22** | **CYD Hardware Diagnostic Suite** | Interactive hardware bench testing LDR curve, RGB LEDs, speaker sweeps, MicroSD benchmarks, and touch calibration. |
