@@ -99,6 +99,8 @@ elecrow_projects/*
 !elecrow_projects/05-local-ai-desk-terminal/**
 !elecrow_projects/06-dns-sinkhole-monitor/
 !elecrow_projects/06-dns-sinkhole-monitor/**
+!elecrow_projects/07-bambu-telemetry-monitor/
+!elecrow_projects/07-bambu-telemetry-monitor/**
 !elecrow_projects/12-metar-weather-decoder/
 !elecrow_projects/12-metar-weather-decoder/**
 elecrow_projects/*/.pio/
