@@ -21,72 +21,81 @@ import psutil
 import serial
 import serial.tools.list_ports
 
+# Fix Windows console encoding
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 def auto_detect_port():
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
-        if "CH340" in p.description or "USB" in p.description:
+        desc = p.description or ""
+        if "CH340" in desc or "USB-SERIAL" in desc or "USB" in desc:
             return p.device
     if ports:
         return ports[0].device
     return "COM5"
 
 def handle_macro(macro_id, label):
-    print(f"\n⚡ [MACRO TRIGGERED FROM CYD]: {macro_id} ({label})")
+    print(f"\n[+] [MACRO TRIGGERED FROM CYD]: {macro_id} ({label})")
     
     if macro_id == "OPEN_TERM":
-        print("   -> Launching Windows Terminal / PowerShell...")
+        print("    -> Launching Windows Terminal / PowerShell...")
         try:
-            subprocess.Popen(["powershell.exe", "-NoExit", "-Command", "Write-Host '🚀 Terminal launched from CYD Macro Deck!' -ForegroundColor Green"])
+            subprocess.Popen(["powershell.exe", "-NoExit", "-Command", "Write-Host 'Terminal launched from CYD Macro Deck!' -ForegroundColor Green"])
         except Exception as e:
-            print(f"   -> Error launching terminal: {e}")
+            print(f"    -> Error launching terminal: {e}")
 
     elif macro_id == "LOCK_HOST":
-        print("   -> 🔒 Locking Windows Workstation...")
+        print("    -> Locking Windows Workstation...")
         try:
             ctypes.windll.user32.LockWorkStation()
         except Exception as e:
-            print(f"   -> Error locking PC: {e}")
+            print(f"    -> Error locking PC: {e}")
 
     elif macro_id == "GIT_SYNC":
-        print("   -> 🐙 Running git status in repository...")
+        print("    -> Running git status in repository...")
         try:
             subprocess.Popen(["git", "status"], shell=True)
         except Exception as e:
-            print(f"   -> Error running git: {e}")
+            print(f"    -> Error running git: {e}")
 
     elif macro_id == "RUN_BUILD":
-        print("   -> 🔨 Checking PlatformIO build environment...")
+        print("    -> Checking PlatformIO build environment...")
         try:
             subprocess.Popen(["pio", "--version"], shell=True)
         except Exception as e:
-            print(f"   -> Error running pio: {e}")
+            print(f"    -> Error running pio: {e}")
 
     elif macro_id == "MUTE_MIC":
-        print("   -> 🎙️ Mute Microphone trigger received.")
+        print("    -> Mute Microphone trigger received.")
 
     elif macro_id == "AI_ASSIST":
-        print("   -> 🤖 AI Prompt trigger received.")
+        print("    -> AI Prompt trigger received.")
 
 def main():
     port = sys.argv[1] if len(sys.argv) > 1 else auto_detect_port()
     if not port:
-        print("❌ No serial port detected! Please plug in the Elecrow 2.8\" CYD.")
+        print("[!] No serial port detected! Please plug in the Elecrow 2.8\" CYD.")
         sys.exit(1)
 
-    print("═════════════════════════════════════════════════════════════════")
-    print(f"🔌 Connecting to Elecrow 2.8\" CYD on {port} @ 115200 baud...")
-    print("═════════════════════════════════════════════════════════════════")
+    print("=================================================================")
+    print(f"[*] Connecting to Elecrow 2.8\" CYD on {port} @ 115200 baud...")
+    print("=================================================================")
     
     try:
         ser = serial.Serial(port, 115200, timeout=0.1)
     except Exception as e:
-        print(f"❌ Could not open port {port}: {e}")
-        print("   Make sure no other terminal or monitor is using the port.")
+        print(f"[!] Could not open port {port}: {e}")
+        print("    Make sure no other terminal or monitor is using the port.")
         sys.exit(1)
 
     time.sleep(2)
-    print("✅ Connected! Streaming live Windows telemetry & listening for touch macros...")
-    print("   Press Ctrl+C to stop.\n")
+    print("[+] Connected! Streaming live Windows telemetry & listening for touch macros...")
+    print("    Press Ctrl+C to stop.\n")
 
     # Prime psutil CPU calculation
     psutil.cpu_percent(interval=None)
@@ -106,7 +115,7 @@ def main():
                         except json.JSONDecodeError:
                             pass
                     elif line.startswith("[TOUCH]"):
-                        print(f"📲 {line}")
+                        print(f"[*] {line}")
 
             # 2. Stream live PC telemetry every 800ms
             if time.time() - last_send >= 0.8:
@@ -128,12 +137,12 @@ def main():
                 }
                 out_bytes = (json.dumps(payload) + "\n").encode('utf-8')
                 ser.write(out_bytes)
-                print(f"\r📡 [STREAMING LIVE PC] CPU: {cpu:2d}% ({cpu_temp}°C) | RAM: {ram:2d}% | GPU: {gpu:2d}% ({gpu_temp}°C)", end="", flush=True)
+                print(f"\r[*] [LIVE PC STREAM] CPU: {cpu:2d}% ({cpu_temp}C) | RAM: {ram:2d}% | GPU: {gpu:2d}% ({gpu_temp}C)", end="", flush=True)
 
             time.sleep(0.04)
 
     except KeyboardInterrupt:
-        print("\n\n👋 Bridge stopped by user.")
+        print("\n\n[+] Bridge stopped by user.")
         ser.close()
 
 if __name__ == "__main__":
