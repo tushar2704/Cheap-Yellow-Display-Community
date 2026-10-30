@@ -62,25 +62,15 @@ def handle_macro(macro_id, label):
             except Exception as e:
                 print(f"    -> Error launching terminal: {e}")
 
-    elif macro_id == "SHOW_DESKTOP":
-        print("    -> Minimizing all windows to Show Desktop (Win+D)...")
-        # Method 1: Shell.Application COM object
-        done = False
+    elif macro_id in ("OPEN_EXPLORER", "SHOW_DESKTOP"):
+        print("    -> 📁 Launching Windows File Explorer...")
         try:
-            import win32com.client
-            win32com.client.Dispatch("Shell.Application").ToggleDesktop()
-            done = True
+            os.startfile("explorer.exe")
         except Exception:
-            pass
-        # Method 2: Simulate Win+D keypress
-        if not done:
             try:
-                ctypes.windll.user32.keybd_event(0x5B, 0, 0, 0)       # Win down
-                ctypes.windll.user32.keybd_event(0x44, 0, 0, 0)       # D down
-                ctypes.windll.user32.keybd_event(0x44, 0, 0x0002, 0)  # D up
-                ctypes.windll.user32.keybd_event(0x5B, 0, 0x0002, 0)  # Win up
+                subprocess.Popen(["explorer.exe"])
             except Exception as e:
-                print(f"    -> Error toggling desktop: {e}")
+                print(f"    -> Error launching File Explorer: {e}")
 
     elif macro_id == "OPEN_YOUTUBE":
         url = "https://youtube.com/@IamNotIntoTech"

@@ -58,7 +58,7 @@ struct MacroTile {
 MacroTile macros[MACRO_COUNT] = {
   {"MUTE AUDIO", "MUTE_VOL",      0xF800}, // Red
   {"TERMINAL",   "OPEN_TERM",     0x07E0}, // Green
-  {"DESKTOP",    "SHOW_DESKTOP",  0x041F}, // Blue
+  {"EXPLORER",   "OPEN_EXPLORER", 0x041F}, // Royal Blue
   {"TASK MGR",   "OPEN_TASKMGR",  0xFD20}, // Orange
   {"YOUTUBE",    "OPEN_YOUTUBE",  0xF800}, // YouTube Red
   {"LOCK PC",    "LOCK_HOST",     0x8410}  // Dark Gray
@@ -193,7 +193,9 @@ void drawMacroTileState(int i, bool pressed) {
     tft.setCursor(tx + 4, ty + 32);
     tft.print("@IamNotInto");
   } else {
-    tft.setCursor(tx + 10, ty + 24);
+    int strLen = strlen(macros[i].label);
+    int textX = tx + (tileW - (strLen * 6)) / 2;
+    tft.setCursor(textX, ty + 24);
     tft.print(macros[i].label);
   }
 }
