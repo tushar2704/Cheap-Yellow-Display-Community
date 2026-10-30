@@ -95,6 +95,8 @@ elecrow_projects/*
 !elecrow_projects/03-homelab-wol-deck/**
 !elecrow_projects/04-usb-pc-telemetry-deck/
 !elecrow_projects/04-usb-pc-telemetry-deck/**
+!elecrow_projects/05-local-ai-desk-terminal/
+!elecrow_projects/05-local-ai-desk-terminal/**
 !elecrow_projects/12-metar-weather-decoder/
 !elecrow_projects/12-metar-weather-decoder/**
 elecrow_projects/*/.pio/
