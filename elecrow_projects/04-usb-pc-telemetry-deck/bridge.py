@@ -16,6 +16,7 @@ import time
 import json
 import subprocess
 import ctypes
+import webbrowser
 import os
 import psutil
 import serial
@@ -43,38 +44,58 @@ def handle_macro(macro_id, label):
     print(f"\n[+] [MACRO TRIGGERED FROM CYD]: {macro_id} ({label})")
     
     if macro_id == "OPEN_TERM":
-        print("    -> Launching Windows Terminal / PowerShell...")
+        print("    -> Launching New Windows Terminal / PowerShell window...")
         try:
-            subprocess.Popen(["powershell.exe", "-NoExit", "-Command", "Write-Host 'Terminal launched from CYD Macro Deck!' -ForegroundColor Green"])
+            # cmd.exe /c start opens a completely independent visible GUI console window
+            subprocess.Popen(
+                ["cmd.exe", "/c", "start", "powershell.exe", "-NoExit", "-Command", 
+                 "Write-Host '====================================' -ForegroundColor Cyan; "
+                 "Write-Host '🚀 CYD TELEMETRY DECK TERMINAL' -ForegroundColor Green; "
+                 "Write-Host 'Channel: @IamNotIntoTech' -ForegroundColor Yellow; "
+                 "Write-Host '====================================' -ForegroundColor Cyan"]
+            )
         except Exception as e:
             print(f"    -> Error launching terminal: {e}")
 
+    elif macro_id == "SHOW_DESKTOP":
+        print("    -> 🖥️ Minimizing windows to Show Desktop (Win+D)...")
+        try:
+            subprocess.Popen(
+                ["powershell.exe", "-WindowStyle", "Hidden", "-Command", 
+                 "(New-Object -ComObject Shell.Application).ToggleDesktop()"]
+            )
+        except Exception as e:
+            print(f"    -> Error toggling desktop: {e}")
+
+    elif macro_id == "OPEN_YOUTUBE":
+        print("    -> 🔴 Opening @IamNotIntoTech YouTube Channel in default browser...")
+        try:
+            webbrowser.open("https://youtube.com/@IamNotIntoTech")
+        except Exception as e:
+            print(f"    -> Error opening browser: {e}")
+
+    elif macro_id == "OPEN_TASKMGR":
+        print("    -> 📊 Launching Windows Task Manager...")
+        try:
+            subprocess.Popen(["cmd.exe", "/c", "start", "taskmgr.exe"])
+        except Exception as e:
+            print(f"    -> Error launching Task Manager: {e}")
+
+    elif macro_id == "MUTE_VOL":
+        print("    -> 🔊 Toggling Windows Master Audio Mute...")
+        try:
+            # VK_VOLUME_MUTE = 0xAD
+            ctypes.windll.user32.keybd_event(0xAD, 0, 0, 0)
+            ctypes.windll.user32.keybd_event(0xAD, 0, 2, 0)
+        except Exception as e:
+            print(f"    -> Error muting volume: {e}")
+
     elif macro_id == "LOCK_HOST":
-        print("    -> Locking Windows Workstation...")
+        print("    -> 🔒 Locking Windows Workstation...")
         try:
             ctypes.windll.user32.LockWorkStation()
         except Exception as e:
             print(f"    -> Error locking PC: {e}")
-
-    elif macro_id == "GIT_SYNC":
-        print("    -> Running git status in repository...")
-        try:
-            subprocess.Popen(["git", "status"], shell=True)
-        except Exception as e:
-            print(f"    -> Error running git: {e}")
-
-    elif macro_id == "RUN_BUILD":
-        print("    -> Checking PlatformIO build environment...")
-        try:
-            subprocess.Popen(["pio", "--version"], shell=True)
-        except Exception as e:
-            print(f"    -> Error running pio: {e}")
-
-    elif macro_id == "MUTE_MIC":
-        print("    -> Mute Microphone trigger received.")
-
-    elif macro_id == "AI_ASSIST":
-        print("    -> AI Prompt trigger received.")
 
 def main():
     port = sys.argv[1] if len(sys.argv) > 1 else auto_detect_port()

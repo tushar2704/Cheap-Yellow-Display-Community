@@ -56,12 +56,12 @@ struct MacroTile {
 
 #define MACRO_COUNT 6
 MacroTile macros[MACRO_COUNT] = {
-  {"MUTE MIC",   "MUTE_MIC",   0xF800}, // Red
-  {"TERMINAL",   "OPEN_TERM",  0x07E0}, // Green
-  {"GIT PULL",   "GIT_SYNC",   0x041F}, // Blue
-  {"RUN BUILD",  "RUN_BUILD",  0xFD20}, // Orange
-  {"AI PROMPT",  "AI_ASSIST",  0x780F}, // Purple
-  {"LOCK PC",    "LOCK_HOST",  0x8410}  // Dark Gray
+  {"MUTE AUDIO", "MUTE_VOL",      0xF800}, // Red
+  {"TERMINAL",   "OPEN_TERM",     0x07E0}, // Green
+  {"DESKTOP",    "SHOW_DESKTOP",  0x041F}, // Blue
+  {"TASK MGR",   "OPEN_TASKMGR",  0xFD20}, // Orange
+  {"YOUTUBE",    "OPEN_YOUTUBE",  0xF800}, // YouTube Red
+  {"LOCK PC",    "LOCK_HOST",     0x8410}  // Dark Gray
 };
 
 void setRgbLed(bool r, bool g, bool b) {
@@ -185,8 +185,17 @@ void drawMacroTileState(int i, bool pressed) {
 
   tft.setTextColor(fg, bg);
   tft.setTextSize(1);
-  tft.setCursor(tx + 8, ty + 24);
-  tft.print(macros[i].label);
+
+  if (i == 4) { // Special branding for YouTube Channel
+    tft.setCursor(tx + 16, ty + 16);
+    tft.print("YOUTUBE");
+    tft.setTextColor(pressed ? TFT_BLACK : 0xFDC0, bg);
+    tft.setCursor(tx + 4, ty + 32);
+    tft.print("@IamNotInto");
+  } else {
+    tft.setCursor(tx + 10, ty + 24);
+    tft.print(macros[i].label);
+  }
 }
 
 void drawMacroTiles() {
@@ -233,7 +242,7 @@ void triggerMacro(int macroIdx) {
 
   // 3. Update footer with loud confirmation
   char msg[64];
-  snprintf(msg, sizeof(msg), "⚡ [MACRO DISPATCHED] -> %s", macros[macroIdx].label);
+  snprintf(msg, sizeof(msg), "⚡ [ACTION] -> %s", macros[macroIdx].label);
   updateFooter(msg, TFT_BLACK, 0xFDC0);
   footerClearTime = millis() + 2500;
 
@@ -370,6 +379,7 @@ void loop() {
       if (millis() - lastTouchTime > 180) {
         lastTouchTime = millis();
 
+        // Landscape calibration: non-inverted Y
         int screenX = map(p.x, 240, 3800, 0, 320);
         int screenY = map(p.y, 240, 3800, 0, 240);
         screenX = constrain(screenX, 0, 319);
