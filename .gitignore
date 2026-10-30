@@ -86,3 +86,12 @@ wifi_credentials.h
 #custom
 MASTER_INSTRUCTIONS.md
 .MASTER_INSTRUCTIONS.md
+
+# ---------- Elecrow Projects (Staged Hardware Verification) ----------
+# Untested projects are kept private/ignored until individually verified on hardware
+elecrow_projects/*
+!elecrow_projects/README.md
+!elecrow_projects/12-metar-weather-decoder/
+!elecrow_projects/12-metar-weather-decoder/**
+elecrow_projects/*/.pio/
+elecrow_projects/*/.vscode/

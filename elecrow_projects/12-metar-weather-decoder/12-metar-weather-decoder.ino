@@ -20,9 +20,9 @@
 #include <XPT2046_Touchscreen.h>
 
 #define XPT2046_IRQ   36
-#define XPT2046_MOSI  13
-#define XPT2046_MISO  12
-#define XPT2046_CLK   14
+#define XPT2046_MOSI  32
+#define XPT2046_MISO  39
+#define XPT2046_CLK   25
 #define XPT2046_CS    33
 
 #define LED_RED       4
@@ -41,7 +41,7 @@ const char* ssid = "HOMELAB_WIFI";
 const char* password = "homelab_secret";
 
 SPIClass touchSPI(VSPI);
-XPT2046_Touchscreen ts(XPT2046_CS, XPT2046_IRQ);
+XPT2046_Touchscreen ts(XPT2046_CS);
 TFT_eSPI tft = TFT_eSPI();
 
 enum FlightCategory {
@@ -309,20 +309,29 @@ void setup() {
 void loop() {
   if (ts.touched()) {
     TS_Point p = ts.getPoint();
-    if (millis() - lastTouchTime > 250) {
-      lastTouchTime = millis();
+    if (p.z > 200) {
+      if (millis() - lastTouchTime > 200) {
+        lastTouchTime = millis();
 
-      int screenX = map(p.x, TS_MINX, TS_MAXX, 0, 320);
-      int screenY = map(p.y, TS_MINY, TS_MAXY, 0, 240);
-      screenX = constrain(screenX, 0, 319);
-      screenY = constrain(screenY, 0, 239);
+        // Landscape calibration: X is 240..3800 -> 0..320, Y is 3800..240 -> 0..240
+        int screenX = map(p.x, 240, 3800, 0, 320);
+        int screenY = map(p.y, 3800, 240, 0, 240);
+        screenX = constrain(screenX, 0, 319);
+        screenY = constrain(screenY, 0, 239);
 
-      // Station Tabs (Y: 24 to 44)
-      if (screenY >= 24 && screenY <= 44) {
-        int idx = screenX / 80;
-        if (idx >= 0 && idx < STATION_COUNT && idx != currentStation) {
-          currentStation = idx;
-          playBeep(2000, 30);
+        Serial.printf("[TOUCH] Raw X=%d, Y=%d, Z=%d -> Screen (%d, %d)\n", p.x, p.y, p.z, screenX, screenY);
+
+        if (screenY <= 50) {
+          int idx = screenX / 80;
+          if (idx >= 0 && idx < STATION_COUNT) {
+            currentStation = idx;
+            playBeep(2000, 40);
+            drawStationTabs();
+            drawDecodedWeather();
+          }
+        } else {
+          currentStation = (currentStation + 1) % STATION_COUNT;
+          playBeep(1800, 30);
           drawStationTabs();
           drawDecodedWeather();
         }
