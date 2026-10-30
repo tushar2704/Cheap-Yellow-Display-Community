@@ -91,6 +91,8 @@ MASTER_INSTRUCTIONS.md
 # Untested projects are kept private/ignored until individually verified on hardware
 elecrow_projects/*
 !elecrow_projects/README.md
+!elecrow_projects/03-homelab-wol-deck/
+!elecrow_projects/03-homelab-wol-deck/**
 !elecrow_projects/12-metar-weather-decoder/
 !elecrow_projects/12-metar-weather-decoder/**
 elecrow_projects/*/.pio/
