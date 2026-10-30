@@ -1,13 +1,13 @@
 /**
  * @file 04-usb-pc-telemetry-deck.ino
- * @brief USB Serial PC Telemetry & Macro Deck
+ * @brief USB Serial PC Telemetry & Macro Deck (Live Hardware Calibrated)
  * @author Tushar Aggarwal (@tushar2704)
  * @channel IamNotIntoTech (https://youtube.com/@IamNotIntoTech)
  * 
  * Hardware:
  * - Elecrow CrowPanel 2.8" / ESP32-2432S028R
  * - Display: ILI9341 320x240
- * - Touch: XPT2046 Resistive Touch
+ * - Touch: XPT2046 Resistive Touch (SPI: CLK=25, MISO=39, MOSI=32, CS=33)
  * - Communication: CH340 USB Serial @ 115200 baud (JSON protocol)
  * - Audio: GPIO 26 Tone feedback
  * - RGB LED: GPIO 4, 16, 17 [Active LOW]
@@ -18,11 +18,12 @@
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
-#define XPT2046_IRQ   36
+// Accurate CYD 2.8" Resistive Touch SPI Pinout
 #define XPT2046_MOSI  32
 #define XPT2046_MISO  39
 #define XPT2046_CLK   25
 #define XPT2046_CS    33
+#define XPT2046_IRQ   36
 
 #define LED_RED       4
 #define LED_GREEN     16
@@ -30,26 +31,22 @@
 #define LDR_PIN       34
 #define SPEAKER_PIN   26
 
-#define TS_MINX 300
-#define TS_MAXX 3800
-#define TS_MINY 200
-#define TS_MAXY 3700
-
 SPIClass touchSPI(VSPI);
 XPT2046_Touchscreen ts(XPT2046_CS);
 TFT_eSPI tft = TFT_eSPI();
 
-// Telemetry State
-int cpuUsage = 38;
-int gpuUsage = 52;
-int ramUsage = 47;
-int vramUsage = 64;
-int cpuTemp = 48;
-int gpuTemp = 58;
+// Live Telemetry State
+int cpuUsage = 0;
+int gpuUsage = 0;
+int ramUsage = 0;
+int vramUsage = 0;
+int cpuTemp = 0;
+int gpuTemp = 0;
 bool isHostConnected = false;
 unsigned long lastHostPing = 0;
-unsigned long lastSimUpdate = 0;
 unsigned long lastTouchTime = 0;
+unsigned long footerClearTime = 0;
+String serialBuffer = "";
 
 struct MacroTile {
   const char* label;
@@ -77,6 +74,127 @@ void playBeep(int freq, int durationMs) {
   tone(SPEAKER_PIN, freq, durationMs);
 }
 
+void drawBarGauge(int x, int y, int w, int h, int percent, uint16_t color) {
+  tft.drawRect(x, y, w, h, TFT_WHITE);
+  tft.fillRect(x + 1, y + 1, w - 2, h - 2, 0x0000);
+  int fillW = map(percent, 0, 100, 0, w - 2);
+  fillW = constrain(fillW, 0, w - 2);
+  if (fillW > 0) {
+    tft.fillRect(x + 1, y + 1, fillW, h - 2, color);
+  }
+}
+
+void updateFooter(const char* message, uint16_t fg = TFT_WHITE, uint16_t bg = 0x18C3) {
+  tft.fillRect(0, 224, 320, 16, bg);
+  tft.setTextColor(fg, bg);
+  tft.setTextSize(1);
+  tft.setCursor(8, 228);
+  tft.print(message);
+}
+
+void drawTelemetry() {
+  int startY = 44;
+  int barW = 132;
+  int barH = 10;
+
+  // CPU Gauge
+  tft.fillRect(8, startY, 134, 10, 0x0821);
+  tft.setTextColor(TFT_WHITE, 0x0821);
+  tft.setTextSize(1);
+  tft.setCursor(8, startY);
+  if (isHostConnected) {
+    tft.printf("CPU: %2d%%  (%d C)", cpuUsage, cpuTemp);
+  } else {
+    tft.print("CPU: --%  (-- C)");
+  }
+  uint16_t cpuCol = (cpuUsage > 85) ? 0xF800 : (cpuUsage > 60 ? 0xFD20 : 0x07E0);
+  drawBarGauge(8, startY + 12, barW, barH, isHostConnected ? cpuUsage : 0, cpuCol);
+
+  // GPU Gauge
+  tft.fillRect(8, startY + 30, 134, 10, 0x0821);
+  tft.setTextColor(TFT_WHITE, 0x0821);
+  tft.setCursor(8, startY + 30);
+  if (isHostConnected) {
+    tft.printf("GPU: %2d%%  (%d C)", gpuUsage, gpuTemp);
+  } else {
+    tft.print("GPU: --%  (-- C)");
+  }
+  uint16_t gpuCol = (gpuUsage > 85) ? 0xF800 : (gpuUsage > 60 ? 0xFD20 : 0x041F);
+  drawBarGauge(8, startY + 42, barW, barH, isHostConnected ? gpuUsage : 0, gpuCol);
+
+  // RAM Gauge
+  tft.fillRect(8, startY + 60, 134, 10, 0x0821);
+  tft.setTextColor(TFT_WHITE, 0x0821);
+  tft.setCursor(8, startY + 60);
+  if (isHostConnected) {
+    tft.printf("RAM: %2d%%  USED", ramUsage);
+  } else {
+    tft.print("RAM: --%  USED");
+  }
+  drawBarGauge(8, startY + 72, barW, barH, isHostConnected ? ramUsage : 0, 0x780F);
+
+  // VRAM Gauge
+  tft.fillRect(8, startY + 90, 134, 10, 0x0821);
+  tft.setTextColor(TFT_WHITE, 0x0821);
+  tft.setCursor(8, startY + 90);
+  if (isHostConnected) {
+    tft.printf("VRAM: %2d%% USED", vramUsage);
+  } else {
+    tft.print("VRAM: --% USED");
+  }
+  drawBarGauge(8, startY + 102, barW, barH, isHostConnected ? vramUsage : 0, 0x07FF);
+
+  // Host Status Pill
+  int statY = startY + 124;
+  uint16_t pillBg = isHostConnected ? 0x03E0 : 0x8000;
+  tft.fillRoundRect(8, statY, 132, 22, 4, pillBg);
+  tft.drawRoundRect(8, statY, 132, 22, 4, TFT_WHITE);
+  tft.setTextColor(TFT_WHITE, pillBg);
+  tft.setCursor(14, statY + 7);
+  tft.print(isHostConnected ? "USB: LIVE PC DATA" : "USB: RUN BRIDGE.PY");
+
+  // Helper text below pill
+  tft.fillRect(8, statY + 28, 134, 12, 0x0821);
+  tft.setTextColor(isHostConnected ? 0x07E0 : 0xFD20, 0x0821);
+  tft.setCursor(8, statY + 28);
+  tft.print(isHostConnected ? "[Link 115200 Active]" : "[Waiting on COM5...]");
+}
+
+void drawMacroTileState(int i, bool pressed) {
+  int startX = 154;
+  int startY = 38;
+  int tileW = 76;
+  int tileH = 54;
+  int gap = 6;
+
+  int col = i % 2;
+  int row = i / 2;
+  int tx = startX + col * (tileW + gap);
+  int ty = startY + row * (tileH + gap);
+
+  uint16_t bg = pressed ? macros[i].color : 0x0000;
+  uint16_t fg = pressed ? TFT_BLACK : TFT_WHITE;
+  uint16_t border = pressed ? TFT_WHITE : macros[i].color;
+
+  tft.fillRoundRect(tx, ty, tileW, tileH, 5, bg);
+  tft.drawRoundRect(tx, ty, tileW, tileH, 5, border);
+
+  if (!pressed) {
+    tft.fillRoundRect(tx + 2, ty + 2, tileW - 4, 6, 2, macros[i].color);
+  }
+
+  tft.setTextColor(fg, bg);
+  tft.setTextSize(1);
+  tft.setCursor(tx + 8, ty + 24);
+  tft.print(macros[i].label);
+}
+
+void drawMacroTiles() {
+  for (int i = 0; i < MACRO_COUNT; i++) {
+    drawMacroTileState(i, false);
+  }
+}
+
 void drawStaticLayout() {
   tft.fillScreen(0x0821);
 
@@ -95,100 +213,31 @@ void drawStaticLayout() {
   // Left Section Header
   tft.setTextColor(0x07FF, 0x0821);
   tft.setCursor(8, 28);
-  tft.print("HARDWARE SENSORS");
+  tft.print("PC HARDWARE SENSORS");
 
   // Right Section Header
   tft.setTextColor(0xFDC0, 0x0821);
   tft.setCursor(156, 28);
   tft.print("TOUCH MACRO TILES");
 
-  // Footer
-  tft.fillRect(0, 224, 320, 16, 0x18C3);
-  tft.setTextColor(TFT_WHITE, 0x18C3);
-  tft.setCursor(8, 228);
-  tft.print("CH340 Serial 115200 Baud | @IamNotIntoTech");
-}
-
-void drawBarGauge(int x, int y, int w, int h, int percent, uint16_t color) {
-  tft.drawRect(x, y, w, h, TFT_WHITE);
-  tft.fillRect(x + 1, y + 1, w - 2, h - 2, 0x0000);
-  int fillW = map(percent, 0, 100, 0, w - 2);
-  fillW = constrain(fillW, 0, w - 2);
-  tft.fillRect(x + 1, y + 1, fillW, h - 2, color);
-}
-
-void drawTelemetry() {
-  int startY = 44;
-  int barW = 132;
-  int barH = 10;
-
-  // CPU Gauge
-  tft.setTextColor(TFT_WHITE, 0x0821);
-  tft.setTextSize(1);
-  tft.setCursor(8, startY);
-  tft.printf("CPU: %2d%%  (%d C)", cpuUsage, cpuTemp);
-  uint16_t cpuCol = (cpuUsage > 85) ? 0xF800 : (cpuUsage > 60 ? 0xFD20 : 0x07E0);
-  drawBarGauge(8, startY + 12, barW, barH, cpuUsage, cpuCol);
-
-  // GPU Gauge
-  tft.setTextColor(TFT_WHITE, 0x0821);
-  tft.setCursor(8, startY + 30);
-  tft.printf("GPU: %2d%%  (%d C)", gpuUsage, gpuTemp);
-  uint16_t gpuCol = (gpuUsage > 85) ? 0xF800 : (gpuUsage > 60 ? 0xFD20 : 0x041F);
-  drawBarGauge(8, startY + 42, barW, barH, gpuUsage, gpuCol);
-
-  // RAM Gauge
-  tft.setTextColor(TFT_WHITE, 0x0821);
-  tft.setCursor(8, startY + 60);
-  tft.printf("RAM: %2d%%  USED", ramUsage);
-  drawBarGauge(8, startY + 72, barW, barH, ramUsage, 0x780F);
-
-  // VRAM Gauge
-  tft.setTextColor(TFT_WHITE, 0x0821);
-  tft.setCursor(8, startY + 90);
-  tft.printf("VRAM: %2d%% USED", vramUsage);
-  drawBarGauge(8, startY + 102, barW, barH, vramUsage, 0x07FF);
-
-  // Host Status Pill
-  int statY = startY + 124;
-  tft.fillRoundRect(8, statY, 132, 22, 3, isHostConnected ? 0x03E0 : 0x4208);
-  tft.drawRoundRect(8, statY, 132, 22, 3, TFT_WHITE);
-  tft.setTextColor(TFT_WHITE, isHostConnected ? 0x03E0 : 0x4208);
-  tft.setCursor(14, statY + 6);
-  tft.print(isHostConnected ? "USB HOST: ACTIVE" : "USB HOST: SIMULATION");
-}
-
-void drawMacroTiles() {
-  int startX = 154;
-  int startY = 44;
-  int tileW = 76;
-  int tileH = 52;
-  int gap = 6;
-
-  for (int i = 0; i < MACRO_COUNT; i++) {
-    int col = i % 2;
-    int row = i / 2;
-    int tx = startX + col * (tileW + gap);
-    int ty = startY + row * (tileH + gap);
-
-    tft.fillRoundRect(tx, ty, tileW, tileH, 4, 0x0000);
-    tft.drawRoundRect(tx, ty, tileW, tileH, 4, macros[i].color);
-
-    // Accent top bar
-    tft.fillRoundRect(tx + 2, ty + 2, tileW - 4, 6, 2, macros[i].color);
-
-    tft.setTextColor(TFT_WHITE, 0x0000);
-    tft.setTextSize(1);
-    tft.setCursor(tx + 8, ty + 22);
-    tft.print(macros[i].label);
-  }
+  updateFooter("CH340 Serial 115200 Baud | @IamNotIntoTech");
 }
 
 void triggerMacro(int macroIdx) {
+  // 1. Visual press animation on the tile
+  drawMacroTileState(macroIdx, true);
+
+  // 2. Audible & RGB confirmation
   playBeep(2400, 60);
   setRgbLed(false, false, true); // Blue flash
 
-  // Dispatch JSON Action Packet to Host PC over USB Serial
+  // 3. Update footer with loud confirmation
+  char msg[64];
+  snprintf(msg, sizeof(msg), "⚡ [MACRO DISPATCHED] -> %s", macros[macroIdx].label);
+  updateFooter(msg, TFT_BLACK, 0xFDC0);
+  footerClearTime = millis() + 2500;
+
+  // 4. Dispatch JSON Action Packet to Host PC over USB Serial
   StaticJsonDocument<128> doc;
   doc["type"] = "macro_trigger";
   doc["id"] = macros[macroIdx].cmdId;
@@ -198,28 +247,42 @@ void triggerMacro(int macroIdx) {
   serializeJson(doc, Serial);
   Serial.println();
 
-  delay(60);
-  setRgbLed(false, true, false);
+  delay(120);
+
+  // 5. Restore tile state
+  drawMacroTileState(macroIdx, false);
+  setRgbLed(isHostConnected ? false : true, isHostConnected ? true : false, false);
 }
 
 void parseSerialTelemetry() {
   while (Serial.available()) {
-    String line = Serial.readStringUntil('\n');
-    line.trim();
-    if (line.length() > 0 && line.startsWith("{")) {
-      StaticJsonDocument<256> doc;
-      DeserializationError err = deserializeJson(doc, line);
-      if (!err) {
-        if (doc.containsKey("cpu")) cpuUsage = doc["cpu"];
-        if (doc.containsKey("gpu")) gpuUsage = doc["gpu"];
-        if (doc.containsKey("ram")) ramUsage = doc["ram"];
-        if (doc.containsKey("vram")) vramUsage = doc["vram"];
-        if (doc.containsKey("cpuTemp")) cpuTemp = doc["cpuTemp"];
-        if (doc.containsKey("gpuTemp")) gpuTemp = doc["gpuTemp"];
+    char c = Serial.read();
+    if (c == '\n') {
+      serialBuffer.trim();
+      if (serialBuffer.startsWith("{")) {
+        StaticJsonDocument<256> doc;
+        DeserializationError err = deserializeJson(doc, serialBuffer);
+        if (!err) {
+          if (doc.containsKey("cpu")) cpuUsage = doc["cpu"];
+          if (doc.containsKey("gpu")) gpuUsage = doc["gpu"];
+          if (doc.containsKey("ram")) ramUsage = doc["ram"];
+          if (doc.containsKey("vram")) vramUsage = doc["vram"];
+          if (doc.containsKey("cpuTemp")) cpuTemp = doc["cpuTemp"];
+          if (doc.containsKey("gpuTemp")) gpuTemp = doc["gpuTemp"];
 
-        isHostConnected = true;
-        lastHostPing = millis();
-        drawTelemetry();
+          if (!isHostConnected) {
+            isHostConnected = true;
+            playBeep(2000, 50);
+            setRgbLed(false, true, false);
+          }
+          lastHostPing = millis();
+          drawTelemetry();
+        }
+      }
+      serialBuffer = "";
+    } else if (c != '\r') {
+      if (serialBuffer.length() < 256) {
+        serialBuffer += c;
       }
     }
   }
@@ -245,6 +308,7 @@ void setup() {
   tft.setRotation(1);
   tft.fillScreen(TFT_BLACK);
 
+  // Initialize resistive touch on dedicated CYD pins
   touchSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
   ts.begin(touchSPI);
   ts.setRotation(1);
@@ -270,7 +334,7 @@ void setup() {
 
   tft.setTextColor(TFT_DARKGREY, 0x0000);
   tft.setCursor(44, 140);
-  tft.print("CPU/GPU Gauges | 6-Tile Macro Controller");
+  tft.print("Live PC Telemetry | 6 Macro Action Tiles");
 
   playBeep(1500, 80);
   delay(100);
@@ -280,33 +344,29 @@ void setup() {
   drawStaticLayout();
   drawTelemetry();
   drawMacroTiles();
-  setRgbLed(false, true, false);
+  setRgbLed(true, true, false); // Amber = waiting for PC bridge
 }
 
 void loop() {
   parseSerialTelemetry();
 
-  // If no host ping for 5s, revert to simulation mode
-  if (isHostConnected && (millis() - lastHostPing > 5000)) {
+  // Host timeout: 4s of no PC data reverts to standby
+  if (isHostConnected && (millis() - lastHostPing > 4000)) {
     isHostConnected = false;
-  }
-
-  // Fluctuate telemetry gently in demo mode
-  if (!isHostConnected && (millis() - lastSimUpdate > 1500)) {
-    lastSimUpdate = millis();
-    cpuUsage = constrain(cpuUsage + random(-4, 5), 15, 95);
-    gpuUsage = constrain(gpuUsage + random(-6, 7), 20, 98);
-    ramUsage = constrain(ramUsage + random(-2, 3), 30, 85);
-    vramUsage = constrain(vramUsage + random(-3, 4), 40, 90);
-    cpuTemp = map(cpuUsage, 15, 95, 42, 78);
-    gpuTemp = map(gpuUsage, 20, 98, 48, 84);
+    setRgbLed(true, true, false);
     drawTelemetry();
   }
 
-  // Touch handling for 6 Macro Tiles
+  // Clear macro confirmation in footer
+  if (footerClearTime > 0 && millis() > footerClearTime) {
+    footerClearTime = 0;
+    updateFooter(isHostConnected ? "Live PC Stream Active | @IamNotIntoTech" : "Run bridge.py on PC for Live Telemetry | @IamNotIntoTech");
+  }
+
+  // Touch handling
   if (ts.touched()) {
     TS_Point p = ts.getPoint();
-    if (p.z > 200) {
+    if (p.z > 50 || ts.touched()) {
       if (millis() - lastTouchTime > 180) {
         lastTouchTime = millis();
 
@@ -317,28 +377,28 @@ void loop() {
 
         Serial.printf("[TOUCH] Raw X=%d, Y=%d, Z=%d -> Screen (%d, %d)\n", p.x, p.y, p.z, screenX, screenY);
 
-        int startX = 154;
-        int startY = 44;
-        int tileW = 76;
-        int tileH = 52;
-        int gap = 6;
+        // Right side: 6 Macro Tiles (X: 148 to 320, Y: 28 to 220)
+        if (screenX >= 148 && screenY >= 28 && screenY <= 220) {
+          int col = (screenX >= 235) ? 1 : 0;
+          int row = 0;
+          if (screenY >= 155) row = 2;
+          else if (screenY >= 95) row = 1;
+          else row = 0;
 
-        for (int i = 0; i < MACRO_COUNT; i++) {
-          int col = i % 2;
-          int row = i / 2;
-          int tx = startX + col * (tileW + gap);
-          int ty = startY + row * (tileH + gap);
-
-          // Generous hitbox (+/- 4px)
-          if (screenX >= tx - 3 && screenX <= tx + tileW + 3 && screenY >= ty - 3 && screenY <= ty + tileH + 3) {
-            triggerMacro(i);
-            break;
+          int idx = row * 2 + col;
+          if (idx >= 0 && idx < MACRO_COUNT) {
+            triggerMacro(idx);
           }
+        }
+        // Left side: Sensor Gauges tapped
+        else if (screenX < 148 && screenY >= 28 && screenY <= 220) {
+          playBeep(1800, 40);
+          updateFooter("⚡ [TOUCH] HARDWARE SENSORS TAPPED", TFT_YELLOW, 0x0010);
+          footerClearTime = millis() + 2000;
         }
       }
     }
   }
 
-  delay(20);
+  delay(15);
 }
-
