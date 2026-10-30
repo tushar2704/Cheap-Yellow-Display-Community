@@ -46,52 +46,99 @@ def handle_macro(macro_id, label):
     if macro_id == "OPEN_TERM":
         print("    -> Launching New Windows Terminal / PowerShell window...")
         try:
-            # cmd.exe /c start opens a completely independent visible GUI console window
+            # CREATE_NEW_CONSOLE = 0x00000010 ensures a visible interactive console window
             subprocess.Popen(
-                ["cmd.exe", "/c", "start", "powershell.exe", "-NoExit", "-Command", 
-                 "Write-Host '====================================' -ForegroundColor Cyan; "
-                 "Write-Host '🚀 CYD TELEMETRY DECK TERMINAL' -ForegroundColor Green; "
-                 "Write-Host 'Channel: @IamNotIntoTech' -ForegroundColor Yellow; "
-                 "Write-Host '====================================' -ForegroundColor Cyan"]
+                ["powershell.exe", "-NoExit", "-Command", 
+                 "Write-Host '=========================================' -ForegroundColor Cyan; "
+                 "Write-Host '  CYD TELEMETRY & MACRO DECK TERMINAL' -ForegroundColor Green; "
+                 "Write-Host '  Channel: @IamNotIntoTech' -ForegroundColor Yellow; "
+                 "Write-Host '=========================================' -ForegroundColor Cyan; "
+                 "Write-Host ''"],
+                creationflags=0x00000010
             )
-        except Exception as e:
-            print(f"    -> Error launching terminal: {e}")
+        except Exception:
+            try:
+                subprocess.Popen(["cmd.exe", "/c", "start", "powershell.exe"])
+            except Exception as e:
+                print(f"    -> Error launching terminal: {e}")
 
     elif macro_id == "SHOW_DESKTOP":
-        print("    -> 🖥️ Minimizing windows to Show Desktop (Win+D)...")
+        print("    -> Minimizing all windows to Show Desktop (Win+D)...")
+        # Method 1: Shell.Application COM object
+        done = False
         try:
-            subprocess.Popen(
-                ["powershell.exe", "-WindowStyle", "Hidden", "-Command", 
-                 "(New-Object -ComObject Shell.Application).ToggleDesktop()"]
-            )
-        except Exception as e:
-            print(f"    -> Error toggling desktop: {e}")
+            import win32com.client
+            win32com.client.Dispatch("Shell.Application").ToggleDesktop()
+            done = True
+        except Exception:
+            pass
+        # Method 2: Simulate Win+D keypress
+        if not done:
+            try:
+                ctypes.windll.user32.keybd_event(0x5B, 0, 0, 0)       # Win down
+                ctypes.windll.user32.keybd_event(0x44, 0, 0, 0)       # D down
+                ctypes.windll.user32.keybd_event(0x44, 0, 0x0002, 0)  # D up
+                ctypes.windll.user32.keybd_event(0x5B, 0, 0x0002, 0)  # Win up
+            except Exception as e:
+                print(f"    -> Error toggling desktop: {e}")
 
     elif macro_id == "OPEN_YOUTUBE":
-        print("    -> 🔴 Opening @IamNotIntoTech YouTube Channel in default browser...")
+        url = "https://youtube.com/@IamNotIntoTech"
+        print(f"    -> Opening {url} in default browser...")
         try:
-            webbrowser.open("https://youtube.com/@IamNotIntoTech")
-        except Exception as e:
-            print(f"    -> Error opening browser: {e}")
+            os.startfile(url)
+        except Exception:
+            try:
+                subprocess.Popen(f'cmd.exe /c start "" "{url}"', shell=True)
+            except Exception:
+                try:
+                    webbrowser.open(url, new=2)
+                except Exception as e:
+                    print(f"    -> Error opening browser: {e}")
 
     elif macro_id == "OPEN_TASKMGR":
-        print("    -> 📊 Launching Windows Task Manager...")
+        print("    -> Launching Windows Task Manager...")
+        # Method 1: os.startfile (uses ShellExecuteW)
         try:
-            subprocess.Popen(["cmd.exe", "/c", "start", "taskmgr.exe"])
-        except Exception as e:
-            print(f"    -> Error launching Task Manager: {e}")
+            os.startfile("taskmgr.exe")
+        except Exception:
+            try:
+                subprocess.Popen(["cmd.exe", "/c", "start", "", "taskmgr.exe"], shell=True)
+            except Exception:
+                try:
+                    subprocess.Popen(["powershell.exe", "-Command", "Start-Process taskmgr.exe"])
+                except Exception as e:
+                    print(f"    -> Error launching Task Manager: {e}")
 
     elif macro_id == "MUTE_VOL":
-        print("    -> 🔊 Toggling Windows Master Audio Mute...")
+        print("    -> Toggling Windows Master Audio Mute...")
+        # Method 1: Extended keybd_event (Hardware multimedia volume mute)
         try:
-            # VK_VOLUME_MUTE = 0xAD
-            ctypes.windll.user32.keybd_event(0xAD, 0, 0, 0)
-            ctypes.windll.user32.keybd_event(0xAD, 0, 2, 0)
+            VK_VOLUME_MUTE = 0xAD
+            KEYEVENTF_EXTENDEDKEY = 0x0001
+            KEYEVENTF_KEYUP = 0x0002
+            ctypes.windll.user32.keybd_event(VK_VOLUME_MUTE, 0, KEYEVENTF_EXTENDEDKEY, 0)
+            ctypes.windll.user32.keybd_event(VK_VOLUME_MUTE, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0)
+        except Exception:
+            pass
+        # Method 2: WScript.Shell COM object SendKeys
+        try:
+            import win32com.client
+            shell = win32com.client.Dispatch("WScript.Shell")
+            shell.SendKeys(chr(173))
+        except Exception:
+            pass
+        # Method 3: PowerShell SendKeys fallback
+        try:
+            subprocess.Popen(
+                ["powershell.exe", "-NoProfile", "-WindowStyle", "Hidden", "-Command", 
+                 "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"]
+            )
         except Exception as e:
             print(f"    -> Error muting volume: {e}")
 
     elif macro_id == "LOCK_HOST":
-        print("    -> 🔒 Locking Windows Workstation...")
+        print("    -> Locking Windows Workstation...")
         try:
             ctypes.windll.user32.LockWorkStation()
         except Exception as e:

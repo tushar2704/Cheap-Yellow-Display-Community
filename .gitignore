@@ -99,3 +99,4 @@ elecrow_projects/*
 !elecrow_projects/12-metar-weather-decoder/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
+elecrow_projects/*/__pycache__/
