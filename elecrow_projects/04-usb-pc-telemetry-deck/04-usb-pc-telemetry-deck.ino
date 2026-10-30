@@ -371,7 +371,7 @@ void loop() {
         lastTouchTime = millis();
 
         int screenX = map(p.x, 240, 3800, 0, 320);
-        int screenY = map(p.y, 3800, 240, 0, 240);
+        int screenY = map(p.y, 240, 3800, 0, 240);
         screenX = constrain(screenX, 0, 319);
         screenY = constrain(screenY, 0, 239);
 
