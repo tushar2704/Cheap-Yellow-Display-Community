@@ -2,6 +2,7 @@
  * Project 46: Boids Artificial Life & 4D Tesseract Physics Sandbox
  * Board: Elecrow ESP32-2432S028R (2.8" ILI9341 TFT + XPT2046 Resistive Touch)
  * Channel: @IamNotIntoTech (https://youtube.com/@IamNotIntoTech)
+ * Author: Tushar Aggarwal (tushar2704)
  * 
  * Hardware Pinouts:
  *  - ILI9341 TFT SPI: MOSI=13, MISO=12, SCK=14, CS=15, DC=2, BL=21
@@ -13,9 +14,17 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 #include <math.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 #define TFT_BL_PIN    21
 #define TOUCH_MOSI    32
@@ -40,6 +49,7 @@ enum SimulationMode {
     MODE_TESSERACT = 1
 };
 SimulationMode currentMode = MODE_BOIDS;
+bool wifiConnected = false;
 
 // --- Boids Flocking Parameters ---
 #define NUM_BOIDS 42
@@ -151,7 +161,7 @@ void drawUIStatic() {
     
     tft.setTextColor(TFT_WHITE, 0x18C3);
     tft.setTextSize(1);
-    tft.drawString("@IamNotIntoTech", 8, 8, 1);
+    tft.drawString(wifiConnected ? "@IamNotIntoTech | Paris" : "@IamNotIntoTech", 8, 8, 1);
     
     // Mode Switch Button (Top right)
     tft.fillRect(195, 2, 120, 20, 0x032E);
@@ -523,6 +533,15 @@ void setup() {
     ts.begin(touchSPI);
     ts.setRotation(1);
 
+    // Wi-Fi Check
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    unsigned long startWiFi = millis();
+    while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+        delay(100);
+    }
+    wifiConnected = (WiFi.status() == WL_CONNECTED);
+
     initBoids();
     initTesseract();
 
@@ -563,4 +582,3 @@ void loop() {
 
     delay(12);
 }
-

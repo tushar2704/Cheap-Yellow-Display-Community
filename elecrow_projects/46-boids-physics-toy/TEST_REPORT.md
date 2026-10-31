@@ -1,41 +1,50 @@
-# Test Report: Project 46 - Boids Artificial Life & 4D Tesseract Physics Sandbox
+# Test Report: Project 46 - Boids Artificial Life & 4D Tesseract Sandbox
 
-**Channel**: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)  
-**Target Hardware**: Elecrow ESP32-2432S028R (2.8" Resistive Touch ILI9341)  
-**Compilation Tool**: PlatformIO CLI / Core 7.1.3 (Espressif 32 framework-arduinoespressif32)
+## System Information
+- **Target Hardware**: Elecrow CrowPanel 2.8" CYD (ESP32-2432S028R)
+- **Target Channel**: IamNotIntoTech (`@IamNotIntoTech`)
+- **Author**: Tushar Aggarwal (tushar2704)
+- **Station Anchor**: Paris (Eiffel Tower - 48.8584° N, 2.2945° E)
+- **Date**: October 31, 2026
 
----
+## Physics & Simulation Engines
+1. **Boids Artificial Flocking Life**:
+   - 42 autonomous boids computing Craig Reynolds' flocking principles: Separation, Alignment, and Cohesion in real-time.
+   - Dynamic boundary soft-steering avoiding display edges.
+   - Interactive Touch Beacons:
+     - `FOOD (ATTRACT)`: Boids accelerate toward touch target with green beacon indicator.
+     - `HAWK (REPEL)`: Boids flee from touch target like a predator with red beacon indicator.
+     - `SCATTER`: Re-scatters boid positions across workspace.
+2. **4D Hypercube (Tesseract) Mathematical Projection**:
+   - 16 4D vertices undergoing continuous rotational transformations across XW, YZ, and XY hyper-planes.
+   - Dual-stage perspective transformation: 4D to 3D, then 3D to 2D screen coordinates.
+   - 32 projected wireframe edges rendered with multi-color depth shading.
+   - Interactive touch drag dynamically tilts the hyper-rotation angles.
+   - Speed + / - controls and rotational axis jump features.
+   - Real-time hardware FPS performance monitor.
 
-## 1. Build Verification
+## Touch Controller & Coordinate Verification
+- **Touch Controller**: XPT2046 over dedicated VSPI (`MOSI=32`, `MISO=39`, `CLK=25`, `CS=33`)
+- **Calibration Mapping**:
+  - `screenX = map(p.x, 240, 3800, 0, 320)`
+  - `screenY = map(p.y, 240, 3800, 0, 240)` (Non-inverted Y axis)
+- **Interactive Regions**:
+  - Top-Right Switch (`screenX >= 195, screenY <= 24`): Toggles between Boids and 4D Tesseract.
+  - Bottom Bar (`screenY >= 215`): Mode-specific controls.
+  - Simulation Canvas (`24 < screenY < 215`): Touch beacon placement / rotation tilting.
 
-- **Command**: `export PATH="/Users/tushar/Library/Python/3.9/bin:$PATH" && cd elecrow_projects/46-boids-physics-toy && pio run`
-- **Result**: `SUCCESS` (Exit code: 0)
-- **RAM Usage**: 24,048 bytes (7.3% of 327,680 bytes)
-- **Flash Usage**: 305,529 bytes (23.3% of 1,310,720 bytes)
-- **Build Time**: ~4.45 seconds
+## Acoustic & Visual Hardware Feedback
+- **Acoustic Synthesizer (GPIO 26)**:
+  - 1800 Hz food beacon chime, 800 Hz predator alarm, 1200 Hz scatter sound, 2400 Hz mode toggle chirp.
+- **Active-Low RGB LED (GPIOs 4/16/17)**:
+  - Green for Attract Mode, Red for Predator Mode, pulsating Blue/Red during Tesseract rotation.
 
----
+## Wi-Fi & Station Anchor Integration
+- **Connection Mode**: 2.5-second non-blocking station attempt to local AP.
+- **Header Display**: Displays "@IamNotIntoTech | Paris" upon successful connection.
 
-## 2. Hardware Interface & Calibration Verification
-
-| Subsystem | Target Pin / Config | Verification Status | Notes |
-| :--- | :--- | :--- | :--- |
-| **Touch SPI Bus** | VSPI (CLK=25, MISO=39, MOSI=32, CS=33) | **VERIFIED** | Isolated bus; zero collision with ILI9341 HSPI. |
-| **Touch IRQ Mode** | Polled (`XPT2046_Touchscreen ts(33)`) | **VERIFIED** | Avoids hardware interrupt conflict on GPIO 36. |
-| **Coordinate Mapping** | `map(p.x, 240, 3800, 0, 320)`, `map(p.y, 240, 3800, 0, 240)` | **VERIFIED** | Non-inverted landscape coordinates across UI buttons and simulation canvas. |
-| **Audio Synthesizer** | GPIO 26 | **VERIFIED** | Generates beacon spawn, mode switch, and UI click audio. |
-| **RGB LED** | GPIO 4, 16, 17 | **VERIFIED** | Active-low feedback indicating attractor vs predator mode and 4D rotation cycles. |
-| **Physics Simulation** | Floating point vector mathematics | **VERIFIED** | Smooth 60 FPS real-time calculation on ESP32 dual cores. |
-
----
-
-## 3. Functional Test Checklist
-
-- [x] Flocking Boids simulation accurately executes Separation, Alignment, and Cohesion vectors.
-- [x] Touching the canvas drops a food beacon (attractor) or predator beacon (repulsor).
-- [x] Scatter button redistributes boids across screen with randomized velocity.
-- [x] 4D Tesseract rotates along multi-dimensional planes with depth-shaded edge perspective.
-- [x] Speed adjustment and rotational axis jump buttons respond instantaneously.
-- [x] Touch dragging directly alters rotational angular momentum in 4D space.
-- [x] Clean compilation with exit code 0.
-
+## Compilation & Memory Footprint
+- **Platform**: Espressif 32 (v7.0.1) / ESP32 Dev Module
+- **RAM Usage**: 46,100 bytes (14.1% of 327,680 bytes)
+- **Flash Usage**: 795,533 bytes (60.7% of 1,310,720 bytes)
+- **Build Status**: 0 errors, 0 warnings (SUCCESS)
