@@ -145,6 +145,8 @@ elecrow_projects/*
 !elecrow_projects/28-spotify-album-remote/**
 !elecrow_projects/29-f1-pitwall-dashboard/
 !elecrow_projects/29-f1-pitwall-dashboard/**
+!elecrow_projects/30-catppuccin-weather/
+!elecrow_projects/30-catppuccin-weather/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
