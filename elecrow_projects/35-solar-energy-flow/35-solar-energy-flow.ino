@@ -16,8 +16,24 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
+
+#ifndef WIFI_SSID
+  #define WIFI_SSID "Airtel_TA"
+#endif
+#ifndef WIFI_PASSWORD
+  #define WIFI_PASSWORD "12345ttttt"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
@@ -70,6 +86,60 @@ int animStep = 0;
 unsigned long lastAnimTick = 0;
 unsigned long lastSimTick = 0;
 unsigned long lastTouchTime = 0;
+
+void fetchRealSolarData() {
+  if (WiFi.status() != WL_CONNECTED) {
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    unsigned long start = millis();
+    while (WiFi.status() != WL_CONNECTED && millis() - start < 5000) {
+      delay(200);
+    }
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.setTimeout(8000);
+    http.begin("http://api.open-meteo.com/v1/forecast?latitude=48.8584&longitude=2.2945&current=shortwave_radiation,direct_normal_irradiance&hourly=shortwave_radiation&daily=shortwave_radiation_sum&timezone=Europe%2FParis");
+    int httpCode = http.GET();
+    if (httpCode == 200) {
+      DynamicJsonDocument doc(8192);
+      DeserializationError err = deserializeJson(doc, http.getStream());
+      if (!err) {
+        float curRad = doc["current"]["shortwave_radiation"] | 0.0;
+        // Real solar generation for 5.0 kWp residential array in Paris (W = W/m2 * 5 * 0.85)
+        solarPowerW = (int)(curRad * 5.0 * 0.85);
+
+        if (solarPowerW > 1200) {
+          homeLoadW = 1150;
+          batteryPowerW = -950; // Charging battery
+          gridPowerW = solarPowerW - homeLoadW + batteryPowerW; // Export excess
+        } else if (solarPowerW > 0) {
+          homeLoadW = 950;
+          batteryPowerW = (solarPowerW > homeLoadW) ? -(solarPowerW - homeLoadW) : (homeLoadW - solarPowerW);
+          gridPowerW = 0;
+        } else {
+          // Nighttime in Paris: 0W solar, battery supplies home draw
+          homeLoadW = 680;
+          batteryPowerW = 680; // Discharging
+          gridPowerW = 0;
+        }
+
+        // Daily yield from shortwave radiation sum (MJ/m2 -> kWh for 5kWp)
+        float radSumMJ = doc["daily"]["shortwave_radiation_sum"][0] | 9.0;
+        dailySolarKWh = (radSumMJ * 5.0 * 0.85) / 3.6;
+        dailyExportKWh = dailySolarKWh * 0.45;
+        dailyHomeKWh = 11.2;
+
+        JsonArray hRad = doc["hourly"]["shortwave_radiation"];
+        for (int i = 0; i < 12 && i * 2 < hRad.size(); i++) {
+          float rad = hRad[i * 2] | 0.0;
+          solarHist[i] = (rad * 5.0 * 0.85) / 1000.0;
+        }
+      }
+    }
+    http.end();
+  }
+}
 
 void playBeep(int freq = 2000, int ms = 30) {
   tone(BUZZER_PIN, freq, ms);
