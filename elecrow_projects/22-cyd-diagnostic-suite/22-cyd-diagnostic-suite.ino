@@ -21,6 +21,12 @@
 #include <SD.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
 #include <esp_system.h>
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
