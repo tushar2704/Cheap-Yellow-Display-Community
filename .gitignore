@@ -137,6 +137,8 @@ elecrow_projects/*
 !elecrow_projects/24-pocket-rf-ir-tool/**
 !elecrow_projects/25-wifi-deauth-sentinel/
 !elecrow_projects/25-wifi-deauth-sentinel/**
+!elecrow_projects/26-wearable-conf-badge/
+!elecrow_projects/26-wearable-conf-badge/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
