@@ -17,8 +17,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
@@ -46,6 +54,7 @@ TFT_eSPI tft = TFT_eSPI();
 #define COLOR_RED       0xF800
 #define COLOR_GOLD      0xFEA0
 #define COLOR_BLUE      0x2CDF
+#define COLOR_GREEN     0x07E0
 
 // 16x16 Dungeon Map
 #define MAP_W 16
@@ -77,9 +86,11 @@ float planeX = 0.0f, planeY = 0.66f;
 int playerHealth = 100;
 int playerArmor = 50;
 int playerAmmo = 36;
+bool wifiConnected = false;
 
 // Weapon Animation
 int muzzleFlashTimer = 0;
+bool needsRedraw = true;
 
 // Raycaster Resolution: 80 columns x 4 pixels width = 320 screen width
 #define NUM_RAYS 80
@@ -137,7 +148,7 @@ void renderRaycastFrame() {
 
     int stepX, stepY;
     int hit = 0;
-    int side;
+    int side = 0;
 
     if (rayDirX < 0) {
       stepX = -1;
@@ -204,7 +215,6 @@ void drawHUD() {
   tft.drawFastHLine(0, 190, 320, COLOR_HUD_BRD);
 
   tft.setTextColor(COLOR_RED, COLOR_HUD_BG);
-  tft.setTextSize(1);
   tft.drawString("HEALTH", 10, 194, 1);
   char hpBuf[8];
   snprintf(hpBuf, sizeof(hpBuf), "%d%%", playerHealth);
@@ -222,9 +232,9 @@ void drawHUD() {
   snprintf(ammoBuf, sizeof(ammoBuf), "%d", playerAmmo);
   tft.drawString(ammoBuf, 135, 206, 4);
 
-  // Channel Watermark
-  tft.setTextColor(tft.color565(60, 75, 95), COLOR_HUD_BG);
-  tft.drawString("IamNotIntoTech", 10, 230, 1);
+  // Channel & Location Watermark
+  tft.setTextColor(wifiConnected ? COLOR_GREEN : tft.color565(80, 100, 120), COLOR_HUD_BG);
+  tft.drawString(wifiConnected ? "PARIS NET | IamNotIntoTech" : "IamNotIntoTech", 10, 230, 1);
 
   // Virtual Touch D-Pad Indicator (Right Side)
   tft.fillRoundRect(195, 194, 26, 20, 3, tft.color565(35, 45, 60));
@@ -265,6 +275,7 @@ void fireShotgun() {
   setRGB(false, false, false);
 
   drawHUD();
+  needsRedraw = true;
 }
 
 void movePlayer(float moveSpeed, float rotSpeed) {
@@ -273,6 +284,7 @@ void movePlayer(float moveSpeed, float rotSpeed) {
     float newY = posY + dirY * moveSpeed;
     if (worldMap[(int)posY][(int)newX] == 0) posX = newX;
     if (worldMap[(int)newY][(int)posX] == 0) posY = newY;
+    needsRedraw = true;
   }
 
   if (rotSpeed != 0) {
@@ -282,6 +294,7 @@ void movePlayer(float moveSpeed, float rotSpeed) {
     float oldPlaneX = planeX;
     planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
     planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
+    needsRedraw = true;
   }
 }
 
@@ -307,6 +320,15 @@ void setup() {
   touchSPI.begin(TOUCH_CLK, TOUCH_MISO, TOUCH_MOSI, TOUCH_CS);
   ts.begin(touchSPI);
   ts.setRotation(1);
+
+  // Wi-Fi Check
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  unsigned long startWiFi = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+    delay(100);
+  }
+  wifiConnected = (WiFi.status() == WL_CONNECTED);
 
   renderRaycastFrame();
   drawHUD();
@@ -349,10 +371,15 @@ void loop() {
     }
   }
 
-  if (muzzleFlashTimer > 0) muzzleFlashTimer--;
+  if (muzzleFlashTimer > 0) {
+    muzzleFlashTimer--;
+    needsRedraw = true;
+  }
 
-  renderRaycastFrame();
+  if (needsRedraw) {
+    renderRaycastFrame();
+    needsRedraw = false;
+  }
 
-  delay(15);
+  delay(20);
 }
-
