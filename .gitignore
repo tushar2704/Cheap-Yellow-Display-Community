@@ -113,6 +113,8 @@ elecrow_projects/*
 !elecrow_projects/12-metar-weather-decoder/**
 !elecrow_projects/13-hamclock-mini/
 !elecrow_projects/13-hamclock-mini/**
+!elecrow_projects/14-vector-flight-tracker/
+!elecrow_projects/14-vector-flight-tracker/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
