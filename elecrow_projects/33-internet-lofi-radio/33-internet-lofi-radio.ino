@@ -20,6 +20,19 @@
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
+
+#ifndef WIFI_SSID
+  #define WIFI_SSID "Airtel_TA"
+#endif
+#ifndef WIFI_PASSWORD
+  #define WIFI_PASSWORD "12345ttttt"
+#endif
+
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
 #define TOUCH_MOSI    32
@@ -50,19 +63,20 @@ TFT_eSPI tft = TFT_eSPI();
 #define COLOR_YELLOW    0xFFE0
 #define COLOR_RED       0xF800
 
-// Radio Stations
+// Real Live Streaming Radio Stations
 struct RadioStation {
   const char* name;
   const char* genre;
   const char* bitrate;
+  const char* streamUrl;
 };
 
 #define NUM_STATIONS 4
 RadioStation stations[NUM_STATIONS] = {
-  { "ChilledCow Lofi Beats",  "Chillhop / Study",   "192 kbps" },
-  { "Synthwave Radio 80s",    "Retrowave / Synth",  "320 kbps" },
-  { "Deep Focus Ambient",     "Drone / Meditation", "128 kbps" },
-  { "Cyberpunk Electro Hub",  "Darksynth / Glitch", "256 kbps" }
+  { "FIP Radio Paris",        "Eclectic / Jazz / Groove", "128 kbps", "http://icecast.radiofrance.fr/fip-midfi.mp3" },
+  { "Radio Nova Paris",       "Indie / HipHop / World",   "128 kbps", "http://radionova.ice.infomaniak.ch/radionova-128.mp3" },
+  { "ChilledCow Lofi Beats",  "Chillhop / Study Beats",   "192 kbps", "http://stream.zeno.fm/f3wvbbqmdg8uv" },
+  { "SomaFM Groove Salad",    "Downtempo / Ambient",      "128 kbps", "http://ice1.somafm.com/groovesalad-128-mp3" }
 };
 
 int currentStation = 0;
@@ -99,7 +113,11 @@ void drawHeader() {
   tft.drawCentreString("LO-FI RADIO", 160, 5, 2);
 
   tft.setTextColor(isPlaying ? COLOR_GREEN : COLOR_MUTED, COLOR_PANEL);
-  tft.drawRightString(isPlaying ? "LIVE" : "PAUSED", 312, 5, 2);
+  if (WiFi.status() == WL_CONNECTED) {
+    tft.drawRightString(isPlaying ? "PARIS LIVE ●" : "PAUSED", 312, 5, 2);
+  } else {
+    tft.drawRightString(isPlaying ? "OFFLINE" : "PAUSED", 312, 5, 2);
+  }
 }
 
 void drawStationInfo() {

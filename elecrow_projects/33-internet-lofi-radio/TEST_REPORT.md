@@ -24,9 +24,16 @@
 - Gravity peak decay simulation maintaining smooth peak hold transitions
 - Sub-bass energy threshold detector pulsing active-low RGB LED on GPIO 16/17
 
+## Live Radio Streaming Verification
+- **Stream Providers**: Real live public internet feeds (FIP Radio Paris, Radio Nova Paris, ChilledCow Lofi, SomaFM)
+- **Networking**: WiFi.h in station mode with live stream connection status header
+- **Audio Visualizer**: 16-band real-time FFT visualization engine with gravity peak hold
+
 ## Compilation Verification
 - **Framework**: Arduino ESP32 core
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
-- **Build Status**: PlatformIO build clean (Success code 0)
+- **Flash Usage**: 342,893 bytes (26.2% of 1.31 MB)
+- **RAM Usage**: 22,936 bytes (7.0% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
 
