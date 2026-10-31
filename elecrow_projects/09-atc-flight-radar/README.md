@@ -30,7 +30,8 @@
 |---|---|---|
 | **GPIO 13, 12, 14, 15, 2** | ILI9341 Display SPI | MOSI, MISO, SCK, CS, DC |
 | **GPIO 21** | Backlight Control | Active HIGH |
-| **GPIO 33, 36, 25, 39, 32** | XPT2046 Touch SPI | CS, IRQ, CLK, MISO, MOSI (Hardware Calibrated) |
+| **GPIO 33, 25, 39, 32** | XPT2046 Touch SPI | CS, CLK, MISO, MOSI (Dedicated VSPI, Polling Mode) |
+| **Touch Calibration** | Resistive Matrix | Non-inverted Y: map(p.y, 240, 3800, 0, 240) |
 | **GPIO 4, 16, 17** | RGB LED | Red, Green, Blue (Active LOW) |
 | **GPIO 26** | Audio / Buzzer | Frequency tone generation |
 | **Wi-Fi** | ADS-B Telemetry | 802.11 REST Client |
