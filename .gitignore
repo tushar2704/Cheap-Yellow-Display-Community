@@ -115,6 +115,8 @@ elecrow_projects/*
 !elecrow_projects/13-hamclock-mini/**
 !elecrow_projects/14-vector-flight-tracker/
 !elecrow_projects/14-vector-flight-tracker/**
+!elecrow_projects/15-gps-stratum-clock/
+!elecrow_projects/15-gps-stratum-clock/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
