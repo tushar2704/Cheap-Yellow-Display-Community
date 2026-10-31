@@ -165,6 +165,8 @@ elecrow_projects/*
 !elecrow_projects/38-simracing-telemetry/**
 !elecrow_projects/39-pocket-arcade-deluxe/
 !elecrow_projects/39-pocket-arcade-deluxe/**
+!elecrow_projects/40-freedoom-touch/
+!elecrow_projects/40-freedoom-touch/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
