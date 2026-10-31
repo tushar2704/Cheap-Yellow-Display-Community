@@ -119,6 +119,8 @@ elecrow_projects/*
 !elecrow_projects/15-gps-stratum-clock/**
 !elecrow_projects/16-coastal-tide-chart/
 !elecrow_projects/16-coastal-tide-chart/**
+!elecrow_projects/17-offline-osm-navigator/
+!elecrow_projects/17-offline-osm-navigator/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
