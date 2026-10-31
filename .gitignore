@@ -125,6 +125,8 @@ elecrow_projects/*
 !elecrow_projects/18-espnow-marine-repeater/**
 !elecrow_projects/19-wifi-channel-auditor/
 !elecrow_projects/19-wifi-channel-auditor/**
+!elecrow_projects/20-privacy-shield-detector/
+!elecrow_projects/20-privacy-shield-detector/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
