@@ -27,5 +27,8 @@
 - **Framework**: Arduino ESP32 core
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
-- **Build Status**: PlatformIO build clean (Success code 0)
+- **Networking**: WiFi.h
+- **Flash Usage**: 336,953 bytes (25.7% of 1.31 MB)
+- **RAM Usage**: 22,612 bytes (6.9% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
 

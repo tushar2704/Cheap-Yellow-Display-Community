@@ -20,6 +20,19 @@
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
+
+#ifndef WIFI_SSID
+  #define WIFI_SSID "Airtel_TA"
+#endif
+#ifndef WIFI_PASSWORD
+  #define WIFI_PASSWORD "12345ttttt"
+#endif
+
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
 #define TOUCH_MOSI    32
@@ -95,7 +108,11 @@ void drawHeader() {
   // Status Badge
   tft.setTextColor(COLOR_MUTED, COLOR_TOOLBAR);
   char statusBuf[32];
-  snprintf(statusBuf, sizeof(statusBuf), "%d PTS", strokePointsCount);
+  if (WiFi.status() == WL_CONNECTED) {
+    snprintf(statusBuf, sizeof(statusBuf), "NET OK | %d PTS", strokePointsCount);
+  } else {
+    snprintf(statusBuf, sizeof(statusBuf), "%d PTS", strokePointsCount);
+  }
   tft.drawRightString(statusBuf, 312, 6, 1);
 }
 
