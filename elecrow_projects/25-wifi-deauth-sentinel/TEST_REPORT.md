@@ -1,0 +1,31 @@
+# Test Report: Project 25 - Wi-Fi Deauth Defense Sentinel
+
+## System Information
+- **Target Hardware**: Elecrow CrowPanel 2.8" CYD (ESP32-2432S028R)
+- **Target Channel**: IamNotIntoTech (`@IamNotIntoTech`)
+- **Author**: Tushar Aggarwal (tushar2704)
+- **Date**: October 31, 2026
+
+## Touch Controller & Coordinate Verification
+- **Touch Controller**: XPT2046 over dedicated VSPI (`MOSI=32`, `MISO=39`, `CLK=25`, `CS=33`)
+- **Calibration Mapping**:
+  - `screenX = map(p.x, 240, 3800, 0, 320)`
+  - `screenY = map(p.y, 240, 3800, 0, 240)` (Non-inverted Y axis)
+- **Debounce Threshold**: 180 ms minimum lockout with pressure detection `p.z > 50`
+- **Bottom Touch Buttons (screenY >= 195)**:
+  - `HOP 1-13 / LOCK CH`: `screenX < 105`
+  - `MUTED / SIREN ON`: `screenX = 110..209`
+  - `CLEAR LOGS`: `screenX >= 215`
+
+## Promiscuous 802.11 Sniffer Verification
+- **Filter**: `WIFI_PROMIS_FILTER_MASK_MGMT`
+- **Subtype Targets**:
+  - Subtype 12 (0x0C): Deauthentication Frame
+  - Subtype 10 (0x0A): Disassociation Frame
+- **Dwell Time**: 300 ms per channel in frequency hopping mode
+
+## Compilation Verification
+- **Framework**: Arduino ESP32 core
+- **Display Driver**: TFT_eSPI (ILI9341_2)
+- **Touch Driver**: XPT2046_Touchscreen (polling mode)
+- **Wi-Fi**: WiFi.h + esp_wifi.h
