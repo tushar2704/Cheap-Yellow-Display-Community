@@ -1,6 +1,7 @@
 /*
  * Elecrow 2.8" CYD — Procedural Emotive Robot Eyes
  * Channel: @IamNotIntoTech (https://youtube.com/@IamNotIntoTech)
+ * Author: Tushar Aggarwal (tushar2704)
  * 
  * Hardware: Elecrow ESP32-2432S028R (2.8" ILI9341 TFT + XPT2046 Resistive Touch)
  * Features:
@@ -14,8 +15,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN   21
@@ -61,6 +70,7 @@ enum RobotMood {
   MOOD_SLEEP
 };
 RobotMood currentMood = MOOD_CALM;
+bool wifiConnected = false;
 
 // Eye Geometry (Dual Eyes in 320x240 landscape)
 #define LEFT_EYE_X   96
@@ -158,7 +168,7 @@ void drawHeader() {
   tft.drawFastHLine(0, 22, 320, COLOR_BORDER);
   tft.setTextColor(COLOR_TEXT, COLOR_HEADER_BG);
   tft.setTextSize(1);
-  tft.drawString("@IamNotIntoTech", 8, 7);
+  tft.drawString(wifiConnected ? "@IamNotIntoTech | Paris" : "@IamNotIntoTech", 8, 7);
 
   char moodBuf[32];
   snprintf(moodBuf, sizeof(moodBuf), "MOOD: %s", getMoodName());
@@ -272,6 +282,15 @@ void setup() {
   ts.begin(touchSPI);
   ts.setRotation(1);
 
+  // Wi-Fi Check
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  unsigned long startWiFi = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+    delay(100);
+  }
+  wifiConnected = (WiFi.status() == WL_CONNECTED);
+
   drawHeader();
   renderEyes();
   drawMoodToolbar();
@@ -358,4 +377,3 @@ void loop() {
 
   delay(16); // ~60 FPS update cycle
 }
-
