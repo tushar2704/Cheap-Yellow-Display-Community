@@ -171,6 +171,8 @@ elecrow_projects/*
 !elecrow_projects/41-minimax-ai-gomoku/**
 !elecrow_projects/42-tamagotchi-pomodoro/
 !elecrow_projects/42-tamagotchi-pomodoro/**
+!elecrow_projects/43-emotive-robot-eyes/
+!elecrow_projects/43-emotive-robot-eyes/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
