@@ -22,6 +22,28 @@
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
+
+#ifndef WIFI_SSID
+  #define WIFI_SSID "Airtel_TA"
+#endif
+#ifndef WIFI_PASSWORD
+  #define WIFI_PASSWORD "12345ttttt"
+#endif
+#ifndef MQTT_BROKER
+  #define MQTT_BROKER "broker.hivemq.com"
+#endif
+#ifndef MQTT_PORT
+  #define MQTT_PORT 1883
+#endif
+#ifndef MQTT_TOPIC_BASE
+  #define MQTT_TOPIC_BASE "cyd/switchplate"
+#endif
+
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
 #define TOUCH_MOSI    32
@@ -73,6 +95,23 @@ int activeScene = 0; // 0: None, 1: Focus, 2: Movie, 3: Relax, 4: All Off
 
 unsigned long lastTouchTime = 0;
 
+void publishState() {
+  if (WiFi.status() == WL_CONNECTED && mqttClient.connected()) {
+    StaticJsonDocument<256> doc;
+    doc["light1"] = light1;
+    doc["light2"] = light2;
+    doc["light3"] = light3;
+    doc["brightness"] = brightness;
+    doc["targetTemp"] = targetTemp;
+    doc["hvacMode"] = (int)hvacMode;
+    doc["scene"] = activeScene;
+
+    char buffer[256];
+    serializeJson(doc, buffer);
+    mqttClient.publish(MQTT_TOPIC_BASE "/state", buffer);
+  }
+}
+
 void playBeep(int freq = 2000, int ms = 30) {
   tone(BUZZER_PIN, freq, ms);
 }
@@ -103,7 +142,15 @@ void drawHeader() {
   tft.drawCentreString("SMART SWITCH PLATE", 180, 6, 2);
 
   // Status Indicator
-  tft.fillCircle(305, 13, 4, COLOR_GREEN);
+  if (WiFi.status() == WL_CONNECTED) {
+    tft.fillCircle(305, 13, 4, COLOR_GREEN);
+    tft.setTextColor(COLOR_GREEN, COLOR_NAV);
+    tft.drawRightString("NET OK", 295, 6, 1);
+  } else {
+    tft.fillCircle(305, 13, 4, COLOR_ACCENT);
+    tft.setTextColor(COLOR_ACCENT, COLOR_NAV);
+    tft.drawRightString("OFFLINE", 295, 6, 1);
+  }
 }
 
 void drawBottomNav() {
@@ -302,11 +349,16 @@ void setup() {
   ts.begin(touchSPI);
   ts.setRotation(1);
 
+  // Initialize Wi-Fi connection
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  mqttClient.setServer(MQTT_BROKER, MQTT_PORT);
+
   drawHeader();
   renderCurrentPage();
 
   playBeep(2200, 60);
-  Serial.println(F("[SYSTEM] Smart Home Switch Plate initialized."));
+  Serial.println(F("[SYSTEM] Smart Home Switch Plate initialized with MQTT readiness."));
 }
 
 void loop() {
@@ -399,6 +451,21 @@ void loop() {
           drawScenesPage();
         }
       }
+    }
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    if (!mqttClient.connected()) {
+      static unsigned long lastMqttTry = 0;
+      if (millis() - lastMqttTry > 10000) {
+        lastMqttTry = millis();
+        String clientId = "CYD-SwitchPlate-" + String((uint32_t)ESP.getEfuseMac(), HEX);
+        if (mqttClient.connect(clientId.c_str())) {
+          publishState();
+        }
+      }
+    } else {
+      mqttClient.loop();
     }
   }
 

@@ -26,9 +26,17 @@
 - **Scene Cards (Page 2)**:
   - 4 quadrants for Focus, Movie, Relax, All Off triggers
 
+## Network & MQTT Automation Verification
+- **Networking**: WiFi.h + PubSubClient + ArduinoJson
+- **Broker**: Configurable MQTT broker with automatic auto-reconnect
+- **State Publishing**: JSON payload published on state transitions to cyd/switchplate/state
+- **Wi-Fi Telemetry Tag**: Displays live network status dot in header bar
+
 ## Compilation Verification
 - **Framework**: Arduino ESP32 core
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
-- **Build Status**: PlatformIO build clean (Success code 0)
+- **Flash Usage**: 817,337 bytes (62.4% of 1.31 MB)
+- **RAM Usage**: 45,924 bytes (14.0% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
 
