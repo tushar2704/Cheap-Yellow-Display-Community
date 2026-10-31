@@ -105,6 +105,8 @@ elecrow_projects/*
 !elecrow_projects/08-klipper-command-deck/**
 !elecrow_projects/09-atc-flight-radar/
 !elecrow_projects/09-atc-flight-radar/**
+!elecrow_projects/10-sky-spotter-station/
+!elecrow_projects/10-sky-spotter-station/**
 !elecrow_projects/12-metar-weather-decoder/
 !elecrow_projects/12-metar-weather-decoder/**
 elecrow_projects/*/.pio/
