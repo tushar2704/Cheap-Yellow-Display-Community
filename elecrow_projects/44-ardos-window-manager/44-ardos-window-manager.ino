@@ -1,6 +1,7 @@
 /*
  * Elecrow 2.8" CYD — ArdOS Retro Window Manager
  * Channel: @IamNotIntoTech (https://youtube.com/@IamNotIntoTech)
+ * Author: Tushar Aggarwal (tushar2704)
  * 
  * Target Hardware: ESP32-2432S028R (2.8" ILI9341 TFT + XPT2046 Resistive Touch)
  * Features:
@@ -17,8 +18,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN   21
@@ -69,6 +78,8 @@ Window windows[NUM_APPS] = {
 int activeApp = APP_CALCULATOR;
 bool startMenuOpen = false;
 unsigned long lastTouchTime = 0;
+bool wifiConnected = false;
+unsigned long lastClockUpdate = 0;
 
 // Calculator State
 double calcAccum = 0;
@@ -201,10 +212,20 @@ void drawTaskbar() {
     }
   }
 
-  // System Tray on Right: x: 260, w: 57
-  draw3DBevelRect(260, 218, 57, 20, true);
+  // System Tray on Right: x: 248, w: 69
+  draw3DBevelRect(248, 218, 69, 20, true);
   tft.setTextColor(COLOR_BLACK, COLOR_WIN_BG);
-  tft.drawString("CYD 2.8", 265, 222, 1);
+
+  char timeStr[12];
+  if (wifiConnected) {
+    time_t now = time(nullptr);
+    struct tm* t = localtime(&now);
+    snprintf(timeStr, sizeof(timeStr), "%02d:%02d", t->tm_hour, t->tm_min);
+  } else {
+    unsigned long secs = millis() / 1000;
+    snprintf(timeStr, sizeof(timeStr), "%02lu:%02lu", (secs / 60) % 24, secs % 60);
+  }
+  tft.drawCentreString(timeStr, 282, 222, 1);
 
   if (startMenuOpen) {
     drawStartMenuPopup();
@@ -236,12 +257,18 @@ void renderNotepadApp(Window& win) {
 
   tft.setTextColor(COLOR_BLACK, COLOR_WHITE);
   tft.setTextSize(1);
-  tft.drawString("ArdOS v1.0 [Ready]", win.x + 8, win.y + 28, 1);
-  tft.drawString("Platform: Elecrow CYD 2.8", win.x + 8, win.y + 42, 1);
-  tft.drawString("Branding: @IamNotIntoTech", win.x + 8, win.y + 56, 1);
-  tft.drawString("SRAM: 320KB Dual-Core", win.x + 8, win.y + 70, 1);
-  tft.drawString("Touch: VSPI Polled XPT2046", win.x + 8, win.y + 84, 1);
-  tft.drawString("System Status: OK", win.x + 8, win.y + 98, 1);
+  tft.drawString("ArdOS v1.0 [Ready]", win.x + 8, win.y + 26, 1);
+  tft.drawString("Platform: Elecrow CYD 2.8", win.x + 8, win.y + 38, 1);
+  tft.drawString("Channel: @IamNotIntoTech", win.x + 8, win.y + 50, 1);
+  tft.drawString("Anchor: Paris (Eiffel Tower)", win.x + 8, win.y + 62, 1);
+
+  char wifiBuf[32];
+  snprintf(wifiBuf, sizeof(wifiBuf), "Net: %s", wifiConnected ? "Online (Paris NTP)" : "Offline Standalone");
+  tft.drawString(wifiBuf, win.x + 8, win.y + 74, 1);
+
+  tft.drawString("SRAM: 320KB Dual-Core", win.x + 8, win.y + 86, 1);
+  tft.drawString("Touch: VSPI Polled XPT2046", win.x + 8, win.y + 98, 1);
+  tft.drawString("System Status: OK", win.x + 8, win.y + 110, 1);
 }
 
 void renderCalculatorApp(Window& win) {
@@ -449,6 +476,18 @@ void setup() {
   ts.begin(touchSPI);
   ts.setRotation(1);
 
+  // Wi-Fi Check
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  unsigned long startWiFi = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+    delay(100);
+  }
+  wifiConnected = (WiFi.status() == WL_CONNECTED);
+  if (wifiConnected) {
+    configTime(3600, 3600, "pool.ntp.org", "time.google.com");
+  }
+
   initMinesweeper();
   renderAllWindows();
 
@@ -459,6 +498,12 @@ void setup() {
 }
 
 void loop() {
+  // Update Taskbar clock periodically
+  if (millis() - lastClockUpdate > 10000) {
+    lastClockUpdate = millis();
+    drawTaskbar();
+  }
+
   if (ts.touched()) {
     TS_Point p = ts.getPoint();
     if (p.z > 50 || ts.touched()) {
@@ -587,4 +632,3 @@ void loop() {
 
   delay(15);
 }
-
