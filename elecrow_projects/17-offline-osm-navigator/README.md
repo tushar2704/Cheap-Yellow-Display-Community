@@ -1,27 +1,76 @@
-# Project 17: Offline OSM Trail Navigator & Topo Deck
+# 🗺️ Project 17: Offline OSM Trail Navigator & Topo Deck
 
-An offline handheld topographic navigation unit and trail waypointer built for the **Elecrow 2.8" CYD (ESP32-2432S028R)** touch display, developed exclusively for **IamNotIntoTech** (`@IamNotIntoTech`).
+> **Elecrow 2.8" CYD Series**  
+> **Channel**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
+> **Hardware**: Elecrow CrowPanel 2.8" / ESP32-2432S028R  
+> **Location Anchor**: **Paris Eiffel Tower Sector (JN18eu)**
 
-## Overview
-Designed for zero-connectivity hiking and expedition navigation, this handheld system renders procedural and SD-backed topographic maps with vector elevation contours, water boundaries, and winding hiking trails. Large, high-target glove controls on the right bezel provide intuitive zoom and pan commands, alongside single-tap waypoint drop flags.
+---
 
-## Hardware Specifications
-- **Display**: 2.8" ILI9341 320x240 SPI TFT with resistive touch (XPT2046)
-- **Host Controller**: ESP32-WROOM-32 (Dual Core 240MHz, 520KB SRAM)
-- **Touch Pins**: `TOUCH_MOSI=32`, `TOUCH_MISO=39`, `TOUCH_CLK=25`, `TOUCH_CS=33`
-- **MicroSD Interface (HSPI)**: `SD_CS=5`, `SD_MOSI=23`, `SD_MISO=19`, `SD_SCK=18`
-- **RGB Status LED**: Active-low multi-color indicator on GPIOs 4 (Red), 16 (Green), 17 (Blue)
-- **Buzzer**: Piezo buzzer on GPIO 26 for waypoint and pan/zoom tactile chimes
+## 🚀 Key Features
 
-## Features
-- **Offline Vector Topo Engine**: Procedural contour line generator simulating topographic elevation curves, dynamic river channels, and dashed trail pathways.
-- **MicroSD Card Auto-Detection**: Probes the onboard TF slot over HSPI for tile sets; falls back seamlessly to internal memory vector mode when no card is present.
-- **Glove-Optimized Controls**: High-contrast, large-target touch controls on the right margin for Zoom In (+), Pan Up (▲), Pan Down (▼), Zoom Out (-), and Waypoint Pin (WP).
-- **Interactive Waypoint Engine**: Tap anywhere on the active map canvas to center pan, or press WP to mark points of interest (campsite, summits).
-- **Trip Telemetry**: Live readout of Latitude, Longitude, Altitude MSL, Trip Distance (km), and compass heading.
+1. **Offline Paris Topographic Vector Map**:
+   - Centered on Paris Eiffel Tower coordinates (`48.8584° N, 2.2945° E, Alt: 36m MSL`).
+   - Procedural vector topographic map renderer depicting the Seine River waterway, elevation contours, and Champ de Mars / Pont d'Iéna pedestrian trails.
+   - User beacon marker with red forward compass heading vector needle.
 
-## Calibration Standard
-- Hardware-verified non-inverted Y coordinate mapping `map(p.y, 240, 3800, 0, 240)`
-- Hardware-isolated SPI bus routing preventing ILI9341 bus contention
-- Touch polling mode bypassing hardware IRQ lockups
+2. **Glove-Optimized Touch Navigation**:
+   - Right sidebar high-target touch buttons:
+     - `+` : Zoom In (up to Level 18)
+     - `▲` : Pan North / Up
+     - `▼` : Pan South / Down
+     - `-` : Zoom Out (down to Level 10)
+     - `WP` : Drop interactive GPS Waypoint
+   - Direct canvas touch: tap anywhere on the map to smoothly pan toward the touched coordinate with acoustic feedback.
 
+3. **Storage & Multi-Bus Architecture**:
+   - Dual-SPI bus architecture:
+     - Display on HSPI (`MOSI: 13, MISO: 12, SCLK: 14, CS: 15, DC: 2`)
+     - Touch Controller on VSPI (`MOSI: 32, MISO: 39, CLK: 25, CS: 33`)
+     - MicroSD on HSPI (`CS: 5, MOSI: 23, MISO: 19, SCK: 18`)
+   - MicroSD Auto-Detection with seamless fallback to internal vector storage.
+
+4. **Hardware Indicators**:
+   - Active-Low RGB LED: Green (SD Active), Yellow (Internal vector memory mode), Amber flash (Waypoint registered).
+   - Audio buzzer feedback on GPIO 26.
+
+---
+
+## 🔌 Hardware Pin Mapping
+
+| Pin | Function | Notes |
+|---|---|---|
+| **GPIO 13, 12, 14, 15, 2** | ILI9341 Display SPI | MOSI, MISO, SCK, CS, DC (HSPI) |
+| **GPIO 21** | Backlight Control | Active HIGH |
+| **GPIO 33, 25, 39, 32** | XPT2046 Touch SPI | CS, CLK, MISO, MOSI (Dedicated VSPI, Polling mode) |
+| **GPIO 5, 23, 19, 18** | MicroSD Slot SPI | CS, MOSI, MISO, SCK (HSPI) |
+| **GPIO 4, 16, 17** | RGB LED | Red, Green, Blue (Active LOW) |
+| **GPIO 26** | Audio / Buzzer | Frequency tone generation |
+
+---
+
+## ⚙️ Configuration (`secrets.h`)
+
+Create a local `secrets.h` file (git-ignored for security):
+
+```cpp
+#pragma once
+
+#define WIFI_SSID     "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+
+// Station Reference Coordinates (Paris Eiffel Tower)
+#define STATION_LAT   48.8584
+#define STATION_LON   2.2945
+#define STATION_ALT   36
+```
+
+---
+
+## 🛠️ How to Compile & Flash
+
+Using PlatformIO CLI:
+```bash
+cd elecrow_projects/17-offline-osm-navigator
+pio run -t upload --upload-port COM5
+```
