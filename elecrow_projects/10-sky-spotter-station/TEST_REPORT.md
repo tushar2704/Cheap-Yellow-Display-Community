@@ -13,7 +13,7 @@
 |---|---|---|---|
 | **Display Panel** | ILI9341 SPI (13, 12, 14, 15, 2) | PASS | 320x240 flight board & 3D spotter compass |
 | **Backlight** | GPIO 21 | PASS | Active HIGH full brightness |
-| **Resistive Touch** | SPI (MOSI: 32, MISO: 39, CLK: 25, CS: 33) | PASS | Non-inverted landscape Y mapping (240..3800 -> 0..240) |
+| **Resistive Touch** | SPI (MOSI: 32, MISO: 39, CLK: 25, CS: 33) | PASS | Calibrated VSPI polling & non-inverted Y coordinate mapping (240..3800 -> 0..240) |
 | **Audio Feedback** | GPIO 26 | PASS | Tab switch chirps & target lock tone |
 | **RGB LED** | GPIO 4, 16, 17 | PASS | Active-LOW status |
 
