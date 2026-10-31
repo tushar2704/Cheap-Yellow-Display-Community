@@ -29,4 +29,6 @@
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
 - **Wi-Fi**: WiFi.h + esp_wifi.h
-
+- **Flash Usage**: 790,077 bytes (60.3% of 1.31 MB)
+- **RAM Usage**: 44,844 bytes (13.7% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
