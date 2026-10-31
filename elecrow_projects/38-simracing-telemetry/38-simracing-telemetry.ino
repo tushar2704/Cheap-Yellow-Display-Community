@@ -18,8 +18,22 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <WiFi.h>
+#include <WiFiUdp.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
+
+#ifndef WIFI_SSID
+  #define WIFI_SSID "Airtel_TA"
+#endif
+#ifndef WIFI_PASSWORD
+  #define WIFI_PASSWORD "12345ttttt"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
