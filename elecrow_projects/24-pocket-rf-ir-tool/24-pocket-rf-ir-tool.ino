@@ -20,6 +20,19 @@
 #include <XPT2046_Touchscreen.h>
 #include <qrcode.h>
 
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
+
+#ifndef WIFI_SSID
+  #define WIFI_SSID "IamNotIntoTech_Guest"
+#endif
+#ifndef WIFI_PASSWORD
+  #define WIFI_PASSWORD "CyberSecurity2026"
+#endif
+
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
 #define TOUCH_MOSI    32
@@ -172,10 +185,11 @@ void drawQRCodeView() {
   tft.fillRect(0, 26, 320, 178, TFT_BLACK);
 
   // Generate QR code for Wi-Fi credentials
-  const char* qrData = "WIFI:T:WPA;S:IamNotIntoTech_Guest;P:CyberSecurity2026;;";
+  char qrData[128];
+  snprintf(qrData, sizeof(qrData), "WIFI:T:WPA;S:%s;P:%s;;", WIFI_SSID, WIFI_PASSWORD);
   QRCode qrcode;
-  uint8_t qrcodeData[qrcode_getBufferSize(3)];
-  qrcode_initText(&qrcode, qrcodeData, 3, 0, qrData);
+  uint8_t qrcodeData[qrcode_getBufferSize(4)];
+  qrcode_initText(&qrcode, qrcodeData, 4, 0, qrData);
 
   int qrSize = qrcode.size;
   int scale = 4;
