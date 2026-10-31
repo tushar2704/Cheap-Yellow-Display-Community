@@ -1,32 +1,76 @@
-# Project 18: ESP-NOW Marine Instrument Repeater
+# ⛵ Project 18: ESP-NOW Marine Instrument Repeater
 
-A zero-router peer-to-peer marine navigation instrument repeater built for the **Elecrow 2.8" CYD (ESP32-2432S028R)** touch display, developed exclusively for **IamNotIntoTech** (`@IamNotIntoTech`).
+> **Elecrow 2.8" CYD Series**  
+> **Channel**: [IamNotIntoTech](https://youtube.com/@IamNotIntoTech) (`@IamNotIntoTech`)  
+> **Hardware**: Elecrow CrowPanel 2.8" / ESP32-2432S028R  
+> **Networking**: **2.4 GHz Peer-to-Peer ESP-NOW Wireless Mesh** (Zero router required)
 
-## Overview
-This wireless marine cockpit deck connects to masthead and hull transducers via low-latency 2.4GHz ESP-NOW packets without needing an onboard Wi-Fi router. It renders an analog 360° apparent wind polar rose, live wind velocity, ultrasonic water depth with shallow depth alarm thresholds, atmospheric barometric pressure, and water temperature.
+---
 
-## Hardware Specifications
-- **Display**: 2.8" ILI9341 320x240 SPI TFT with resistive touch (XPT2046)
-- **Host Controller**: ESP32-WROOM-32 (Dual Core 240MHz, 520KB SRAM)
-- **Touch Pins**: `TOUCH_MOSI=32`, `TOUCH_MISO=39`, `TOUCH_CLK=25`, `TOUCH_CS=33`
-- **RGB Status LED**: Active-low multi-color indicator on GPIOs 4 (Red), 16 (Green), 17 (Blue)
-- **Buzzer**: Piezo buzzer on GPIO 26 for shallow water audio alerts and touch clicks
+## 🚀 Key Features
 
-## Features
-- **360° Polar Wind Rose**: Visual apparent wind angle dial with color-coded port (red) and starboard (green) needles and centralized yacht icon.
-- **Transducer Telemetry Cards**:
-  - Ultrasonic Water Depth (feet / meters) with critical shallow water threshold detection.
-  - Atmospheric Barometer (hPa) for squall and cold-front alerting.
-  - Water Temperature (°F / °C).
-- **Night Vision Preservation**: High-contrast, all-red nocturnal palette toggle preventing night blindness during ocean navigation.
-- **Unit Conversion**: Instant toggle between Nautical (Knots/Feet/°F) and Metric (m/s/Meters/°C) modes.
-- **Hardware Alarm Indicator**:
-  - Solid Red: Critical shallow water depth (< 2.5m)
-  - Yellow: Gale warning (> 22 knots)
-  - Green: Safe cruising conditions
+1. **Zero-Router Marine Telemetry**:
+   - Ultra-low-latency 2.4 GHz ESP-NOW protocol connects masthead and keel transducers directly to the cockpit display.
+   - Dynamic packet parsing (`struct_marine_packet`): Wind Speed, Wind Angle, Barometric Pressure, Water Depth, Water Temp, and Transmitter Battery Voltage.
 
-## Calibration Standard
-- Hardware-verified non-inverted Y coordinate mapping `map(p.y, 240, 3800, 0, 240)`
-- Hardware-isolated SPI bus routing preventing ILI9341 bus contention
-- Touch polling mode bypassing hardware IRQ lockups
+2. **360° Polar Wind Rose & Sailing Direction**:
+   - High-contrast apparent wind angle dial with color-coded port (Red) and starboard (Green) needles.
+   - Central yacht outline and digital speed readout in Knots or Meters/sec.
 
+3. **Multi-Sensor Instrument Telemetry Stack**:
+   - **Water Depth**: Sonar depth in feet or meters with automatic shallow water (< 2.5m) visual and acoustic alarm.
+   - **Barometer / Squall**: Barometric pressure in hPa with storm trend detection.
+   - **Water Temperature**: Surface temperature in °F or °C.
+
+4. **Tactical Lighting & Unit Conversion**:
+   - **Night Mode Toggle**: Preserves night vision with deep red illumination palette for offshore night watches.
+   - **Unit Toggle**: Instantly switch between Nautical (Knots/Feet/°F) and Metric (m/s/Meters/°C).
+
+5. **Hardware Alarm & Indicators**:
+   - **Red LED**: Critical shallow water warning (< 2.5m)
+   - **Yellow LED**: Gale force wind alert (> 22 knots)
+   - **Green LED**: Safe cruising
+   - Dedicated buzzer alarm on GPIO 26.
+
+6. **Calibrated Touch Controls**:
+   - Dedicated buttons: `NAUTICAL / METRIC`, `ALARM MUTE`, `DAY / NIGHT MODE`.
+   - Dedicated VSPI hardware touch bus (`MOSI: 32, MISO: 39, CLK: 25, CS: 33`) with polling mode and calibrated non-inverted Y mapping.
+
+---
+
+## 🔌 Hardware Pin Mapping
+
+| Pin | Function | Notes |
+|---|---|---|
+| **GPIO 13, 12, 14, 15, 2** | ILI9341 Display SPI | MOSI, MISO, SCK, CS, DC (HSPI) |
+| **GPIO 21** | Backlight Control | Active HIGH |
+| **GPIO 33, 25, 39, 32** | XPT2046 Touch SPI | CS, CLK, MISO, MOSI (Dedicated VSPI, Polling mode) |
+| **GPIO 4, 16, 17** | RGB LED | Red, Green, Blue (Active LOW) |
+| **GPIO 26** | Audio / Buzzer | Shallow depth alarm and button tone generation |
+
+---
+
+## ⚙️ Configuration (`secrets.h`)
+
+Create a local `secrets.h` file (git-ignored for security):
+
+```cpp
+#pragma once
+
+#define WIFI_SSID     "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+
+// Station Reference Coordinates (Paris Seine / Marine Sector)
+#define STATION_LAT   48.8584
+#define STATION_LON   2.2945
+```
+
+---
+
+## 🛠️ How to Compile & Flash
+
+Using PlatformIO CLI:
+```bash
+cd elecrow_projects/18-espnow-marine-repeater
+pio run -t upload --upload-port COM5
+```
