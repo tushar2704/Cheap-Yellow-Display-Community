@@ -183,6 +183,8 @@ elecrow_projects/*
 !elecrow_projects/47-neon-vector-spirograph/**
 !elecrow_projects/48-modular-sensor-workbench/
 !elecrow_projects/48-modular-sensor-workbench/**
+!elecrow_projects/49-filament-scale-monitor/
+!elecrow_projects/49-filament-scale-monitor/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
