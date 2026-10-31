@@ -26,3 +26,4 @@ This standalone network appliance scans the full 2.4GHz Wi-Fi spectrum (Channels
 - Hardware-verified non-inverted Y coordinate mapping `map(p.y, 240, 3800, 0, 240)`
 - Hardware-isolated SPI bus routing preventing ILI9341 bus contention
 - Touch polling mode bypassing hardware IRQ lockups
+

@@ -63,3 +63,4 @@ Monitor serial output:
 ```bash
 pio device monitor -b 115200
 ```
+

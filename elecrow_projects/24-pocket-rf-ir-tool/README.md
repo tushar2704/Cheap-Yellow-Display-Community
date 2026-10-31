@@ -24,3 +24,4 @@ This compact handheld diagnostic multi-tool features three versatile modes: a un
 - Hardware-verified non-inverted Y coordinate mapping `map(p.y, 240, 3800, 0, 240)`
 - Hardware-isolated SPI bus routing preventing ILI9341 bus contention
 - Touch polling mode bypassing hardware IRQ lockups
+

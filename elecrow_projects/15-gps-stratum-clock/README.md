@@ -25,3 +25,4 @@ This project transforms the ESP32 Cheap Yellow Display into a lab-grade Stratum 
 - Hardware-isolated SPI bus routing preventing ILI9341 bus contention
 - Touch polling mode bypassing hardware IRQ lockups
 - Acoustic and visual button feedback
+

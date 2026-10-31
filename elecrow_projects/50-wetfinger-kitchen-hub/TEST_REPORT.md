@@ -37,3 +37,4 @@
 - [x] Interactive recipe step checklist toggles checkboxes and row highlights.
 - [x] High-visibility alarm state triggers visual and acoustic alerts upon completion.
 - [x] Clean compilation with exit code 0.
+

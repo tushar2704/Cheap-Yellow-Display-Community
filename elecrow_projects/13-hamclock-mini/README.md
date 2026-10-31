@@ -40,3 +40,4 @@ Using PlatformIO CLI:
 cd elecrow_projects/13-hamclock-mini
 pio run -t upload
 ```
+

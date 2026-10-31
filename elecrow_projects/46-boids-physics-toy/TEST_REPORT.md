@@ -38,3 +38,4 @@
 - [x] Speed adjustment and rotational axis jump buttons respond instantaneously.
 - [x] Touch dragging directly alters rotational angular momentum in 4D space.
 - [x] Clean compilation with exit code 0.
+

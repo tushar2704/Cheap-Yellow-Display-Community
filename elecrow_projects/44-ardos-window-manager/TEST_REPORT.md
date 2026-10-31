@@ -39,3 +39,4 @@
 - [x] Calculator application calculates arithmetic operations accurately.
 - [x] Minesweeper application generates 6x6 grid with smiley face reset button.
 - [x] Clean compilation with zero build errors.
+

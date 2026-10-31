@@ -38,3 +38,4 @@
 - [x] Threshold adjustment buttons (-100 / +100) modify alert limits with immediate status feedback.
 - [x] Pause/Run toggle successfully freezes and resumes real-time data acquisition.
 - [x] Clean compilation with exit code 0.
+

@@ -40,3 +40,4 @@ Using PlatformIO CLI:
 cd elecrow_projects/10-sky-spotter-station
 pio run -t upload
 ```
+

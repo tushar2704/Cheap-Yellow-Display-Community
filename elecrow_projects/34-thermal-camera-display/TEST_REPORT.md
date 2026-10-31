@@ -28,3 +28,4 @@
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
 - **Build Status**: PlatformIO build clean (Success code 0)
+

@@ -31,3 +31,4 @@ This compact bench instrument transforms the ESP32 into a laboratory oscilloscop
 - Hardware-verified non-inverted Y coordinate mapping `map(p.y, 240, 3800, 0, 240)`
 - Hardware-isolated SPI bus routing preventing ILI9341 bus contention
 - Touch polling mode bypassing hardware IRQ lockups
+

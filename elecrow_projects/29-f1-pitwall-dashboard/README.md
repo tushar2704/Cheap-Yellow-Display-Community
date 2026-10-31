@@ -27,3 +27,4 @@ Transform your desk into an authentic Formula 1 pit wall command console. This t
 - Hardware-verified non-inverted Y coordinate mapping `map(p.y, 240, 3800, 0, 240)`
 - Hardware-isolated SPI bus routing preventing ILI9341 bus contention
 - Touch polling mode bypassing hardware IRQ lockups
+

@@ -36,3 +36,4 @@
 - [x] Right card displays command title, syntax, and operational explanation.
 - [x] Transmit button streams command to USB Serial with blue LED confirmation flash.
 - [x] Clean compilation with exit code 0.
+

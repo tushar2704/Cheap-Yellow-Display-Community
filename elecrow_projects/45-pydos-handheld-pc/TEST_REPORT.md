@@ -37,3 +37,4 @@
 - [x] Interactive commands (`VER`, `MEM`, `DIR`, `BEEP`, `LED`, `CLS`, `ECHO`, `PY`).
 - [x] Clean audio keyclick tone generation on IO26.
 - [x] Clean compilation with exit code 0.
+

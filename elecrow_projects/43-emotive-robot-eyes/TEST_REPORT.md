@@ -39,3 +39,4 @@
 - [x] RGB LED reflects active mood in real time.
 - [x] Tap on eyeball causes immediate reflex blink and acoustic feedback.
 - [x] Zero compilation warnings (except standard library informational pragmas).
+

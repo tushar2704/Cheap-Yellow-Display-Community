@@ -37,3 +37,4 @@
 - [x] Simulation controls (`-` / `+` 50g) allow instant bench verification without physical load cell.
 - [x] Critical runout state triggers blinking Red LED and pulsing buzzer.
 - [x] Clean compilation with exit code 0.
+

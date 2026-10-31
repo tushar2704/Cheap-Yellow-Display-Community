@@ -37,3 +37,4 @@
 - [x] 3x3 chmod matrix checkboxes toggle accurately on touch with immediate octal and symbolic updates.
 - [x] Preset buttons (777, 755, 644, 600) populate matrix checkboxes and strings correctly.
 - [x] Clean compilation with exit code 0.
+

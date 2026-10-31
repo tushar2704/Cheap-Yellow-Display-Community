@@ -27,3 +27,4 @@
 - **Memory Footprint**:
   - Flash: ~720 KB
   - RAM: ~45 KB
+

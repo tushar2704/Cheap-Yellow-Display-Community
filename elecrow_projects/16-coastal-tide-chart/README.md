@@ -26,3 +26,4 @@ This project simulates real-time semi-diurnal harmonic tidal curves across a 24-
 - Hardware-verified non-inverted Y coordinate mapping `map(p.y, 240, 3800, 0, 240)`
 - Hardware-isolated SPI bus routing preventing ILI9341 bus contention
 - Touch polling mode bypassing hardware IRQ lockups
+

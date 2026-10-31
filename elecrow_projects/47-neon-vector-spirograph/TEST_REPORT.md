@@ -38,3 +38,4 @@
 - [x] Clear button flushes vector canvas and resets parametric position.
 - [x] Top bar mode toggle switches smoothly between spirograph and mandala modes.
 - [x] Clean compilation with exit code 0.
+
