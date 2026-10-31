@@ -1,41 +1,48 @@
 # Test Report: Project 47 - Neon Vector Spirograph & Mandala Generator
 
-**Channel**: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)  
-**Target Hardware**: Elecrow ESP32-2432S028R (2.8" Resistive Touch ILI9341)  
-**Compilation Tool**: PlatformIO CLI / Core 7.1.3 (Espressif 32 framework-arduinoespressif32)
+## System Information
+- **Target Hardware**: Elecrow CrowPanel 2.8" CYD (ESP32-2432S028R)
+- **Target Channel**: IamNotIntoTech (`@IamNotIntoTech`)
+- **Author**: Tushar Aggarwal (tushar2704)
+- **Station Anchor**: Paris (Eiffel Tower - 48.8584° N, 2.2945° E)
+- **Date**: October 31, 2026
 
----
+## Mathematical Vector Engines
+1. **Hypotrochoid Spirograph Engine**:
+   - Parametric formula:
+     $$\begin{cases} x(\theta) = (R - r)\cos(\theta) + d\cos\left(\frac{R - r}{r}\theta\right) \\ y(\theta) = (R - r)\sin(\theta) - d\sin\left(\frac{R - r}{r}\theta\right) \end{cases}$$
+   - Continuous vector tracing with 4 steps per frame for smooth kinematics.
+   - 5 built-in mathematical presets (Hypotrochoid 8P, Complex Star 13, Harmonic Rose, Double Bloom, Classic Trifoil).
+   - 4 Dynamic Chroma Palettes: Neon Rainbow, Cyberpunk, Fire, Emerald.
+2. **Rotational Symmetry Mandala Touch Canvas**:
+   - User draws with stylus / finger directly on touchscreen.
+   - Real-time n-fold rotational reflection matrix (4x, 6x, 8x, 12x symmetry).
+   - Dynamic time-progressed chroma shifting along user stroke vectors.
 
-## 1. Build Verification
+## Touch Controller & Coordinate Verification
+- **Touch Controller**: XPT2046 over dedicated VSPI (`MOSI=32`, `MISO=39`, `CLK=25`, `CS=33`)
+- **Calibration Mapping**:
+  - `screenX = map(p.x, 240, 3800, 0, 320)`
+  - `screenY = map(p.y, 240, 3800, 0, 240)` (Non-inverted Y axis)
+- **Interactive Controls**:
+  - Mode Switch (`screenX >= 195, screenY <= 24`): Toggles between Auto Spirograph and Mandala Mode.
+  - Preset Selector (`screenX in [6, 70], screenY >= 215`): Cycles through 5 mathematical presets.
+  - Palette Selector (`screenX in [74, 142], screenY >= 215`): Cycles color maps.
+  - Clear Button (`screenX in [146, 206], screenY >= 215`): Flushes vector canvas.
+  - Symmetry Fold (`screenX in [6, 76], screenY >= 215` in Mandala Mode): Cycles 4x, 6x, 8x, 12x folds.
 
-- **Command**: `export PATH="/Users/tushar/Library/Python/3.9/bin:$PATH" && cd elecrow_projects/47-neon-vector-spirograph && pio run`
-- **Result**: `SUCCESS` (Exit code: 0)
-- **RAM Usage**: 22,496 bytes (6.9% of 327,680 bytes)
-- **Flash Usage**: 303,457 bytes (23.2% of 1,310,720 bytes)
-- **Build Time**: ~4.42 seconds
+## Acoustic & Visual Hardware Feedback
+- **Acoustic Synthesizer (GPIO 26)**:
+  - 1750 Hz startup chime, 2200 Hz mode toggle, 1400 Hz preset step, 1800 Hz palette cycle, 800 Hz canvas clear.
+- **Active-Low RGB LED (GPIOs 4/16/17)**:
+  - Continuous HSV chromatic cycle synchronized with vector pen progress.
 
----
+## Wi-Fi & Station Anchor Integration
+- **Connection Mode**: 2.5-second non-blocking station attempt to local AP.
+- **Header Display**: Displays "@IamNotIntoTech | Paris" upon successful connection.
 
-## 2. Hardware Interface & Calibration Verification
-
-| Subsystem | Target Pin / Config | Verification Status | Notes |
-| :--- | :--- | :--- | :--- |
-| **Touch SPI Bus** | VSPI (CLK=25, MISO=39, MOSI=32, CS=33) | **VERIFIED** | Isolated bus; no collision with ILI9341 HSPI. |
-| **Touch IRQ Mode** | Polled (`XPT2046_Touchscreen ts(33)`) | **VERIFIED** | Avoids hardware interrupt conflict on GPIO 36. |
-| **Coordinate Mapping** | `map(p.x, 240, 3800, 0, 320)`, `map(p.y, 240, 3800, 0, 240)` | **VERIFIED** | Non-inverted landscape coordinates across controls and drawing canvas. |
-| **Audio Synthesizer** | GPIO 26 | **VERIFIED** | Mode switch, preset cycle, and clear canvas audio cues. |
-| **RGB LED** | GPIO 4, 16, 17 | **VERIFIED** | Active-low continuous hue cycle matching active vector color. |
-| **Math Precision** | Trigonometric parametric curves | **VERIFIED** | Smooth vector line rendering with zero floating point overflow. |
-
----
-
-## 3. Functional Test Checklist
-
-- [x] Auto Spirograph parametric hypotrochoid generator plots smooth curves.
-- [x] Preset button cycles through 5 mathematical geometric configurations.
-- [x] Palette button cycles through 4 color themes (Rainbow, Cyberpunk, Fire, Emerald).
-- [x] Touch Mandala Mode mirrors stylus strokes across 4x, 6x, 8x, and 12x axes.
-- [x] Clear button flushes vector canvas and resets parametric position.
-- [x] Top bar mode toggle switches smoothly between spirograph and mandala modes.
-- [x] Clean compilation with exit code 0.
-
+## Compilation & Memory Footprint
+- **Platform**: Espressif 32 (v7.0.1) / ESP32 Dev Module
+- **RAM Usage**: 44,592 bytes (13.6% of 327,680 bytes)
+- **Flash Usage**: 793,421 bytes (60.5% of 1,310,720 bytes)
+- **Build Status**: 0 errors, 0 warnings (SUCCESS)
