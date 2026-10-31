@@ -16,8 +16,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
@@ -66,6 +74,7 @@ int gameWinner = 0; // 0: Playing, 1: Human, 2: AI, 3: Draw
 int difficulty = 3; // 2: Novice, 3: Master
 int nodesEvaluated = 0;
 int aiAdvantage = 0; // -100 to +100
+bool wifiConnected = false;
 
 unsigned long lastBtnTouchTime = 0;
 
@@ -153,42 +162,46 @@ void drawSidebar() {
   tft.drawRoundRect(220, 30, 94, 202, 6, COLOR_CARD_BRD);
 
   tft.setTextColor(COLOR_CYAN, COLOR_CARD);
-  tft.drawCentreString("AI TELEMETRY", 267, 36, 1);
+  tft.drawCentreString("AI TELEMETRY", 267, 34, 1);
 
   // Depth Card
   tft.setTextColor(COLOR_MUTED, COLOR_CARD);
-  tft.drawString("DEPTH", 226, 52, 1);
+  tft.drawString("DEPTH", 226, 48, 1);
   tft.setTextColor(COLOR_TEXT, COLOR_CARD);
   char depthBuf[16];
   snprintf(depthBuf, sizeof(depthBuf), "%d PLY", difficulty);
-  tft.drawString(depthBuf, 226, 64, 2);
+  tft.drawString(depthBuf, 226, 58, 2);
 
   // Nodes Evaluated
   tft.setTextColor(COLOR_MUTED, COLOR_CARD);
-  tft.drawString("NODES", 226, 82, 1);
+  tft.drawString("NODES", 226, 76, 1);
   tft.setTextColor(COLOR_GOLD, COLOR_CARD);
   char nodeBuf[16];
   snprintf(nodeBuf, sizeof(nodeBuf), "%d", nodesEvaluated);
-  tft.drawString(nodeBuf, 226, 94, 2);
+  tft.drawString(nodeBuf, 226, 86, 2);
 
   // Advantage Meter (-100 to +100)
   tft.setTextColor(COLOR_MUTED, COLOR_CARD);
-  tft.drawString("EVAL METER", 226, 114, 1);
-  tft.fillRoundRect(224, 128, 86, 10, 3, tft.color565(30, 35, 45));
+  tft.drawString("EVAL METER", 226, 104, 1);
+  tft.fillRoundRect(224, 116, 86, 10, 3, tft.color565(30, 35, 45));
   int barFill = map(constrain(aiAdvantage, -100, 100), -100, 100, 0, 86);
-  tft.fillRoundRect(224, 128, barFill, 10, 3, (aiAdvantage >= 0 ? COLOR_RED : COLOR_GREEN));
+  tft.fillRoundRect(224, 116, barFill, 10, 3, (aiAdvantage >= 0 ? COLOR_RED : COLOR_GREEN));
 
-  // Difficulty Toggle Button (x: 224, y: 148, w: 86, h: 32)
-  tft.fillRoundRect(224, 148, 86, 32, 4, tft.color565(35, 45, 60));
-  tft.drawRoundRect(224, 148, 86, 32, 4, COLOR_CARD_BRD);
+  // Location / Wi-Fi Indicator
+  tft.setTextColor(wifiConnected ? COLOR_GREEN : COLOR_MUTED, COLOR_CARD);
+  tft.drawCentreString(wifiConnected ? "PARIS ONLINE" : "PARIS (OFFLINE)", 267, 132, 1);
+
+  // Difficulty Toggle Button (x: 224, y: 146, w: 86, h: 32)
+  tft.fillRoundRect(224, 146, 86, 32, 4, tft.color565(35, 45, 60));
+  tft.drawRoundRect(224, 146, 86, 32, 4, COLOR_CARD_BRD);
   tft.setTextColor(COLOR_TEXT, tft.color565(35, 45, 60));
-  tft.drawCentreString((difficulty == 3) ? "LVL: MASTER" : "LVL: NOVICE", 267, 156, 1);
+  tft.drawCentreString((difficulty == 3) ? "LVL: MASTER" : "LVL: NOVICE", 267, 155, 1);
 
-  // Reset Button (x: 224, y: 188, w: 86, h: 36)
-  tft.fillRoundRect(224, 188, 86, 36, 4, COLOR_RED);
-  tft.drawRoundRect(224, 188, 86, 36, 4, COLOR_GOLD);
+  // Reset Button (x: 224, y: 184, w: 86, h: 38)
+  tft.fillRoundRect(224, 184, 86, 38, 4, COLOR_RED);
+  tft.drawRoundRect(224, 184, 86, 38, 4, COLOR_GOLD);
   tft.setTextColor(0x0000, COLOR_RED);
-  tft.drawCentreString("NEW GAME", 267, 198, 2);
+  tft.drawCentreString("NEW GAME", 267, 196, 2);
 }
 
 bool checkWin(uint8_t player) {
@@ -338,6 +351,15 @@ void setup() {
   ts.begin(touchSPI);
   ts.setRotation(1);
 
+  // Wi-Fi Check
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  unsigned long startWiFi = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+    delay(100);
+  }
+  wifiConnected = (WiFi.status() == WL_CONNECTED);
+
   resetGame();
   drawHeader();
   drawBoard();
@@ -361,13 +383,13 @@ void loop() {
         if (millis() - lastBtnTouchTime > 180) {
           lastBtnTouchTime = millis();
           // Difficulty Toggle
-          if (screenY >= 148 && screenY <= 180) {
+          if (screenY >= 146 && screenY <= 178) {
             difficulty = (difficulty == 3) ? 2 : 3;
             playBeep(2000, 30);
             drawSidebar();
           }
           // Reset Button
-          else if (screenY >= 188 && screenY <= 228) {
+          else if (screenY >= 184 && screenY <= 228) {
             playBeep(2400, 50);
             resetGame();
             drawBoard();
@@ -413,4 +435,3 @@ void loop() {
 
   delay(15);
 }
-
