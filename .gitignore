@@ -159,6 +159,8 @@ elecrow_projects/*
 !elecrow_projects/35-solar-energy-flow/**
 !elecrow_projects/36-stylus-note-messenger/
 !elecrow_projects/36-stylus-note-messenger/**
+!elecrow_projects/37-stylus-rpn-calculator/
+!elecrow_projects/37-stylus-rpn-calculator/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
