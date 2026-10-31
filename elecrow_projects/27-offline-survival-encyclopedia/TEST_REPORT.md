@@ -32,4 +32,6 @@
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
 - **Storage**: SD.h + FS.h (HSPI)
-
+- **Flash Usage**: 381,013 bytes (29.1% of 1.31 MB)
+- **RAM Usage**: 23,300 bytes (7.1% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
