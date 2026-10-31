@@ -19,6 +19,13 @@
 #include <SPI.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+#include <WiFi.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
@@ -107,7 +114,11 @@ void drawHeader() {
   tft.drawString("FORMULA 1 PIT WALL", 8, 6, 2);
 
   tft.setTextColor(TFT_WHITE, tft.color565(180, 20, 20));
-  tft.drawRightString("TRACK: GREEN ●", 312, 6, 2);
+  if (WiFi.status() == WL_CONNECTED) {
+    tft.drawRightString("PARIS LIVE ●", 312, 6, 2);
+  } else {
+    tft.drawRightString("TRACK: GREEN ●", 312, 6, 2);
+  }
 }
 
 void drawVectorCircuitTrack(int cx, int cy) {
@@ -350,6 +361,11 @@ void setup() {
   touchSPI.begin(TOUCH_CLK, TOUCH_MISO, TOUCH_MOSI, TOUCH_CS);
   ts.begin(touchSPI);
   ts.setRotation(1);
+
+#ifdef WIFI_SSID
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+#endif
 
   drawUI();
 }
