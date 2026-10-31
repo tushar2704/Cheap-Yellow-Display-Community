@@ -181,6 +181,8 @@ elecrow_projects/*
 !elecrow_projects/46-boids-physics-toy/**
 !elecrow_projects/47-neon-vector-spirograph/
 !elecrow_projects/47-neon-vector-spirograph/**
+!elecrow_projects/48-modular-sensor-workbench/
+!elecrow_projects/48-modular-sensor-workbench/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
