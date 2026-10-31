@@ -26,4 +26,6 @@
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
 - **QR Engine**: QRCode library
-
+- **Flash Usage**: 343,953 bytes (26.2% of 1.31 MB)
+- **RAM Usage**: 22,748 bytes (6.9% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
