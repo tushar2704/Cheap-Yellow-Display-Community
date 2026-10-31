@@ -18,6 +18,13 @@
 #include <SPI.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+#include <WiFi.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
@@ -86,8 +93,12 @@ void drawHeader() {
   tft.setTextSize(1);
   tft.drawString("SPOTIFY DESK REMOTE", 8, 6, 2);
 
-  char volBuf[16];
-  snprintf(volBuf, sizeof(volBuf), "VOL: %d%%", playlist[currentTrack].volumePercent);
+  char volBuf[32];
+  if (WiFi.status() == WL_CONNECTED) {
+    snprintf(volBuf, sizeof(volBuf), "NET OK | VOL: %d%%", playlist[currentTrack].volumePercent);
+  } else {
+    snprintf(volBuf, sizeof(volBuf), "VOL: %d%%", playlist[currentTrack].volumePercent);
+  }
   tft.setTextColor(TFT_GREEN, tft.color565(15, 20, 25));
   tft.drawRightString(volBuf, 312, 6, 2);
 }
@@ -267,6 +278,11 @@ void setup() {
   touchSPI.begin(TOUCH_CLK, TOUCH_MISO, TOUCH_MOSI, TOUCH_CS);
   ts.begin(touchSPI);
   ts.setRotation(1);
+
+#ifdef WIFI_SSID
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+#endif
 
   drawRemoteScreen();
 }

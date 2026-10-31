@@ -27,4 +27,6 @@
 - **Framework**: Arduino ESP32 core
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
-
+- **Flash Usage**: 790,297 bytes (60.3% of 1.31 MB)
+- **RAM Usage**: 44,644 bytes (13.6% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
