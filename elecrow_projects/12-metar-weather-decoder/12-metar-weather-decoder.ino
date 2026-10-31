@@ -309,19 +309,19 @@ void setup() {
 void loop() {
   if (ts.touched()) {
     TS_Point p = ts.getPoint();
-    if (p.z > 200) {
-      if (millis() - lastTouchTime > 200) {
+    if (p.z > 50 || ts.touched()) {
+      if (millis() - lastTouchTime > 180) {
         lastTouchTime = millis();
 
-        // Landscape calibration: X is 240..3800 -> 0..320, Y is 3800..240 -> 0..240
+        // Landscape calibration: non-inverted Y
         int screenX = map(p.x, 240, 3800, 0, 320);
-        int screenY = map(p.y, 3800, 240, 0, 240);
+        int screenY = map(p.y, 240, 3800, 0, 240);
         screenX = constrain(screenX, 0, 319);
         screenY = constrain(screenY, 0, 239);
 
         Serial.printf("[TOUCH] Raw X=%d, Y=%d, Z=%d -> Screen (%d, %d)\n", p.x, p.y, p.z, screenX, screenY);
 
-        if (screenY <= 50) {
+        if (screenY <= 52) {
           int idx = screenX / 80;
           if (idx >= 0 && idx < STATION_COUNT) {
             currentStation = idx;
@@ -339,5 +339,5 @@ void loop() {
     }
   }
 
-  delay(20);
+  delay(15);
 }
