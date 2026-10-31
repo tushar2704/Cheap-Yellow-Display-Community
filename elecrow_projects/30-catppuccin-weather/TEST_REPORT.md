@@ -22,9 +22,18 @@
 - Hardware LEDC PWM configured on timer channel 0, frequency 5 kHz, resolution 8-bit
 - Smooth moving-average brightness filtering between 25 and 255 PWM duty cycle
 
+## Live Weather Pipeline Verification
+- **API Provider**: Open-Meteo REST API (100% Real Live Weather)
+- **Location**: Paris Eiffel Tower (Lat 48.8584, Lon 2.2945, Europe/Paris)
+- **Parameters**: Real-time temp, apparent feels-like, humidity, surface pressure, wind speed/direction, WMO weather code, 8 hourly intervals, 7-day daily forecast
+- **RGB Mood Lighting**: Active-low LED mapped to WMO weather code (amber clear, cyan cloudy, blue rain, violet storm)
+
 ## Compilation Verification
 - **Framework**: Arduino ESP32 core
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
-- **Build Status**: PlatformIO build clean (Success code 0)
+- **Networking**: WiFi.h + HTTPClient.h + ArduinoJson 6.21.6
+- **Flash Usage**: 992,613 bytes (75.7% of 1.31 MB)
+- **RAM Usage**: 48,468 bytes (14.8% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
 
