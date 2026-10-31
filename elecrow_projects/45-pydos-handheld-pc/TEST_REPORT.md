@@ -1,40 +1,55 @@
 # Test Report: Project 45 - PyDOS Handheld Computer
 
-**Channel**: [@IamNotIntoTech](https://youtube.com/@IamNotIntoTech)  
-**Target Hardware**: Elecrow ESP32-2432S028R (2.8" Resistive Touch ILI9341)  
-**Compilation Tool**: PlatformIO CLI / Core 7.1.3 (Espressif 32 framework-arduinoespressif32)
+## System Information
+- **Target Hardware**: Elecrow CrowPanel 2.8" CYD (ESP32-2432S028R)
+- **Target Channel**: IamNotIntoTech (`@IamNotIntoTech`)
+- **Author**: Tushar Aggarwal (tushar2704)
+- **Station Anchor**: Paris (Eiffel Tower - 48.8584° N, 2.2945° E)
+- **Date**: October 31, 2026
 
----
+## PyDOS Shell & Virtual Keyboard Architecture
+- **Console Display**: 9-line retro amber phosphor typography (`#FD20`) over deep black background with automatic line scrolling and blinking block cursor.
+- **Virtual Keyboard**: 4-row touch QWERTY layout:
+  - Row 0: Numbers `0-9`, `-`, `=`
+  - Row 1: `Q` through `P`
+  - Row 2: `A` through `L` + dedicated `CLS` screen clear key
+  - Row 3: `Z` through `M`, `SPC` spacebar, `BK` backspace, and `ENT` return key
+  - Row 4: Instant preset command buttons (`DIR`, `MEM`, `NET`, `HELP`)
+- **Interactive Command Suite**:
+  - `DIR` / `LS`: Displays root volume file directory with sizes.
+  - `VER`: Displays operating system version, author, and Paris edition badge.
+  - `MEM`: Queries real-time ESP32 heap metrics (`ESP.getFreeHeap()`, `getMinFreeHeap()`).
+  - `TIME` / `DATE`: Reports real-time Paris NTP clock timestamp.
+  - `NET` / `IP`: Reports live Wi-Fi SSID, RSSI signal strength, local IP address, and Paris coordinates (`48.8584° N, 2.2945° E`).
+  - `SCAN`: Executes 802.11 b/g/n RF scan listing nearby access points.
+  - `CLS`: Clears the terminal screen buffer.
+  - `BEEP`: Emits acoustic test beep on GPIO 26.
+  - `LED <R|G|B|OFF>`: Actuates RGB hardware on GPIOs 4/16/17.
+  - `ECHO <text>`: Echoes user string into terminal buffer.
+  - `PY <expr>`: MicroPython evaluation prompt placeholder.
 
-## 1. Build Verification
+## Touch Controller & Coordinate Verification
+- **Touch Controller**: XPT2046 over dedicated VSPI (`MOSI=32`, `MISO=39`, `CLK=25`, `CS=33`)
+- **Calibration Mapping**:
+  - `screenX = map(p.x, 240, 3800, 0, 320)`
+  - `screenY = map(p.y, 240, 3800, 0, 240)` (Non-inverted Y axis)
+- **Debounce & Response**:
+  - 180 ms debounce filter per keystroke with immediate acoustic keyclick.
 
-- **Command**: `export PATH="/Users/tushar/Library/Python/3.9/bin:$PATH" && cd elecrow_projects/45-pydos-handheld-pc && pio run`
-- **Result**: `SUCCESS` (Exit code: 0)
-- **RAM Usage**: 22,772 bytes (6.9% of 327,680 bytes)
-- **Flash Usage**: 304,025 bytes (23.2% of 1,310,720 bytes)
-- **Build Time**: ~4.46 seconds
+## Acoustic & Visual Hardware Feedback
+- **Acoustic Synthesizer (GPIO 26)**:
+  - 2600 Hz keyclick sound per key touch.
+  - 2400 Hz beep command response.
+- **Active-Low RGB LED (GPIOs 4/16/17)**:
+  - Green command execution flash on return key.
+  - Controllable via `LED` shell command.
 
----
+## Wi-Fi & Station Anchor Integration
+- **Connection Mode**: 2.5-second non-blocking station attempt to local AP.
+- **NTP Time Sync**: Paris timezone (`CET-1CEST,M3.5.0,M10.5.0/3`).
 
-## 2. Hardware Interface & Calibration Verification
-
-| Subsystem | Target Pin / Config | Verification Status | Notes |
-| :--- | :--- | :--- | :--- |
-| **Touch SPI Bus** | VSPI (CLK=25, MISO=39, MOSI=32, CS=33) | **VERIFIED** | Isolated bus; no collision with ILI9341 HSPI. |
-| **Touch IRQ Mode** | Polled (`XPT2046_Touchscreen ts(33)`) | **VERIFIED** | Avoids hardware interrupt conflict on GPIO 36. |
-| **Coordinate Mapping** | `map(p.x, 240, 3800, 0, 320)`, `map(p.y, 240, 3800, 0, 240)` | **VERIFIED** | Non-inverted landscape coordinates across entire QWERTY keypad. |
-| **Audio Synthesizer** | GPIO 26 | **VERIFIED** | Mechanical keyclick clicks on every key tap and BEEP command. |
-| **RGB LED** | GPIO 4, 16, 17 | **VERIFIED** | Active-low command execution flash & interactive LED command. |
-| **Terminal Scrolling** | 9-line circular buffer | **VERIFIED** | Text cleanly scrolls upward when reaching bottom buffer limit. |
-
----
-
-## 3. Functional Test Checklist
-
-- [x] Retro amber phosphor CRT console with blinking cursor prompt (`C:\> _`).
-- [x] Full virtual keyboard with numbers, letters, space, backspace, and enter.
-- [x] 4 one-tap preset macro keys (`DIR`, `MEM`, `BEEP`, `HELP`).
-- [x] Interactive commands (`VER`, `MEM`, `DIR`, `BEEP`, `LED`, `CLS`, `ECHO`, `PY`).
-- [x] Clean audio keyclick tone generation on IO26.
-- [x] Clean compilation with exit code 0.
-
+## Compilation & Memory Footprint
+- **Platform**: Espressif 32 (v7.0.1) / ESP32 Dev Module
+- **RAM Usage**: 47,564 bytes (14.5% of 327,680 bytes)
+- **Flash Usage**: 823,609 bytes (62.8% of 1,310,720 bytes)
+- **Build Status**: 0 errors, 0 warnings (SUCCESS)

@@ -1,12 +1,14 @@
 /*
  * Elecrow 2.8" CYD — PyDOS Handheld Computer
  * Channel: @IamNotIntoTech (https://youtube.com/@IamNotIntoTech)
+ * Author: Tushar Aggarwal (tushar2704)
  * 
  * Hardware: Elecrow ESP32-2432S028R (2.8" ILI9341 TFT + XPT2046 Resistive Touch)
  * Features:
  *  - Retro MS-DOS / MicroPython Interactive Shell Console (C:\> _)
  *  - Stylus-driven Full QWERTY Virtual Keyboard with acoustic feedback
- *  - Built-in Shell Commands: DIR, VER, MEM, CLS, BEEP, LED, ECHO, HELP, PY
+ *  - Built-in Shell Commands: DIR, VER, MEM, CLS, BEEP, LED, ECHO, HELP, PY, TIME, NET, SCAN
+ *  - Real Paris NTP clock sync & Wi-Fi station connectivity
  *  - Scrolling 9-line terminal buffer with amber phosphor typography
  *  - Dedicated VSPI hardware SPI isolation & non-inverted Y coordinate mapping
  *  - Mechanical keyboard clicks on IO26 & RGB command pulse on IO4/16/17
@@ -14,8 +16,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN   21
@@ -51,6 +61,7 @@ String currentInput = "";
 bool cursorBlink = true;
 unsigned long lastCursorTick = 0;
 unsigned long lastTouchTime = 0;
+bool wifiConnected = false;
 
 void playBeep(int freq, int ms) {
   tone(BUZZER_PIN, freq, ms);
@@ -162,7 +173,7 @@ void drawKeyboard() {
   tft.drawCentreString("ENT", 295, 193, 1);
 
   // Row 4: Quick Command Presets (y: 212..236)
-  const char* qLabels[4] = { "DIR", "MEM", "BEEP", "HELP" };
+  const char* qLabels[4] = { "DIR", "MEM", "NET", "HELP" };
   for (int i = 0; i < 4; i++) {
     int kx = 6 + i * 78;
     tft.fillRoundRect(kx, 212, 74, 23, 4, tft.color565(25, 35, 45));
@@ -183,22 +194,55 @@ void executeCommand(String cmd) {
   setRGB(false, true, false); // Command execution blink
 
   if (upperCmd == "HELP") {
-    printToTerminal("Commands: DIR, VER, MEM, CLS, BEEP");
-    printToTerminal("          LED <R|G|B|OFF>, ECHO <txt>, PY <expr>");
+    printToTerminal("Commands: DIR, VER, MEM, CLS, BEEP, NET");
+    printToTerminal("          TIME, SCAN, LED <R|G|B|OFF>, PY <expr>");
   } else if (upperCmd == "VER") {
     printToTerminal("PyDOS Handheld OS v2.4 (c) 2026");
-    printToTerminal("Created for @IamNotIntoTech");
+    printToTerminal("Channel: @IamNotIntoTech | Paris Edition");
   } else if (upperCmd == "MEM") {
     char memBuf[40];
     snprintf(memBuf, sizeof(memBuf), "Free Heap: %u bytes", ESP.getFreeHeap());
     printToTerminal(memBuf);
     snprintf(memBuf, sizeof(memBuf), "Min Free:  %u bytes", ESP.getMinFreeHeap());
     printToTerminal(memBuf);
+  } else if (upperCmd == "TIME" || upperCmd == "DATE") {
+    if (wifiConnected) {
+      time_t now = time(nullptr);
+      struct tm* t = localtime(&now);
+      char tBuf[40];
+      strftime(tBuf, sizeof(tBuf), "Paris Time: %Y-%m-%d %H:%M:%S", t);
+      printToTerminal(tBuf);
+    } else {
+      char tBuf[40];
+      snprintf(tBuf, sizeof(tBuf), "Uptime: %lu sec (Offline)", millis() / 1000);
+      printToTerminal(tBuf);
+    }
+  } else if (upperCmd == "NET" || upperCmd == "IP") {
+    if (wifiConnected) {
+      printToTerminal("SSID: " + WiFi.SSID() + " (" + String(WiFi.RSSI()) + " dBm)");
+      printToTerminal("IP:   " + WiFi.localIP().toString());
+      printToTerminal("Anchor: Paris (48.8584N, 2.2945E)");
+    } else {
+      printToTerminal("Wi-Fi: Disconnected (Offline)");
+    }
+  } else if (upperCmd == "SCAN") {
+    printToTerminal("Scanning Wi-Fi...");
+    int n = WiFi.scanNetworks();
+    if (n == 0) {
+      printToTerminal("No networks found.");
+    } else {
+      char scBuf[40];
+      snprintf(scBuf, sizeof(scBuf), "Found %d APs:", n);
+      printToTerminal(scBuf);
+      for (int i = 0; i < min(n, 3); i++) {
+        printToTerminal(" " + WiFi.SSID(i) + " (" + String(WiFi.RSSI(i)) + "dBm)");
+      }
+    }
   } else if (upperCmd == "DIR" || upperCmd == "LS") {
     printToTerminal(" Volume in C: is CYD_ROOT");
     printToTerminal(" AUTOEXEC.BAT       128 bytes");
     printToTerminal(" MAIN.PY          2,048 bytes");
-    printToTerminal(" FIRMWARE.BIN   302,400 bytes");
+    printToTerminal(" SECRETS.H          512 bytes");
   } else if (upperCmd == "CLS") {
     lineCount = 0;
   } else if (upperCmd == "BEEP") {
@@ -214,7 +258,7 @@ void executeCommand(String cmd) {
     else { setRGB(false, false, false); printToTerminal("LED: OFF"); }
   } else if (upperCmd.startsWith("PY ")) {
     printToTerminal(">>> " + cmd.substring(3));
-    printToTerminal("Output: 42 (eval ok)");
+    printToTerminal("Result: 42 (eval complete)");
   } else {
     printToTerminal("Bad command or file name.");
   }
@@ -247,8 +291,20 @@ void setup() {
   ts.begin(touchSPI);
   ts.setRotation(1);
 
+  // Wi-Fi Connection
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  unsigned long startWiFi = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+    delay(100);
+  }
+  wifiConnected = (WiFi.status() == WL_CONNECTED);
+  if (wifiConnected) {
+    configTime(3600, 3600, "pool.ntp.org", "time.google.com");
+  }
+
   printToTerminal("PyDOS v2.4 [@IamNotIntoTech]");
-  printToTerminal("ESP32-2432S028R Handheld PC Ready.");
+  printToTerminal(wifiConnected ? "Net: Online (Paris NTP Sync)" : "Net: Standalone Offline");
   printToTerminal("Type 'HELP' or tap quick presets below.");
   drawTerminal();
   drawKeyboard();
@@ -284,7 +340,7 @@ void loop() {
           // Quick Preset Commands (y: 212..239)
           if (screenY >= 212) {
             int qIdx = (screenX - 6) / 78;
-            const char* quickCmds[4] = { "DIR", "MEM", "BEEP", "HELP" };
+            const char* quickCmds[4] = { "DIR", "MEM", "NET", "HELP" };
             if (qIdx >= 0 && qIdx < 4) {
               executeCommand(quickCmds[qIdx]);
               return;
@@ -360,4 +416,3 @@ void loop() {
 
   delay(15);
 }
-
