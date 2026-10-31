@@ -194,3 +194,8 @@ elecrow_projects/*
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
+
+# Always ignore secrets in any project folder
+elecrow_projects/**/secrets.h
+elecrow_projects/**/credentials.h
+elecrow_projects/**/wifi_credentials.h
