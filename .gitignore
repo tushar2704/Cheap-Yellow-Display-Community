@@ -151,6 +151,8 @@ elecrow_projects/*
 !elecrow_projects/31-co2-air-quality-monitor/**
 !elecrow_projects/32-openhasp-switch-plate/
 !elecrow_projects/32-openhasp-switch-plate/**
+!elecrow_projects/33-internet-lofi-radio/
+!elecrow_projects/33-internet-lofi-radio/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
