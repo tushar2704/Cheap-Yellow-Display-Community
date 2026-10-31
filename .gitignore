@@ -177,6 +177,8 @@ elecrow_projects/*
 !elecrow_projects/44-ardos-window-manager/**
 !elecrow_projects/45-pydos-handheld-pc/
 !elecrow_projects/45-pydos-handheld-pc/**
+!elecrow_projects/46-boids-physics-toy/
+!elecrow_projects/46-boids-physics-toy/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
