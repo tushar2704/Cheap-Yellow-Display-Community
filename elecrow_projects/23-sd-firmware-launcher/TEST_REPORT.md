@@ -27,4 +27,6 @@
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
 - **OTA Engine**: Update.h + SD.h + FS.h
-
+- **Flash Usage**: 379,201 bytes (28.9% of 1.31 MB)
+- **RAM Usage**: 23,348 bytes (7.1% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
