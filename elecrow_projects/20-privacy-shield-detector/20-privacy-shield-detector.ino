@@ -24,6 +24,12 @@
 #include <XPT2046_Touchscreen.h>
 #include <math.h>
 
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#elif __has_include("secrets.h.example")
+  #include "secrets.h.example"
+#endif
+
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
 #define TOUCH_MOSI    32

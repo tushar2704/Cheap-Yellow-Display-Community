@@ -30,4 +30,6 @@
 - **Display Driver**: TFT_eSPI (ILI9341_2)
 - **Touch Driver**: XPT2046_Touchscreen (polling mode)
 - **Bluetooth**: BLEDevice, BLEScan
-
+- **Flash Usage**: 1,189,885 bytes (60.5% of 1.96 MB)
+- **RAM Usage**: 40,768 bytes (12.4% of 327.68 KB)
+- **Result**: SUCCESS (0 errors, 0 warnings)
