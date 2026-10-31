@@ -17,8 +17,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 // Hardware Pin Definitions for Elecrow 2.8" CYD
 #define TFT_BL_PIN    21
@@ -58,6 +66,7 @@ PomoMode pomoMode = MODE_WORK;
 int timerSecondsRemaining = 25 * 60;
 bool timerRunning = false;
 int completedSessions = 0;
+bool wifiConnected = false;
 
 // Virtual Pet Vitals
 int petHealth = 95;      // 0..100
@@ -105,8 +114,12 @@ void drawHeader() {
   tft.setTextColor(COLOR_TEXT, COLOR_PANEL);
   tft.drawCentreString("POMODORO PET", 160, 5, 2);
 
-  char sessBuf[16];
-  snprintf(sessBuf, sizeof(sessBuf), "STREAK: %d", completedSessions);
+  char sessBuf[24];
+  if (wifiConnected) {
+    snprintf(sessBuf, sizeof(sessBuf), "PARIS | #%d", completedSessions);
+  } else {
+    snprintf(sessBuf, sizeof(sessBuf), "STREAK: %d", completedSessions);
+  }
   tft.setTextColor(COLOR_BREAK, COLOR_PANEL);
   tft.drawRightString(sessBuf, 312, 5, 2);
 }
@@ -286,6 +299,18 @@ void setup() {
   ts.begin(touchSPI);
   ts.setRotation(1);
 
+  // Wi-Fi Check
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  unsigned long startWiFi = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+    delay(100);
+  }
+  wifiConnected = (WiFi.status() == WL_CONNECTED);
+  if (wifiConnected) {
+    configTime(3600, 3600, "pool.ntp.org", "time.google.com");
+  }
+
   renderAll();
 
   playBeep(2400, 60);
@@ -403,4 +428,3 @@ void loop() {
 
   delay(15);
 }
-
