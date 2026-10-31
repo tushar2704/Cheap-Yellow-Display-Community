@@ -149,6 +149,8 @@ elecrow_projects/*
 !elecrow_projects/30-catppuccin-weather/**
 !elecrow_projects/31-co2-air-quality-monitor/
 !elecrow_projects/31-co2-air-quality-monitor/**
+!elecrow_projects/32-openhasp-switch-plate/
+!elecrow_projects/32-openhasp-switch-plate/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
