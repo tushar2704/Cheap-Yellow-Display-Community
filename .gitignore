@@ -133,6 +133,8 @@ elecrow_projects/*
 !elecrow_projects/22-cyd-diagnostic-suite/**
 !elecrow_projects/23-sd-firmware-launcher/
 !elecrow_projects/23-sd-firmware-launcher/**
+!elecrow_projects/24-pocket-rf-ir-tool/
+!elecrow_projects/24-pocket-rf-ir-tool/**
 elecrow_projects/*/.pio/
 elecrow_projects/*/.vscode/
 elecrow_projects/*/__pycache__/
