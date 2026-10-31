@@ -1,47 +1,58 @@
 /**
  * @file 12-metar-weather-decoder.ino
- * @brief Pilot's Desk METAR & TAF Aviation Weather Decoder
+ * @brief Pilot's Desk METAR & TAF Aviation Weather Decoder (Live NOAA Stream)
  * @author Tushar Aggarwal (@tushar2704)
  * @channel IamNotIntoTech (https://youtube.com/@IamNotIntoTech)
  * 
  * Hardware:
  * - Elecrow CrowPanel 2.8" / ESP32-2432S028R
- * - Display: ILI9341 320x240
- * - Touch: XPT2046 Resistive Touch
- * - Network: ESP32 Wi-Fi + NOAA Aviation Weather Client
+ * - Display: ILI9341 320x240 (HSPI)
+ * - Touch: XPT2046 Resistive Touch (Dedicated VSPI: MOSI 32, MISO 39, CLK 25, CS 33)
+ * - Calibrated non-inverted landscape coordinate mapping
+ * - Network: ESP32 Wi-Fi + NOAA Aviation Weather REST API
  * - Audio: GPIO 26 Tone feedback
  * - RGB LED: GPIO 4, 16, 17 [Active LOW]
  */
 
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
+#include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+#include <math.h>
 
-#define XPT2046_IRQ   36
+// Wi-Fi Credentials & Configuration (Stored securely in secrets.h)
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #define WIFI_SSID     "YOUR_WIFI_SSID"
+  #define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+  #define METAR_AIRPORTS "LFPG,LFPO,LFPB,EGLL"
+#endif
+
+// Dedicated VSPI Touch Pins (CYD Standard)
 #define XPT2046_MOSI  32
 #define XPT2046_MISO  39
 #define XPT2046_CLK   25
 #define XPT2046_CS    33
 
+// Onboard Peripherals
 #define LED_RED       4
 #define LED_GREEN     16
 #define LED_BLUE      17
 #define LDR_PIN       34
 #define SPEAKER_PIN   26
 
-#define TS_MINX 300
+// Calibrated Touch Extents
+#define TS_MINX 240
 #define TS_MAXX 3800
-#define TS_MINY 200
-#define TS_MAXY 3700
-
-// Wi-Fi Config
-const char* ssid = "HOMELAB_WIFI";
-const char* password = "homelab_secret";
+#define TS_MINY 240
+#define TS_MAXY 3800
 
 SPIClass touchSPI(VSPI);
-XPT2046_Touchscreen ts(XPT2046_CS);
+XPT2046_Touchscreen ts(XPT2046_CS); // Polling mode (no IRQ pin)
 TFT_eSPI tft = TFT_eSPI();
 
 enum FlightCategory {
@@ -52,29 +63,32 @@ enum FlightCategory {
 };
 
 struct MetarStation {
-  const char* icao;
-  const char* name;
-  const char* rawMetar;
+  char icao[8];
+  char name[32];
+  char rawMetar[96];
   FlightCategory category;
   int windDir;
   int windSpeedKts;
   int rwyHeading;
   int tempC;
   int dewC;
-  const char* vis;
-  const char* clouds;
+  char vis[16];
+  char clouds[32];
+  int altimeterHpa;
 };
 
 #define STATION_COUNT 4
 MetarStation stations[STATION_COUNT] = {
-  {"KLAX", "Los Angeles Intl",  "KLAX 292150Z 26014KT 10SM CLR 22/13 A2994", CAT_VFR,  260, 14, 250, 22, 13, "10+ SM", "Clear (Unlimited)"},
-  {"KJFK", "New York JFK",      "KJFK 292151Z 31018G25KT 9SM SCT045 16/08 A3002", CAT_VFR,  310, 18, 310, 16,  8, "9 SM",   "SCT 4,500 ft"},
-  {"EGLL", "London Heathrow",   "EGLL 292150Z 21008KT 4500 BKN012 12/10 Q1014",  CAT_MVFR, 210,  8, 270, 12, 10, "4.5 km", "BKN 1,200 ft"},
-  {"OMDB", "Dubai Intl",        "OMDB 292150Z 34010KT CAVOK 31/18 Q1011",        CAT_VFR,  340, 10, 300, 31, 18, "CAVOK",  "Clear Skies"}
+  {"LFPG", "Paris Charles de Gaulle", "Connecting to live NOAA feed...", CAT_VFR, 20, 5, 270, 10, 7, "10+ km", "CAVOK", 1029},
+  {"LFPO", "Paris Orly Airport",     "Connecting to live NOAA feed...", CAT_VFR, 20, 5, 240, 10, 6, "10+ km", "CAVOK", 1029},
+  {"LFPB", "Paris Le Bourget",        "Connecting to live NOAA feed...", CAT_VFR, 360, 5, 210, 10, 7, "10+ km", "CAVOK", 1030},
+  {"EGLL", "London Heathrow",         "Connecting to live NOAA feed...", CAT_VFR, 20, 2, 270, 10, 9, "9 km", "NCD", 1032}
 };
 
 int currentStation = 0;
 unsigned long lastTouchTime = 0;
+unsigned long lastMetarFetch = 0;
+const unsigned long FETCH_INTERVAL = 60000; // Poll NOAA every 60 seconds
 
 void setRgbLed(bool r, bool g, bool b) {
   digitalWrite(LED_RED, r ? LOW : HIGH);
@@ -106,14 +120,26 @@ const char* getCategoryLabel(FlightCategory cat) {
   }
 }
 
+FlightCategory parseFlightCategory(const char* cat) {
+  if (strcmp(cat, "VFR") == 0) return CAT_VFR;
+  if (strcmp(cat, "MVFR") == 0) return CAT_MVFR;
+  if (strcmp(cat, "IFR") == 0) return CAT_IFR;
+  if (strcmp(cat, "LIFR") == 0) return CAT_LIFR;
+  return CAT_VFR;
+}
+
 void drawStationTabs() {
   tft.fillRect(0, 0, 320, 24, 0x0010);
   tft.setTextColor(0xFFE0, 0x0010);
   tft.setTextSize(1);
   tft.setCursor(6, 4);
-  tft.print("AVIATION METAR DECODER  ");
+  tft.print("AVIATION METAR - ");
   tft.setTextColor(0x07E0, 0x0010);
-  tft.print("IamNotIntoTech");
+  tft.print("PARIS REGION");
+
+  tft.setTextColor(WiFi.status() == WL_CONNECTED ? 0x07E0 : 0xF800, 0x0010);
+  tft.setCursor(220, 4);
+  tft.print(WiFi.status() == WL_CONNECTED ? "LIVE NOAA DATA" : "OFFLINE");
 
   // 4 Tabs Across
   int tabW = 80;
@@ -183,7 +209,7 @@ void drawDecodedWeather() {
 
   tft.setTextColor(0x07E0, 0x0000);
   tft.setCursor(lx + 8, ly + 72);
-  tft.printf("QNH:  29.94 inHg / 1014 hPa");
+  tft.printf("QNH:  %d hPa", s.altimeterHpa);
 
   // Runway Crosswind Vector Calculator (Right Card)
   int rx = 162;
@@ -209,7 +235,7 @@ void drawDecodedWeather() {
 
   tft.setTextColor(fabs(crosswind) > 12.0f ? 0xF800 : 0x07E0, 0x0000);
   tft.setCursor(rx + 8, ry + 40);
-  tft.printf("Crosswind: %.1f kts (%s)", fabs(crosswind), (crosswind >= 0 ? "Right" : "Left"));
+  tft.printf("Crosswind: %.1f kt (%s)", fabs(crosswind), (crosswind >= 0 ? "R" : "L"));
 
   // Visual Crosswind Limit Bar
   tft.drawRect(rx + 8, ry + 58, 134, 10, TFT_WHITE);
@@ -233,111 +259,234 @@ void drawDecodedWeather() {
   tft.print("RAW METAR:");
   tft.setTextColor(TFT_WHITE, 0x10A2);
   tft.setCursor(12, rawY + 20);
-  tft.print(s.rawMetar);
+  char shortRaw[48];
+  strncpy(shortRaw, s.rawMetar, sizeof(shortRaw) - 1);
+  shortRaw[sizeof(shortRaw) - 1] = '\0';
+  tft.print(shortRaw);
 
   // Footer
   tft.fillRect(0, 224, 320, 16, 0x18C3);
   tft.setTextColor(TFT_WHITE, 0x18C3);
   tft.setCursor(8, 228);
-  tft.print("Live NOAA Aviation Telemetry | @IamNotIntoTech");
+  tft.print("Live NOAA Aviation Weather Stream | @IamNotIntoTech");
 
-  // Update RGB LED to match category
-  if (s.category == CAT_VFR) setRgbLed(false, true, false);
-  else if (s.category == CAT_MVFR) setRgbLed(false, false, true);
-  else setRgbLed(true, false, false);
+  // Update RGB LED to match flight rule category
+  if (s.category == CAT_VFR) setRgbLed(false, true, false);      // Green
+  else if (s.category == CAT_MVFR) setRgbLed(false, false, true); // Blue
+  else setRgbLed(true, false, false);                           // Red for IFR / LIFR
+}
+
+void renderView() {
+  drawStationTabs();
+  drawDecodedWeather();
+}
+
+void fetchLiveMetar() {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("[METAR] Wi-Fi not connected yet. Waiting...");
+    return;
+  }
+
+  Serial.println("[METAR] Querying live NOAA Aviation Weather observations...");
+  WiFiClientSecure client;
+  client.setInsecure(); // Public NOAA API
+  client.setTimeout(6000);
+
+  HTTPClient http;
+  const char* url = "https://aviationweather.gov/api/data/metar?ids=LFPG,LFPO,LFPB,EGLL&format=json";
+
+  if (http.begin(client, url)) {
+    http.setUserAgent("CYD-MetarDecoder/2.0");
+    int code = http.GET();
+    if (code == HTTP_CODE_OK) {
+      String payload = http.getString();
+      DynamicJsonDocument doc(4096);
+      DeserializationError err = deserializeJson(doc, payload);
+      if (!err) {
+        JsonArray arr = doc.as<JsonArray>();
+        for (JsonObject obs : arr) {
+          const char* icao = obs["icaoId"] | "";
+          for (int i = 0; i < STATION_COUNT; i++) {
+            if (strcmp(stations[i].icao, icao) == 0) {
+              const char* raw = obs["rawOb"] | "";
+              strncpy(stations[i].rawMetar, raw, sizeof(stations[i].rawMetar) - 1);
+              stations[i].rawMetar[sizeof(stations[i].rawMetar) - 1] = '\0';
+
+              const char* fltCat = obs["fltCat"] | "VFR";
+              stations[i].category = parseFlightCategory(fltCat);
+
+              stations[i].windDir = obs["wdir"].as<int>();
+              stations[i].windSpeedKts = obs["wspd"].as<int>();
+              stations[i].tempC = obs["temp"].as<int>();
+              stations[i].dewC = obs["dewp"].as<int>();
+              stations[i].altimeterHpa = (int)(obs["altim"].as<float>());
+
+              const char* vis = obs["visib"] | "10+ km";
+              strncpy(stations[i].vis, vis, sizeof(stations[i].vis) - 1);
+              stations[i].vis[sizeof(stations[i].vis) - 1] = '\0';
+
+              if (obs.containsKey("clouds") && obs["clouds"].size() > 0) {
+                const char* cov = obs["clouds"][0]["cover"] | "CAVOK";
+                int base = obs["clouds"][0]["base"] | 0;
+                if (base > 0) {
+                  snprintf(stations[i].clouds, sizeof(stations[i].clouds), "%s %d ft", cov, base);
+                } else {
+                  snprintf(stations[i].clouds, sizeof(stations[i].clouds), "%s", cov);
+                }
+              } else {
+                strncpy(stations[i].clouds, "CAVOK", sizeof(stations[i].clouds) - 1);
+              }
+
+              Serial.printf("[METAR] %s: %s | Wind: %d@%d | %dC/%dC | %s\n",
+                            stations[i].icao, fltCat, stations[i].windDir, 
+                            stations[i].windSpeedKts, stations[i].tempC, stations[i].dewC, raw);
+              break;
+            }
+          }
+        }
+        lastMetarFetch = millis();
+        renderView();
+      } else {
+        Serial.printf("[METAR] JSON parse error: %s\n", err.c_str());
+      }
+    } else {
+      Serial.printf("[METAR] HTTP error: %d\n", code);
+    }
+    http.end();
+  }
 }
 
 void setup() {
   Serial.begin(115200);
   delay(150);
 
-  Serial.println("\n--- [Elecrow 2.8 CYD] 12 METAR Weather Decoder ---");
+  Serial.println("\n--- [Elecrow 2.8 CYD] 12 Live METAR Aviation Weather Decoder ---");
   Serial.println("Channel: @IamNotIntoTech");
   Serial.println("Author: Tushar Aggarwal (@tushar2704)");
+  Serial.println("Monitored Airports: Paris CDG (LFPG), Paris Orly (LFPO), Le Bourget (LFPB), London (EGLL)");
 
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);
   pinMode(LED_BLUE, OUTPUT);
-  setRgbLed(true, false, false);
+  setRgbLed(true, false, false); // Boot Red
 
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(LDR_PIN, INPUT);
 
   tft.init();
-  tft.setRotation(1);
+  tft.setRotation(1); // Landscape 320x240
   tft.fillScreen(TFT_BLACK);
 
+  // Initialize Touch Screen on dedicated VSPI bus
   touchSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
   ts.begin(touchSPI);
   ts.setRotation(1);
 
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-
-  // Splash
+  // Splash Screen
   tft.fillRect(0, 0, 320, 240, 0x0821);
-  tft.fillRoundRect(20, 30, 280, 180, 8, 0x0000);
-  tft.drawRoundRect(20, 30, 280, 180, 8, 0x07E0);
+  tft.fillRoundRect(16, 20, 288, 200, 8, 0x0000);
+  tft.drawRoundRect(16, 20, 288, 200, 8, 0x07E0);
 
   tft.setTextColor(0xFDC0, 0x0000);
   tft.setTextSize(2);
-  tft.setCursor(44, 55);
+  tft.setCursor(36, 38);
   tft.print("IamNotIntoTech");
 
   tft.setTextColor(TFT_WHITE, 0x0000);
   tft.setTextSize(1);
-  tft.setCursor(44, 90);
+  tft.setCursor(36, 68);
   tft.print("ELECROW 2.8\" CYD PROJECT SUITE");
 
   tft.setTextColor(0x07E0, 0x0000);
-  tft.setCursor(44, 115);
-  tft.print("Project 12: METAR Weather Decoder");
+  tft.setCursor(36, 88);
+  tft.print("Project 12: Live Aviation METAR Decoder");
 
-  tft.setTextColor(TFT_DARKGREY, 0x0000);
-  tft.setCursor(44, 140);
-  tft.print("Crosswind Vector | VFR/IFR Flight Rules");
+  tft.setTextColor(TFT_CYAN, 0x0000);
+  tft.setCursor(36, 108);
+  tft.print("Stations: LFPG, LFPO, LFPB, EGLL");
 
-  playBeep(1600, 80);
-  delay(100);
-  playBeep(2200, 100);
-  delay(500);
+  tft.setTextColor(TFT_WHITE, 0x0000);
+  tft.setCursor(36, 130);
+  tft.printf("Connecting to Wi-Fi: %s...", WIFI_SSID);
 
-  drawStationTabs();
-  drawDecodedWeather();
+  playBeep(1800, 80);
+
+  // Connect to Wi-Fi
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
+  unsigned long startWifi = millis();
+  while (WiFi.status() != WL_CONNECTED && (millis() - startWifi < 10000)) {
+    delay(200);
+    Serial.print(".");
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\n[WIFI] Connected! IP: " + WiFi.localIP().toString());
+    tft.setTextColor(0x07E0, 0x0000);
+    tft.setCursor(36, 150);
+    tft.printf("Wi-Fi Connected! IP: %s", WiFi.localIP().toString().c_str());
+    setRgbLed(false, true, false);
+    playBeep(2400, 100);
+  } else {
+    Serial.println("\n[WIFI] Connecting in background...");
+    tft.setTextColor(0xFD20, 0x0000);
+    tft.setCursor(36, 150);
+    tft.print("Wi-Fi connecting in background...");
+    setRgbLed(true, true, false);
+  }
+
+  tft.setTextColor(0x07FF, 0x0000);
+  tft.setCursor(36, 172);
+  tft.print("Streaming live NOAA weather observations...");
+  delay(1200);
+
+  renderView();
+  fetchLiveMetar();
 }
 
 void loop() {
+  // Periodic Live METAR Refresh
+  if (millis() - lastMetarFetch > FETCH_INTERVAL) {
+    fetchLiveMetar();
+  }
+
+  // Touch Handling (calibrated non-inverted Y)
   if (ts.touched()) {
     TS_Point p = ts.getPoint();
-    if (p.z > 50 || ts.touched()) {
-      if (millis() - lastTouchTime > 180) {
-        lastTouchTime = millis();
+    if (millis() - lastTouchTime > 200) {
+      lastTouchTime = millis();
 
-        // Landscape calibration: non-inverted Y
-        int screenX = map(p.x, 240, 3800, 0, 320);
-        int screenY = map(p.y, 240, 3800, 0, 240);
-        screenX = constrain(screenX, 0, 319);
-        screenY = constrain(screenY, 0, 239);
+      int screenX = map(p.x, TS_MINX, TS_MAXX, 0, 320);
+      int screenY = map(p.y, TS_MINY, TS_MAXY, 0, 240); // Standard non-inverted Y
+      screenX = constrain(screenX, 0, 319);
+      screenY = constrain(screenY, 0, 239);
 
-        Serial.printf("[TOUCH] Raw X=%d, Y=%d, Z=%d -> Screen (%d, %d)\n", p.x, p.y, p.z, screenX, screenY);
+      Serial.printf("[TOUCH] Raw(%d, %d) -> Screen(%d, %d)\n", p.x, p.y, screenX, screenY);
 
-        if (screenY <= 52) {
-          int idx = screenX / 80;
-          if (idx >= 0 && idx < STATION_COUNT) {
-            currentStation = idx;
-            playBeep(2000, 40);
-            drawStationTabs();
-            drawDecodedWeather();
+      // 1. Station Tabs (Y: 22 to 46)
+      if (screenY >= 22 && screenY <= 46) {
+        int tabIdx = screenX / 80;
+        if (tabIdx >= 0 && tabIdx < STATION_COUNT) {
+          if (tabIdx != currentStation) {
+            currentStation = tabIdx;
+            playBeep(2000, 35);
+            renderView();
           }
-        } else {
-          currentStation = (currentStation + 1) % STATION_COUNT;
-          playBeep(1800, 30);
-          drawStationTabs();
-          drawDecodedWeather();
         }
+      }
+      // 2. Tap on Weather Card or Raw METAR: Trigger Manual Refresh
+      else if (screenY > 46) {
+        playBeep(2400, 40);
+        tft.fillRect(0, 224, 320, 16, 0x07E0);
+        tft.setTextColor(TFT_BLACK, 0x07E0);
+        tft.setTextSize(1);
+        tft.setCursor(8, 228);
+        tft.print("Refreshing live NOAA observation...");
+        fetchLiveMetar();
       }
     }
   }
 
-  delay(15);
+  delay(10);
 }
