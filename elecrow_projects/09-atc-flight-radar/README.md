@@ -38,6 +38,26 @@
 
 ---
 
+## ⚙️ Configuration (Live Data & Secrets)
+
+To protect private credentials, Wi-Fi keys are stored in `secrets.h` (which is excluded from Git tracking via `.gitignore`).
+
+1. Copy `secrets.h.example` to `secrets.h`:
+   ```bash
+   cp secrets.h.example secrets.h
+   ```
+2. Enter your 2.4GHz Wi-Fi credentials and your target coordinates (defaults to Paris - Eiffel Tower):
+   ```c
+   #define WIFI_SSID     "YOUR_WIFI_SSID"
+   #define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+   #define RADAR_LAT     48.8584
+   #define RADAR_LON     2.2945
+   #define RADAR_LOCNAME "PARIS (EIFFEL)"
+   ```
+3. Real live aircraft data is streamed directly from public ADS-B endpoints (`adsb.lol`).
+
+---
+
 ## 🛠️ How to Compile & Flash
 
 Using PlatformIO CLI:
