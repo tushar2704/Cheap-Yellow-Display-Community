@@ -2,6 +2,7 @@
  * Project 48: Modular Sensor Workbench & I2C Lab Monitor
  * Board: Elecrow ESP32-2432S028R (2.8" ILI9341 TFT + XPT2046 Resistive Touch)
  * Channel: @IamNotIntoTech (https://youtube.com/@IamNotIntoTech)
+ * Author: Tushar Aggarwal (tushar2704)
  * 
  * Hardware Pinouts:
  *  - ILI9341 TFT SPI: MOSI=13, MISO=12, SCK=14, CS=15, DC=2, BL=21
@@ -15,8 +16,16 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <Wire.h>
+#include <WiFi.h>
+#include <time.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#else
+  #include "secrets.h.example"
+#endif
 
 #define TFT_BL_PIN    21
 #define TOUCH_MOSI    32
@@ -45,6 +54,7 @@ enum WorkbenchTab {
     TAB_ALARMS = 2
 };
 WorkbenchTab activeTab = TAB_STRIP_CHART;
+bool wifiConnected = false;
 
 // Data Channel Structure
 #define CHART_HISTORY_LEN 64
@@ -140,7 +150,7 @@ void drawTopTabs() {
     tft.fillRect(206, 3, 108, 20, t3Bg);
     tft.drawRect(206, 3, 108, 20, (activeTab == TAB_ALARMS) ? TFT_CYAN : 0x52AA);
     tft.setTextColor((activeTab == TAB_ALARMS) ? TFT_CYAN : TFT_LIGHTGREY, t3Bg);
-    tft.drawCentreString("ALARMS", 260, 5, 2);
+    tft.drawCentreString(wifiConnected ? "PARIS LAB" : "ALARMS", 260, 5, 2);
 }
 
 void renderChartTab() {
@@ -297,7 +307,6 @@ void renderAlarmsTab() {
     // Card 1: Alarm Threshold Setting
     tft.fillRect(6, 32, 308, 70, 0x10A2);
     tft.drawRect(6, 32, 308, 70, 0x3186);
-
     tft.setTextColor(TFT_WHITE, 0x10A2);
     tft.drawString("Alarm Trigger Threshold", 14, 38, 2);
 
@@ -528,6 +537,15 @@ void setup() {
     tft.setRotation(1);
     tft.fillScreen(TFT_BLACK);
 
+    // Wi-Fi Check
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    unsigned long startWiFi = millis();
+    while (WiFi.status() != WL_CONNECTED && millis() - startWiFi < 2500) {
+        delay(100);
+    }
+    wifiConnected = (WiFi.status() == WL_CONNECTED);
+
     // Initial sensor sample
     for (int i = 0; i < CHART_HISTORY_LEN; i++) {
         chLDR.history[i] = 1200;
@@ -555,4 +573,3 @@ void loop() {
 
     delay(10);
 }
-
