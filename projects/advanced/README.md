@@ -50,6 +50,7 @@
 | 37 | [37 - CYD-to-CYD Remote Tele-Commander](37-cyd-to-cyd-remote-telecommander/) | Dual-display KVM & actuator deck: touch trackpad, backlight PWM, soundboard & sensor HUD | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 38 | [38 - CYD-to-CYD Space Dogfight](38-cyd-to-cyd-space-dogfight/) | Retro arcade two-player duel: cross-screen plasma lasers, forcefields & EMP bolts | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 39 | [39 - CYD Stealth WiFi Radar Hunter](39-cyd-stealth-wifi-radar-hunter/) | RF privacy radar: animated CRT phosphor sweep, hidden SSID hunter & Geiger audio | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 40 | [40 - CYD-to-CYD AirDrop Secret Vault](40-cyd-to-cyd-airdrop-secret-vault/) | Offline credentials vault: PIN security, plasma beam animation & P2P secret sharing | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 
 ---
 
