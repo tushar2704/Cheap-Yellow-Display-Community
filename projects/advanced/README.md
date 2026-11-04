@@ -49,6 +49,7 @@
 | 36 | [36 - CYD-to-CYD BlackBerry Messenger](36-cyd-to-cyd-blackberry-messenger/) | Retro off-grid communicator: BBM PINs, QWERTY chiclet touch keys, PING buzz & receipts | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 37 | [37 - CYD-to-CYD Remote Tele-Commander](37-cyd-to-cyd-remote-telecommander/) | Dual-display KVM & actuator deck: touch trackpad, backlight PWM, soundboard & sensor HUD | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 38 | [38 - CYD-to-CYD Space Dogfight](38-cyd-to-cyd-space-dogfight/) | Retro arcade two-player duel: cross-screen plasma lasers, forcefields & EMP bolts | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 39 | [39 - CYD Stealth WiFi Radar Hunter](39-cyd-stealth-wifi-radar-hunter/) | RF privacy radar: animated CRT phosphor sweep, hidden SSID hunter & Geiger audio | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 
 ---
 
