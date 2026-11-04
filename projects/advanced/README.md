@@ -47,6 +47,7 @@
 | 34 | [34 - CYD-to-CYD Walkie-Talkie](34-cyd-to-cyd-walkie-talkie/) | Half-duplex acoustic communicator: tactile PTT, spectrum visualizer & call chimes | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 35 | [35 - CYD-to-CYD Extended Display](35-cyd-to-cyd-extended-display/) | Dual-monitor cockpit rig: Master touch surface streams 40Hz telemetry to Slave HUD | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 36 | [36 - CYD-to-CYD BlackBerry Messenger](36-cyd-to-cyd-blackberry-messenger/) | Retro off-grid communicator: BBM PINs, QWERTY chiclet touch keys, PING buzz & receipts | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 37 | [37 - CYD-to-CYD Remote Tele-Commander](37-cyd-to-cyd-remote-telecommander/) | Dual-display KVM & actuator deck: touch trackpad, backlight PWM, soundboard & sensor HUD | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 
 ---
 
