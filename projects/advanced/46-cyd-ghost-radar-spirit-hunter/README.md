@@ -63,3 +63,10 @@ pio run --target upload
 2. Select Board: **ESP32 Dev Module**.
 3. Install **TFT_eSPI** and **XPT2046_Touchscreen**.
 4. Upload and search for ghosts in the dark!
+
+---
+
+## 🧪 Test Report
+
+Full hardware testing and memory metrics are documented in [TEST_REPORT.md](TEST_REPORT.md).
+

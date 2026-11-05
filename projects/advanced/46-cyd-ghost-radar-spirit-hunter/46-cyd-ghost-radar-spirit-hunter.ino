@@ -87,6 +87,7 @@ const char* EVP_WORDS[] = {
 const char* currentEvpWord = "SCANNING...";
 unsigned long lastEvpTrigger = 0;
 unsigned long lastAnomalySpawn = 0;
+unsigned long lastTempUpdate = 0;
 int currentEmfLevel = 1;
 float ambientTemp = 21.4f;
 bool soundEnabled = true;
@@ -324,8 +325,12 @@ void loop() {
       if (entities[i].alpha > 12) {
         entities[i].alpha -= 4;
       } else {
-        // Clear blip
+        // Clear blip & restore rings
         tft.fillCircle(ex, ey, 8, COL_BG);
+        tft.drawCircle(RADAR_CX, RADAR_CY, RADAR_R * 0.75, COL_GRID);
+        tft.drawCircle(RADAR_CX, RADAR_CY, RADAR_R * 0.50, COL_GRID);
+        tft.drawCircle(RADAR_CX, RADAR_CY, RADAR_R * 0.25, COL_GRID);
+        tft.drawCircle(RADAR_CX, RADAR_CY, 3, COL_PHOSPHOR);
         entities[i].active = false;
       }
     }
@@ -345,7 +350,13 @@ void loop() {
     }
   }
 
-  // 8. Spirit Box EVP Radio static & word trigger
+  // 8. Dynamic Temperature HUD update (every 400ms)
+  if (now - lastTempUpdate >= 400) {
+    lastTempUpdate = now;
+    renderTelemetry(ambientTemp, currentEvpWord);
+  }
+
+  // 9. Spirit Box EVP Radio static & word trigger
   if (now - lastEvpTrigger >= 6000) {
     lastEvpTrigger = now;
     if (random(0, 10) < 5 || currentEmfLevel >= 4) {
@@ -385,3 +396,4 @@ void loop() {
 
   delay(20);
 }
+

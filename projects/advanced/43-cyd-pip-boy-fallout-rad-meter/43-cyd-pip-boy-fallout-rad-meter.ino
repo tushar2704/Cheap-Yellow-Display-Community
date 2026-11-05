@@ -206,19 +206,34 @@ void drawVaultBoy(int cx, int cy, float rads) {
 }
 
 // ---------------- Draw Tab 1: STAT ----------------
-void renderTabStat() {
-  // Vault Boy Center
-  drawVaultBoy(85, 115, currentRads);
+bool statBoxInitialized = false;
+int lastVaultBoyMood = -1;
 
-  // Right Side: Radiation Meter & Dosimeter Readouts
-  tft.drawRoundRect(165, 38, 145, 168, 6, COL_GREEN_DIM);
-  tft.fillRect(167, 40, 141, 164, 0x0061);
-  
-  tft.setTextFont(2);
-  tft.setTextColor(COL_GREEN_BRT, 0x0061);
-  tft.drawCentreString("GEIGER DOSIMETER", 237, 46, 2);
-  
-  // Large Rads Display
+void renderTabStat(bool fullRedraw = false) {
+  int currentMood = (currentRads > 120.0f) ? 2 : ((currentRads > 40.0f) ? 1 : 0);
+  if (fullRedraw || currentMood != lastVaultBoyMood) {
+    lastVaultBoyMood = currentMood;
+    drawVaultBoy(85, 115, currentRads);
+  }
+
+  if (fullRedraw || !statBoxInitialized) {
+    statBoxInitialized = true;
+    tft.drawRoundRect(165, 38, 145, 168, 6, COL_GREEN_DIM);
+    tft.fillRect(167, 40, 141, 164, 0x0061);
+    
+    tft.setTextFont(2);
+    tft.setTextColor(COL_GREEN_BRT, 0x0061);
+    tft.drawCentreString("GEIGER DOSIMETER", 237, 46, 2);
+    
+    tft.setTextFont(2);
+    tft.setTextColor(COL_GREEN_MID, 0x0061);
+    tft.drawCentreString("uSv/hr (RADS)", 237, 118, 2);
+    
+    tft.drawRect(175, 140, 125, 14, COL_GREEN_DIM);
+  }
+
+  // Clear only dynamic rads text area
+  tft.fillRect(170, 70, 136, 44, 0x0061);
   tft.setTextFont(6);
   uint16_t radCol = (currentRads > 100.0f) ? COL_ALERT_RED : ((currentRads > 35.0f) ? COL_AMBER : COL_GREEN_BRT);
   tft.setTextColor(radCol, 0x0061);
@@ -226,18 +241,14 @@ void renderTabStat() {
   char radBuf[16];
   snprintf(radBuf, sizeof(radBuf), "%4.1f", currentRads);
   tft.drawCentreString(radBuf, 237, 72, 6);
-  
-  tft.setTextFont(2);
-  tft.setTextColor(COL_GREEN_MID, 0x0061);
-  tft.drawCentreString("uSv/hr (RADS)", 237, 118, 2);
-  
+
   // Analog Gauge Arc Bar
-  tft.drawRect(175, 140, 125, 14, COL_GREEN_DIM);
   int filledW = map((int)constrain(currentRads, 0, 150), 0, 150, 0, 121);
   tft.fillRect(177, 142, filledW, 10, radCol);
   tft.fillRect(177 + filledW, 142, 121 - filledW, 10, 0x0020);
 
-  // Peak and Packet Telemetry
+  // Clear & update 3 lines of telemetry
+  tft.fillRect(172, 160, 134, 42, 0x0061);
   tft.setTextFont(1);
   tft.setTextColor(COL_WHITE, 0x0061);
   tft.setCursor(175, 162);
@@ -322,13 +333,13 @@ void renderTabRadio() {
 }
 
 // ---------------- Redraw Current Tab Content ----------------
-void refreshTabContent() {
+void refreshTabContent(bool fullRedraw = false) {
   if (currentTab == TAB_STAT) {
-    renderTabStat();
+    renderTabStat(fullRedraw);
   } else if (currentTab == TAB_RADAR) {
     renderTabRadar();
   } else if (currentTab == TAB_RADIO) {
-    renderTabRadio();
+    if (fullRedraw) renderTabRadio();
   }
 }
 
@@ -366,7 +377,7 @@ void setup() {
 
   // Draw Initial Screen
   drawPipBoyFrame();
-  refreshTabContent();
+  refreshTabContent(true);
 
   // Startup Geiger Burst
   for (int i = 0; i < 5; i++) {
@@ -452,9 +463,11 @@ void loop() {
 
       if (newTab != currentTab) {
         currentTab = newTab;
+        statBoxInitialized = false;
+        lastVaultBoyMood = -1;
         tone(SPEAKER_PIN, 1800, 30);
         drawPipBoyFrame();
-        refreshTabContent();
+        refreshTabContent(true);
         delay(150);
       }
     }
@@ -470,3 +483,4 @@ void loop() {
 
   delay(10);
 }
+

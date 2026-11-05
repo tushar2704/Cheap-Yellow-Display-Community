@@ -81,6 +81,10 @@ int ldrMin = 4095;
 int ldrMax = 0;
 int currentFreq = 440;
 int targetFreq = 440;
+int prevAudioFreq = -1;
+int lastRenderedFreq = -1;
+const char* lastRenderedNote = "";
+bool lastRenderedMuted = false;
 const char* currentNoteName = "A4";
 bool isMuted = false;
 float oscPhase = 0.0f;
@@ -207,6 +211,13 @@ void renderOscilloscope(int freq) {
 
 // ---------------- Update Frequency Telemetry ----------------
 void renderTelemetry(int freq, const char* note) {
+  if (freq == lastRenderedFreq && strcmp(note, lastRenderedNote) == 0 && isMuted == lastRenderedMuted) {
+    return; // Skip redundant draw
+  }
+  lastRenderedFreq = freq;
+  lastRenderedNote = note;
+  lastRenderedMuted = isMuted;
+
   tft.fillRect(14, 132, 292, 30, 0x0041);
   
   tft.setTextFont(4);
@@ -222,6 +233,20 @@ void renderTelemetry(int freq, const char* note) {
   tft.setTextColor(COL_NEON_YELLOW, 0x0041);
   tft.setCursor(252, 138);
   tft.print(isMuted ? "[OFF]" : "[ON]");
+}
+
+void updateAudioTone() {
+  if (isMuted) {
+    if (prevAudioFreq != 0) {
+      prevAudioFreq = 0;
+      noTone(SPEAKER_PIN);
+    }
+  } else {
+    if (abs(currentFreq - prevAudioFreq) >= 3) {
+      prevAudioFreq = currentFreq;
+      tone(SPEAKER_PIN, currentFreq);
+    }
+  }
 }
 
 // ---------------- Setup ----------------
@@ -286,10 +311,7 @@ void loop() {
     targetFreq = map(1000 - lightNormalized, 0, 1000, 180, 1800);
     currentFreq = (currentFreq * 0.7f) + (targetFreq * 0.3f);
     currentNoteName = "~GLISS";
-    
-    if (!isMuted) {
-      tone(SPEAKER_PIN, currentFreq);
-    }
+    updateAudioTone();
   } 
   else if (currentMode == MODE_PENTATONIC) {
     // Quantized Pentatonic Scale
@@ -297,10 +319,7 @@ void loop() {
     step = constrain(step, 0, SCALE_STEPS - 1);
     currentFreq = PENTATONIC_FREQS[step];
     currentNoteName = PENTATONIC_NAMES[step];
-
-    if (!isMuted) {
-      tone(SPEAKER_PIN, currentFreq);
-    }
+    updateAudioTone();
   } 
   else if (currentMode == MODE_ARPEGGIATOR) {
     // 8-Bit Chiptune Chord Rolling
@@ -312,10 +331,7 @@ void loop() {
       arpIndex = (arpIndex + 1) % 4;
       currentFreq = ARP_CHORDS[chordIdx][arpIndex];
       currentNoteName = (chordIdx == 0) ? "C-MAJ" : ((chordIdx == 1) ? "F-MAJ" : "G-MAJ");
-
-      if (!isMuted) {
-        tone(SPEAKER_PIN, currentFreq);
-      }
+      updateAudioTone();
     }
   }
 
@@ -327,7 +343,7 @@ void loop() {
     else setRGB(true, false, true);                         // Magenta Treble
   } else {
     setRGB(false, false, false);
-    noTone(SPEAKER_PIN);
+    updateAudioTone();
   }
 
   // 4. Touch Controls

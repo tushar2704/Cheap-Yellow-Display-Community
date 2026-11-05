@@ -130,6 +130,9 @@ void sendGameState() {
 }
 
 // ---------------- ESP-NOW Receive Callback ----------------
+bool manualGameOverTriggered = false;
+void drawGameOverScreen(bool victory);
+
 void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   if (len == sizeof(DefusalPacket)) {
     DefusalPacket incoming;
@@ -138,6 +141,12 @@ void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
     // If we are MANUAL unit, update our display from Bomb unit
     if (currentRole == ROLE_MANUAL) {
       gameState = incoming;
+      if (!manualGameOverTriggered && (gameState.isDetonated || gameState.isDefused)) {
+        manualGameOverTriggered = true;
+        drawGameOverScreen(gameState.isDefused);
+        if (gameState.isDefused) playDisarmFanfare();
+        else playExplosion();
+      }
     }
   }
 }
@@ -219,6 +228,45 @@ void drawRoleSelector() {
   tft.drawCentreString("DEFUSAL MANUAL", 160, 168, 4);
 }
 
+void drawStrikes() {
+  for (int s = 0; s < 3; s++) {
+    uint16_t ledCol = (s < gameState.strikes) ? COL_RED : 0x2104;
+    tft.fillCircle(85 + (s * 18), 32, 6, ledCol);
+    tft.drawCircle(85 + (s * 18), 32, 6, COL_WHITE);
+  }
+}
+
+void drawSingleWire(int w) {
+  int wy = 90 + (w * 32);
+  tft.drawRoundRect(16, wy, 130, 24, 4, COL_PANEL);
+  
+  if (gameState.wireCut[w]) {
+    tft.fillRect(18, wy + 2, 50, 20, COL_GRAY);
+    tft.fillRect(80, wy + 2, 64, 20, COL_GRAY);
+    tft.setTextFont(2);
+    tft.setTextColor(COL_BG, COL_GRAY);
+    tft.drawCentreString("CUT", 81, wy + 5, 2);
+  } else {
+    uint16_t wCol = WIRE_COLORS[gameState.wireColors[w]];
+    tft.fillRect(18, wy + 2, 126, 20, wCol);
+    tft.setTextFont(2);
+    tft.setTextColor((wCol == COL_WHITE || wCol == COL_YELLOW) ? 0x0000 : COL_WHITE, wCol);
+    tft.drawCentreString(WIRE_NAMES[gameState.wireColors[w]], 81, wy + 5, 2);
+  }
+}
+
+const char* KEYPAD_SYMBOLS[] = { "[A] OMEGA", "[B] PI", "[C] LAMBDA", "[D] PSI" };
+
+void drawSingleKeypad(int k) {
+  int ky = 90 + (k * 32);
+  uint16_t kCol = gameState.keypadDone ? 0x03E0 : COL_PANEL;
+  tft.fillRoundRect(174, ky, 130, 24, 4, kCol);
+  tft.drawRoundRect(174, ky, 130, 24, 4, COL_BORDER);
+  tft.setTextFont(2);
+  tft.setTextColor(COL_WHITE, kCol);
+  tft.drawCentreString(KEYPAD_SYMBOLS[k], 239, ky + 5, 2);
+}
+
 // ---------------- UI: Bomb Screen ----------------
 void drawBombScreen() {
   tft.fillScreen(COL_BG);
@@ -241,11 +289,7 @@ void drawBombScreen() {
   tft.setTextColor(COL_GRAY, COL_PANEL);
   tft.setCursor(10, 26);
   tft.print("STRIKES:");
-  for (int s = 0; s < 3; s++) {
-    uint16_t ledCol = (s < gameState.strikes) ? COL_RED : 0x2104;
-    tft.fillCircle(85 + (s * 18), 32, 6, ledCol);
-    tft.drawCircle(85 + (s * 18), 32, 6, COL_WHITE);
-  }
+  drawStrikes();
 
   // Large 7-Segment Countdown Timer Box
   tft.drawRoundRect(205, 6, 105, 36, 4, COL_RED);
@@ -266,22 +310,7 @@ void drawBombScreen() {
 
   // Draw 4 Wires
   for (int w = 0; w < 4; w++) {
-    int wy = 90 + (w * 32);
-    tft.drawRoundRect(16, wy, 130, 24, 4, COL_PANEL);
-    
-    if (gameState.wireCut[w]) {
-      tft.fillRect(18, wy + 2, 50, 20, COL_GRAY);
-      tft.fillRect(80, wy + 2, 64, 20, COL_GRAY);
-      tft.setTextFont(2);
-      tft.setTextColor(COL_BG, COL_GRAY);
-      tft.drawCentreString("CUT", 81, wy + 5, 2);
-    } else {
-      uint16_t wCol = WIRE_COLORS[gameState.wireColors[w]];
-      tft.fillRect(18, wy + 2, 126, 20, wCol);
-      tft.setTextFont(2);
-      tft.setTextColor((wCol == COL_WHITE || wCol == COL_YELLOW) ? 0x0000 : COL_WHITE, wCol);
-      tft.drawCentreString(WIRE_NAMES[gameState.wireColors[w]], 81, wy + 5, 2);
-    }
+    drawSingleWire(w);
   }
 
   // Right Module: Cryptic Keypad (X: 166, Y: 56, W: 146, H: 176)
@@ -291,15 +320,8 @@ void drawBombScreen() {
   tft.setTextColor(COL_WHITE, 0x0020);
   tft.drawCentreString("MODULE 2: KEYPAD", 239, 64, 2);
 
-  const char* symbols[] = { "[A] OMEGA", "[B] PI", "[C] LAMBDA", "[D] PSI" };
   for (int k = 0; k < 4; k++) {
-    int ky = 90 + (k * 32);
-    uint16_t kCol = gameState.keypadDone ? 0x03E0 : COL_PANEL;
-    tft.fillRoundRect(174, ky, 130, 24, 4, kCol);
-    tft.drawRoundRect(174, ky, 130, 24, 4, COL_BORDER);
-    tft.setTextFont(2);
-    tft.setTextColor(COL_WHITE, kCol);
-    tft.drawCentreString(symbols[k], 239, ky + 5, 2);
+    drawSingleKeypad(k);
   }
 }
 
@@ -540,8 +562,9 @@ void loop() {
               }
 
               sendGameState();
-              drawBombScreen();
-              delay(250);
+              drawSingleWire(w);
+              drawStrikes();
+              delay(200);
               break;
             }
           }
@@ -572,8 +595,9 @@ void loop() {
                 }
               }
               sendGameState();
-              drawBombScreen();
-              delay(250);
+              drawStrikes();
+              for (int ik = 0; ik < 4; ik++) drawSingleKeypad(ik);
+              delay(200);
               break;
             }
           }
@@ -642,3 +666,4 @@ void loop() {
 
   delay(15);
 }
+

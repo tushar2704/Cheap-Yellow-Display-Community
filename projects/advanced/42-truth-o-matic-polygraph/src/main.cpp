@@ -292,6 +292,8 @@ void drawStatusMessage(const char* line1, const char* line2, uint16_t col1, uint
   tft.print(line2);
 }
 
+int scanMessageStage = 0;
+
 void resetChart() {
   for (int i = 0; i < CHART_W; i++) {
     chartHistory[i] = CHART_H / 2;
@@ -303,22 +305,28 @@ void resetChart() {
 void checkSecretOverride(int tx, int ty) {
   // Top-Left corner: Force Truth
   if (tx < 50 && ty < 40) {
-    creatorOverride = OVERRIDE_FORCE_TRUTH;
-    tft.fillCircle(4, 4, 3, COL_NEON_GREEN); // Subtle indicator
-    playTone(1500, 40);
+    if (creatorOverride != OVERRIDE_FORCE_TRUTH) {
+      creatorOverride = OVERRIDE_FORCE_TRUTH;
+      tft.fillCircle(4, 4, 3, COL_NEON_GREEN); // Subtle indicator
+      playTone(1500, 40);
+    }
   }
   // Top-Right corner: Force Lie
   else if (tx > 270 && ty < 40) {
-    creatorOverride = OVERRIDE_FORCE_LIE;
-    tft.fillCircle(315, 4, 3, COL_NEON_RED); // Subtle indicator
-    playTone(400, 40);
+    if (creatorOverride != OVERRIDE_FORCE_LIE) {
+      creatorOverride = OVERRIDE_FORCE_LIE;
+      tft.fillCircle(315, 4, 3, COL_NEON_RED); // Subtle indicator
+      playTone(400, 40);
+    }
   }
   // Bottom-Left corner: Reset to Auto
   else if (tx < 50 && ty > 200) {
-    creatorOverride = OVERRIDE_AUTO;
-    tft.fillCircle(4, 4, 3, COL_PANEL);
-    tft.fillCircle(315, 4, 3, COL_PANEL);
-    playTone(900, 40);
+    if (creatorOverride != OVERRIDE_AUTO) {
+      creatorOverride = OVERRIDE_AUTO;
+      tft.fillCircle(4, 4, 3, COL_PANEL);
+      tft.fillCircle(315, 4, 3, COL_PANEL);
+      playTone(900, 40);
+    }
   }
 }
 
@@ -443,6 +451,7 @@ void loop() {
         stateChangeTime = now;
         scanStartTime = now;
         bpm = 75;
+        scanMessageStage = 0;
         drawStatusMessage("INTERROGATION IN PROGRESS", "SPEAK YOUR ANSWER CLEARLY NOW!", COL_CYAN, COL_WHITE);
       }
       break;
@@ -486,7 +495,8 @@ void loop() {
       
       // Polygraph spikes (spikes get erratic with stress)
       ecgPhase += 0.35f;
-      int jitter = random(-stressLevel / 3, stressLevel / 3);
+      int jMax = max(1, stressLevel / 3);
+      int jitter = random(-jMax, jMax + 1);
       int wave = (CHART_H / 2) + sin(ecgPhase) * (10 + (stressLevel / 4)) + jitter;
       if (random(0, 10) == 0 && stressLevel > 50) {
         wave += (random(0, 2) ? 25 : -25); // Polygraph deception spike
@@ -494,11 +504,13 @@ void loop() {
       updatePolygraphChart(wave);
       updateStressBar(stressLevel);
       
-      // Dynamic status message
-      if (elapsed > 3000) {
+      // Dynamic status message (updated only on state transition to prevent screen flicker)
+      if (elapsed > 3000 && scanMessageStage < 2) {
+        scanMessageStage = 2;
         drawStatusMessage("CRITICAL THRESHOLD REACHED", "ANALYZING MICRO-TREMORS & VOICE STRESS", COL_NEON_RED, COL_WHITE);
         setRGB(true, false, false);
-      } else if (elapsed > 1500) {
+      } else if (elapsed > 1500 && scanMessageStage < 1) {
+        scanMessageStage = 1;
         drawStatusMessage("DETECTING VASOMOTOR FLUX", "RECORDING TRANSIENT GALVANIC SURGES", COL_AMBER, COL_WHITE);
         setRGB(true, true, false);
       }
