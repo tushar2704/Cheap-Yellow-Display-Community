@@ -82,14 +82,33 @@ config.h
 credentials.h
 wifi_credentials.h
 
-
 #custom
 MASTER_INSTRUCTIONS.md
 .MASTER_INSTRUCTIONS.md
 
-# ---------- Elecrow Projects (Hidden) ----------
-elecrow_projects/
-/elecrow_projects
-.elecrow_projects
-elecrow_projects/**
+# ---------- Elecrow Projects (Staged Hardware Verification) ----------
+elecrow_projects/*
+!elecrow_projects/README.md
+!elecrow_projects/04-usb-pc-telemetry-deck/
+!elecrow_projects/04-usb-pc-telemetry-deck/**
+!elecrow_projects/09-atc-flight-radar/
+!elecrow_projects/09-atc-flight-radar/**
+!elecrow_projects/10-sky-spotter-station/
+!elecrow_projects/10-sky-spotter-station/**
+!elecrow_projects/11-iss-rocket-tracker/
+!elecrow_projects/11-iss-rocket-tracker/**
+!elecrow_projects/12-metar-weather-decoder/
+!elecrow_projects/12-metar-weather-decoder/**
+!elecrow_projects/13-hamclock-mini/
+!elecrow_projects/13-hamclock-mini/**
 
+# Ignore build artifacts and caches inside project folders
+elecrow_projects/*/.pio/
+elecrow_projects/*/.vscode/
+elecrow_projects/*/__pycache__/
+*.ino.cpp
+
+# Always ignore secrets in any project folder
+elecrow_projects/**/secrets.h
+elecrow_projects/**/credentials.h
+elecrow_projects/**/wifi_credentials.h
