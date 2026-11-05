@@ -52,6 +52,11 @@
 | 39 | [39 - CYD Stealth WiFi Radar Hunter](39-cyd-stealth-wifi-radar-hunter/) | RF privacy radar: animated CRT phosphor sweep, hidden SSID hunter & Geiger audio | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 40 | [40 - CYD-to-CYD AirDrop Secret Vault](40-cyd-to-cyd-airdrop-secret-vault/) | Offline credentials vault: PIN security, plasma beam animation & P2P secret sharing | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 41 | [41 - Magic 8 CYD](41-magic-8-cyd/) | Mystical 3D oracle: 32 answers, liquid vortex shake, floating die & I2C axis sensor | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 42 | [42 - CYD Truth-O-Matic 9000](42-truth-o-matic-polygraph/) | Cyberpunk polygraph & lie detector: real-time strip chart, heartbeat audio & secret pranks | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 43 | [43 - CYD Pip-Boy 3000](43-cyd-pip-boy-fallout-rad-meter/) | Fallout Geiger deck: real 2.4GHz RF promiscuous sniffer, Geiger audio & animated Vault Boy | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 44 | [44 - CYD Keep Talking & Nobody Explodes](44-cyd-bomb-defusal-keep-talking/) | Two-player wireless bomb defusal: dynamic wires, cryptic keypads & secret manual over ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 45 | [45 - CYD Optical Theremin & Synth](45-cyd-optical-theremin-synth/) | Hands-free music machine: optical LDR pitch modulation, neon oscilloscope & drum pads | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 46 | [46 - CYD Ghost Radar & EMF Tracker](46-cyd-ghost-radar-spirit-hunter/) | Paranormal hunter deck: 360° sonar radar, EMF 5 siren, cold spots & Spirit Box EVP sweep | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 
 ---
 

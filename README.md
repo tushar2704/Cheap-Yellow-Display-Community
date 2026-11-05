@@ -211,6 +211,17 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 33 | **CYD-to-CYD Naval Battleship** | Two-player wireless grid warfare with secret armada placement & radar fire | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/33-cyd-to-cyd-naval-battleship/) |
 | 34 | **CYD-to-CYD Walkie-Talkie** | Half-duplex acoustic communicator: tactile PTT, spectrum visualizer & call chimes | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/34-cyd-to-cyd-walkie-talkie/) |
 | 35 | **CYD-to-CYD Extended Display** | Dual-monitor cockpit rig: Master touch surface streams 40Hz telemetry to Slave HUD | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/35-cyd-to-cyd-extended-display/) |
+| 36 | **CYD BlackBerry Messenger** | Classic BBM with PIN exchange, PING buzzer strobe & chiclet QWERTY keyboard | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/36-cyd-to-cyd-blackberry-messenger/) |
+| 37 | **CYD Remote Tele-Commander** | Dual-screen KVM master deck: virtual trackpad, backlight PWM & soundboard | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/37-cyd-to-cyd-remote-telecommander/) |
+| 38 | **CYD Space Dogfight** | Real-time dual-screen arcade dogfight: cross-screen plasma lasers & shields | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/38-cyd-to-cyd-space-dogfight/) |
+| 39 | **CYD Stealth WiFi Radar** | Standalone RF privacy radar: CRT sweep, hidden SSID hunter & Geiger clicks | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/39-cyd-stealth-wifi-radar-hunter/) |
+| 40 | **CYD AirDrop Secret Vault** | Offline credentials vault: PIN security, plasma beam animation & P2P sharing | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/40-cyd-to-cyd-airdrop-secret-vault/) |
+| 41 | **Magic 8 CYD** | Mystical 3D oracle: 32 answers, liquid vortex shake, floating die & I2C sensor | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/41-magic-8-cyd/) |
+| 42 | **CYD Truth-O-Matic 9000** | Cyberpunk polygraph & lie detector: real-time strip chart, heartbeat audio & secret pranks | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/42-truth-o-matic-polygraph/) |
+| 43 | **CYD Pip-Boy 3000** | Fallout Geiger deck: real 2.4GHz RF promiscuous sniffer, Geiger audio & animated Vault Boy | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/43-cyd-pip-boy-fallout-rad-meter/) |
+| 44 | **CYD Keep Talking & Nobody Explodes** | Two-player wireless bomb defusal: dynamic wires, cryptic keypads & secret manual over ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/44-cyd-bomb-defusal-keep-talking/) |
+| 45 | **CYD Optical Theremin & Synth** | Hands-free music machine: optical LDR pitch modulation, neon oscilloscope & drum pads | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/45-cyd-optical-theremin-synth/) |
+| 46 | **CYD Ghost Radar & EMF Tracker** | Paranormal hunter deck: 360° sonar radar, EMF 5 siren, cold spots & Spirit Box EVP sweep | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/46-cyd-ghost-radar-spirit-hunter/) |
 
 ---
 
