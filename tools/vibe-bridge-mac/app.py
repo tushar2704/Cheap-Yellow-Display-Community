@@ -539,3 +539,4 @@ class VibeBridgeApp(tk.Tk):
 if __name__ == "__main__":
     app = VibeBridgeApp()
     app.mainloop()
+

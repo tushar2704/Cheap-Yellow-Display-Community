@@ -123,3 +123,4 @@ echo "🎉 Successfully built .dmg file!"
 echo "Location: $DMG_PATH"
 echo "Size: $(du -sh "$DMG_PATH" | cut -f1)"
 echo "=========================================="
+

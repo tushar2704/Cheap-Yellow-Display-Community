@@ -45,3 +45,4 @@ The output will be placed in `dist/VibeBridge-v1.0.dmg`.
 🖨️ **Enclosure**: [Watch on Makerrdesigns](https://youtube.com/@Makerrdesigns)
 
 MIT © Cheap Yellow Display Community
+
