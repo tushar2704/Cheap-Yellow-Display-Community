@@ -42,3 +42,4 @@ if %errorlevel% neq 0 (
 echo [*] Starting CYD Vibe Bridge Hub GUI...
 start "" %PY_CMD% app.py
 exit /b 0
+

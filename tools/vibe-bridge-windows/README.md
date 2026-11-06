@@ -46,3 +46,4 @@ cd tools/vibe-bridge-windows
 🖨️ **Enclosure**: [Watch on Makerrdesigns](https://youtube.com/@Makerrdesigns)
 
 MIT © Cheap Yellow Display Community
+

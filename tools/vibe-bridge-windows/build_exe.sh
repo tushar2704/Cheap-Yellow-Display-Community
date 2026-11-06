@@ -32,3 +32,4 @@ echo "🎉 Successfully built Windows release!"
 echo "Location: $DIR/dist/VibeBridge-Windows-v1.0.zip"
 echo "EXE: $DIR/VibeBridge.exe"
 echo "=========================================="
+
