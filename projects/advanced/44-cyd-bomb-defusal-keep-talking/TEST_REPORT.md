@@ -42,3 +42,4 @@
    - Full bidirectional state telemetry: when bomb detonates or is disarmed, the Manual unit automatically triggers matching game-over graphics and sound effects.
 3. **Modular Low-Flicker Redraws**:
    - Touch interactions only update affected wire tiles (`drawSingleWire`) and strike LEDs (`drawStrikes`), avoiding full-screen blanking.
+

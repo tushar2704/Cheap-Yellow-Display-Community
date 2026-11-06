@@ -3,7 +3,7 @@
  * @brief CYD Ghost Radar & EMF Spirit Tracker - Paranormal Hunter Deck
  * @author Tushar Aggarwal (@tushar2704)
  * @repository https://github.com/tushar2704/Cheap-Yellow-Display-Community
- * 
+ *
  * Hardware:
  * - Cheap Yellow Display (ESP32-2432S028R) 2.8" Resistive Touch
  * - Display: ILI9341 320x240 Landscape
@@ -19,17 +19,17 @@
 #include <XPT2046_Touchscreen.h>
 
 // ---------------- Pinout ----------------
-#define XPT2046_MOSI  32
-#define XPT2046_MISO  39
-#define XPT2046_CLK   25
-#define XPT2046_CS    33
-#define XPT2046_IRQ   36
+#define XPT2046_MOSI 32
+#define XPT2046_MISO 39
+#define XPT2046_CLK 25
+#define XPT2046_CS 33
+#define XPT2046_IRQ 36
 
-#define LED_RED       4
-#define LED_GREEN     16
-#define LED_BLUE      17
-#define SPEAKER_PIN   26
-#define LDR_PIN       34
+#define LED_RED 4
+#define LED_GREEN 16
+#define LED_BLUE 17
+#define SPEAKER_PIN 26
+#define LDR_PIN 34
 
 // ---------------- Display & Touch ----------------
 TFT_eSPI tft = TFT_eSPI();
@@ -37,20 +37,20 @@ SPIClass touchSPI(VSPI);
 XPT2046_Touchscreen ts(XPT2046_CS, XPT2046_IRQ);
 
 // ---------------- Paranormal Color Palette ----------------
-#define COL_BG          0x0000  // Void Black
-#define COL_PANEL       0x0841  // Deep Sonar Green
-#define COL_GRID        0x0280  // Radar Grid
-#define COL_PHOSPHOR    0x07E0  // Radar Phosphor Green
-#define COL_ANOMALY     0xF800  // Entity Crimson Red
-#define COL_COLD_ICE    0x05BF  // Freezing Cyan
-#define COL_AMBER       0xFDA0  // EMF Warning
-#define COL_WHITE       0xFFFF  // Clean White
-#define COL_GRAY        0x4208  // Inactive
+#define COL_BG 0x0000       // Void Black
+#define COL_PANEL 0x0841    // Deep Sonar Green
+#define COL_GRID 0x0280     // Radar Grid
+#define COL_PHOSPHOR 0x07E0 // Radar Phosphor Green
+#define COL_ANOMALY 0xF800  // Entity Crimson Red
+#define COL_COLD_ICE 0x05BF // Freezing Cyan
+#define COL_AMBER 0xFDA0    // EMF Warning
+#define COL_WHITE 0xFFFF    // Clean White
+#define COL_GRAY 0x4208     // Inactive
 
 // ---------------- Radar Geometry ----------------
 #define RADAR_CX 110
 #define RADAR_CY 128
-#define RADAR_R  85
+#define RADAR_R 85
 
 float sweepAngle = 0.0f;
 float prevSweepAngle = 0.0f;
@@ -58,33 +58,23 @@ float prevSweepAngle = 0.0f;
 // ---------------- Anomaly / Ghost Entities ----------------
 struct Entity {
   bool active;
-  float angle;       // Radians
-  float distance;    // Pixels from center (10..RADAR_R)
-  int emfLevel;      // 1 to 5
-  uint8_t alpha;     // Persistence 0..255
+  float angle;    // Radians
+  float distance; // Pixels from center (10..RADAR_R)
+  int emfLevel;   // 1 to 5
+  uint8_t alpha;  // Persistence 0..255
 };
 
 #define MAX_ENTITIES 4
 Entity entities[MAX_ENTITIES];
 
 // ---------------- Spirit Box EVP Word Database ----------------
-const char* EVP_WORDS[] = {
-  "BEHIND YOU",
-  "COLD...",
-  "RUN!",
-  "FOUND",
-  "LEAVE NOW",
-  "SHADOW",
-  "WATCHING",
-  "DARKNESS",
-  "TRAPPED",
-  "HERE WITH YOU",
-  "HELP ME",
-  "CLOSE..."
-};
+const char *EVP_WORDS[] = {"BEHIND YOU",    "COLD...",   "RUN!",
+                           "FOUND",         "LEAVE NOW", "SHADOW",
+                           "WATCHING",      "DARKNESS",  "TRAPPED",
+                           "HERE WITH YOU", "HELP ME",   "CLOSE..."};
 #define TOTAL_EVP_WORDS 12
 
-const char* currentEvpWord = "SCANNING...";
+const char *currentEvpWord = "SCANNING...";
 unsigned long lastEvpTrigger = 0;
 unsigned long lastAnomalySpawn = 0;
 unsigned long lastTempUpdate = 0;
@@ -101,12 +91,14 @@ void setRGB(bool r, bool g, bool b) {
 
 // ---------------- Audio Synthesizer ----------------
 void playSonarPing() {
-  if (!soundEnabled) return;
+  if (!soundEnabled)
+    return;
   tone(SPEAKER_PIN, 1850, 18);
 }
 
 void playEVPStatic() {
-  if (!soundEnabled) return;
+  if (!soundEnabled)
+    return;
   for (int i = 0; i < 8; i++) {
     tone(SPEAKER_PIN, random(250, 2200), 8);
     delay(6);
@@ -115,7 +107,8 @@ void playEVPStatic() {
 }
 
 void playEMFAlarm() {
-  if (!soundEnabled) return;
+  if (!soundEnabled)
+    return;
   tone(SPEAKER_PIN, 2600, 60);
 }
 
@@ -171,7 +164,8 @@ void drawRadarBase() {
 
 // ---------------- Update EMF 5-LED Gauge ----------------
 void renderEMFMeter(int level) {
-  uint16_t colors[] = { COL_PHOSPHOR, COL_PHOSPHOR, COL_AMBER, 0xFD20, COL_ANOMALY };
+  uint16_t colors[] = {COL_PHOSPHOR, COL_PHOSPHOR, COL_AMBER, 0xFD20,
+                       COL_ANOMALY};
   for (int e = 0; e < 5; e++) {
     int ey = 66 + (e * 14);
     if (e < level) {
@@ -190,7 +184,7 @@ void renderEMFMeter(int level) {
 }
 
 // ---------------- Update Temp & EVP HUD ----------------
-void renderTelemetry(float temp, const char* evp) {
+void renderTelemetry(float temp, const char *evp) {
   // Temp Readout
   tft.fillRect(212, 154, 94, 20, 0x0041);
   tft.setTextFont(2);
@@ -231,7 +225,7 @@ void setup() {
   pinMode(LED_BLUE, OUTPUT);
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(LDR_PIN, INPUT);
-  
+
   setRGB(false, false, false);
   noTone(SPEAKER_PIN);
 
@@ -263,8 +257,9 @@ void loop() {
 
   // 1. Read Ambient Optical Sensor (Shadow / Cold Spot detector)
   int ldrVal = analogRead(LDR_PIN);
-  
-  // If ambient light drops suddenly (casting shadow over CYD), simulate a chilling cold spot!
+
+  // If ambient light drops suddenly (casting shadow over CYD), simulate a
+  // chilling cold spot!
   if (ldrVal < 800) {
     ambientTemp = 4.2f + (ldrVal * 0.005f); // Freezing temps
   } else {
@@ -344,7 +339,7 @@ void loop() {
     if (currentEmfLevel == 5) {
       setRGB(true, false, false); // Critical Red
     } else if (currentEmfLevel >= 3) {
-      setRGB(true, true, false);  // Amber
+      setRGB(true, true, false); // Amber
     } else {
       setRGB(false, true, false); // Calm Green
     }
@@ -396,4 +391,3 @@ void loop() {
 
   delay(20);
 }
-

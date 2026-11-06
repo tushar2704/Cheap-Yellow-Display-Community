@@ -43,3 +43,4 @@
    - Arpeggiator mode cycles 8-bit chord progressions in 90ms intervals.
 3. **Optimized Screen Refresh**:
    - Oscilloscope runs at steady 20 FPS while telemetry HUD uses change detection to avoid unnecessary SPI redraws.
+

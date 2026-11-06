@@ -43,3 +43,4 @@
    - Indicator pixel renders subtly on top bezel without revealing bias to the victim.
 3. **Anti-Flicker Optimization**:
    - Status messages are stage-gated (`scanMessageStage`) to prevent repetitive redraws during 60Hz scanning loop.
+

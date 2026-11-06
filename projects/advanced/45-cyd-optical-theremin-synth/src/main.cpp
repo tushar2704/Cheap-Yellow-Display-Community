@@ -3,7 +3,7 @@
  * @brief CYD Optical Theremin & Neon Synth Jam - Hands-Free Music Machine
  * @author Tushar Aggarwal (@tushar2704)
  * @repository https://github.com/tushar2704/Cheap-Yellow-Display-Community
- * 
+ *
  * Hardware:
  * - Cheap Yellow Display (ESP32-2432S028R) 2.8" Resistive Touch
  * - Display: ILI9341 320x240 Landscape
@@ -19,17 +19,17 @@
 #include <XPT2046_Touchscreen.h>
 
 // ---------------- Pinout ----------------
-#define XPT2046_MOSI  32
-#define XPT2046_MISO  39
-#define XPT2046_CLK   25
-#define XPT2046_CS    33
-#define XPT2046_IRQ   36
+#define XPT2046_MOSI 32
+#define XPT2046_MISO 39
+#define XPT2046_CLK 25
+#define XPT2046_CS 33
+#define XPT2046_IRQ 36
 
-#define LED_RED       4
-#define LED_GREEN     16
-#define LED_BLUE      17
-#define SPEAKER_PIN   26
-#define LDR_PIN       34
+#define LED_RED 4
+#define LED_GREEN 16
+#define LED_BLUE 17
+#define SPEAKER_PIN 26
+#define LDR_PIN 34
 
 // ---------------- Display & Touch ----------------
 TFT_eSPI tft = TFT_eSPI();
@@ -37,43 +37,40 @@ SPIClass touchSPI(VSPI);
 XPT2046_Touchscreen ts(XPT2046_CS, XPT2046_IRQ);
 
 // ---------------- Neon Cyberpunk Palette ----------------
-#define COL_BG          0x0821  // Deep Synth Void
-#define COL_PANEL       0x10A4  // Surface Slate
-#define COL_BORDER      0x2147  // Grid lines
-#define COL_NEON_CYAN   0x07FF  // Lead Synth
-#define COL_NEON_PINK   0xF81F  // Treble / Glow
-#define COL_NEON_YELLOW 0xFFE0  // Arp Glow
-#define COL_NEON_GREEN  0x07E0  // Bass
-#define COL_WHITE       0xFFFF  // Clean White
-#define COL_GRAY        0x5AEB  // Inactive
+#define COL_BG 0x0821          // Deep Synth Void
+#define COL_PANEL 0x10A4       // Surface Slate
+#define COL_BORDER 0x2147      // Grid lines
+#define COL_NEON_CYAN 0x07FF   // Lead Synth
+#define COL_NEON_PINK 0xF81F   // Treble / Glow
+#define COL_NEON_YELLOW 0xFFE0 // Arp Glow
+#define COL_NEON_GREEN 0x07E0  // Bass
+#define COL_WHITE 0xFFFF       // Clean White
+#define COL_GRAY 0x5AEB        // Inactive
 
 // ---------------- Musical Scales & Notes ----------------
 enum SynthMode {
-  MODE_THEREMIN,      // Continuous glissando frequency sweep
-  MODE_PENTATONIC,     // Snapped quantizer scale (never sounds off-key)
-  MODE_ARPEGGIATOR     // 8-Bit rapid chord chiptune rolls
+  MODE_THEREMIN,   // Continuous glissando frequency sweep
+  MODE_PENTATONIC, // Snapped quantizer scale (never sounds off-key)
+  MODE_ARPEGGIATOR // 8-Bit rapid chord chiptune rolls
 };
 
 SynthMode currentMode = MODE_THEREMIN;
 
 // Pentatonic Scale (C Major Pentatonic across 2+ Octaves)
-const int PENTATONIC_FREQS[] = { 
-  262, 294, 330, 392, 440,    // C4, D4, E4, G4, A4
-  523, 587, 659, 784, 880,    // C5, D5, E5, G5, A5
-  1046, 1175, 1318            // C6, D6, E6
+const int PENTATONIC_FREQS[] = {
+    262,  294,  330, 392, 440, // C4, D4, E4, G4, A4
+    523,  587,  659, 784, 880, // C5, D5, E5, G5, A5
+    1046, 1175, 1318           // C6, D6, E6
 };
-const char* PENTATONIC_NAMES[] = {
-  "C4", "D4", "E4", "G4", "A4",
-  "C5", "D5", "E5", "G5", "A5",
-  "C6", "D6", "E6"
-};
+const char *PENTATONIC_NAMES[] = {"C4", "D4", "E4", "G4", "A4", "C5", "D5",
+                                  "E5", "G5", "A5", "C6", "D6", "E6"};
 #define SCALE_STEPS 13
 
 // Arpeggio chords (Chiptune chords)
 const int ARP_CHORDS[3][4] = {
-  { 262, 330, 392, 523 }, // C Major
-  { 349, 440, 523, 698 }, // F Major
-  { 392, 494, 587, 784 }  // G Major
+    {262, 330, 392, 523}, // C Major
+    {349, 440, 523, 698}, // F Major
+    {392, 494, 587, 784}  // G Major
 };
 
 // ---------------- State Variables ----------------
@@ -83,9 +80,9 @@ int currentFreq = 440;
 int targetFreq = 440;
 int prevAudioFreq = -1;
 int lastRenderedFreq = -1;
-const char* lastRenderedNote = "";
+const char *lastRenderedNote = "";
 bool lastRenderedMuted = false;
-const char* currentNoteName = "A4";
+const char *currentNoteName = "A4";
 bool isMuted = false;
 float oscPhase = 0.0f;
 int arpIndex = 0;
@@ -156,7 +153,7 @@ void drawSynthHUD() {
   tft.fillRect(10, 130, 300, 34, 0x0041);
 
   // Mode Selection Tabs (Y: 172..202)
-  const char* modeNames[] = { "THEREMIN", "PENTATONIC", "ARPEGGIATOR" };
+  const char *modeNames[] = {"THEREMIN", "PENTATONIC", "ARPEGGIATOR"};
   for (int m = 0; m < 3; m++) {
     int mx = 8 + (m * 102);
     uint16_t mCol = (m == (int)currentMode) ? COL_NEON_CYAN : COL_PANEL;
@@ -189,14 +186,18 @@ void renderOscilloscope(int freq) {
   tft.fillRect(OSC_X, OSC_Y, OSC_W, OSC_H, 0x0000);
   tft.drawFastHLine(OSC_X, OSC_Y + (OSC_H / 2), OSC_W, 0x0185);
 
-  uint16_t waveColor = (currentMode == MODE_THEREMIN) ? COL_NEON_CYAN : 
-                       ((currentMode == MODE_PENTATONIC) ? COL_NEON_GREEN : COL_NEON_YELLOW);
+  uint16_t waveColor =
+      (currentMode == MODE_THEREMIN)
+          ? COL_NEON_CYAN
+          : ((currentMode == MODE_PENTATONIC) ? COL_NEON_GREEN
+                                              : COL_NEON_YELLOW);
 
   float cyclesAcross = map(constrain(freq, 100, 2000), 100, 2000, 2, 14);
   float step = (cyclesAcross * 6.28318f) / OSC_W;
-  
+
   oscPhase += 0.25f;
-  if (oscPhase > 6.28318f) oscPhase -= 6.28318f;
+  if (oscPhase > 6.28318f)
+    oscPhase -= 6.28318f;
 
   int centerY = OSC_Y + (OSC_H / 2);
   int amplitude = isMuted ? 0 : 28;
@@ -210,8 +211,9 @@ void renderOscilloscope(int freq) {
 }
 
 // ---------------- Update Frequency Telemetry ----------------
-void renderTelemetry(int freq, const char* note) {
-  if (freq == lastRenderedFreq && strcmp(note, lastRenderedNote) == 0 && isMuted == lastRenderedMuted) {
+void renderTelemetry(int freq, const char *note) {
+  if (freq == lastRenderedFreq && strcmp(note, lastRenderedNote) == 0 &&
+      isMuted == lastRenderedMuted) {
     return; // Skip redundant draw
   }
   lastRenderedFreq = freq;
@@ -219,7 +221,7 @@ void renderTelemetry(int freq, const char* note) {
   lastRenderedMuted = isMuted;
 
   tft.fillRect(14, 132, 292, 30, 0x0041);
-  
+
   tft.setTextFont(4);
   tft.setTextColor(COL_WHITE, 0x0041);
   tft.setCursor(20, 134);
@@ -261,7 +263,7 @@ void setup() {
   pinMode(LED_BLUE, OUTPUT);
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(LDR_PIN, INPUT);
-  
+
   setRGB(false, false, false);
   noTone(SPEAKER_PIN);
 
@@ -295,11 +297,14 @@ void loop() {
 
   // 1. Read Optical Light Sensor (LDR)
   int rawLdr = analogRead(LDR_PIN);
-  
+
   // Dynamic Auto-Calibration tracking
-  if (rawLdr < ldrMin) ldrMin = rawLdr;
-  if (rawLdr > ldrMax) ldrMax = rawLdr;
-  if (ldrMax <= ldrMin) ldrMax = ldrMin + 1;
+  if (rawLdr < ldrMin)
+    ldrMin = rawLdr;
+  if (rawLdr > ldrMax)
+    ldrMax = rawLdr;
+  if (ldrMax <= ldrMin)
+    ldrMax = ldrMin + 1;
 
   // 2. Compute Pitch from Light Shadow
   // Invert mapping: Hand closer -> casts shadow (lower light) -> pitch bend!
@@ -312,16 +317,14 @@ void loop() {
     currentFreq = (currentFreq * 0.7f) + (targetFreq * 0.3f);
     currentNoteName = "~GLISS";
     updateAudioTone();
-  } 
-  else if (currentMode == MODE_PENTATONIC) {
+  } else if (currentMode == MODE_PENTATONIC) {
     // Quantized Pentatonic Scale
     int step = map(1000 - lightNormalized, 0, 1000, 0, SCALE_STEPS - 1);
     step = constrain(step, 0, SCALE_STEPS - 1);
     currentFreq = PENTATONIC_FREQS[step];
     currentNoteName = PENTATONIC_NAMES[step];
     updateAudioTone();
-  } 
-  else if (currentMode == MODE_ARPEGGIATOR) {
+  } else if (currentMode == MODE_ARPEGGIATOR) {
     // 8-Bit Chiptune Chord Rolling
     int chordIdx = map(1000 - lightNormalized, 0, 1000, 0, 2);
     chordIdx = constrain(chordIdx, 0, 2);
@@ -330,17 +333,22 @@ void loop() {
       lastArpTick = now;
       arpIndex = (arpIndex + 1) % 4;
       currentFreq = ARP_CHORDS[chordIdx][arpIndex];
-      currentNoteName = (chordIdx == 0) ? "C-MAJ" : ((chordIdx == 1) ? "F-MAJ" : "G-MAJ");
+      currentNoteName =
+          (chordIdx == 0) ? "C-MAJ" : ((chordIdx == 1) ? "F-MAJ" : "G-MAJ");
       updateAudioTone();
     }
   }
 
   // 3. LED Color reacts to Pitch
   if (!isMuted) {
-    if (currentFreq < 350) setRGB(false, false, true);      // Deep Blue Bass
-    else if (currentFreq < 650) setRGB(false, true, true);  // Cyan Mid
-    else if (currentFreq < 1000) setRGB(false, true, false);// Green High
-    else setRGB(true, false, true);                         // Magenta Treble
+    if (currentFreq < 350)
+      setRGB(false, false, true); // Deep Blue Bass
+    else if (currentFreq < 650)
+      setRGB(false, true, true); // Cyan Mid
+    else if (currentFreq < 1000)
+      setRGB(false, true, false); // Green High
+    else
+      setRGB(true, false, true); // Magenta Treble
   } else {
     setRGB(false, false, false);
     updateAudioTone();
@@ -357,9 +365,12 @@ void loop() {
     // Mode Selection Tap (Y: 172..202)
     if (ty >= 170 && ty <= 204) {
       SynthMode newMode = currentMode;
-      if (tx < 106) newMode = MODE_THEREMIN;
-      else if (tx < 210) newMode = MODE_PENTATONIC;
-      else newMode = MODE_ARPEGGIATOR;
+      if (tx < 106)
+        newMode = MODE_THEREMIN;
+      else if (tx < 210)
+        newMode = MODE_PENTATONIC;
+      else
+        newMode = MODE_ARPEGGIATOR;
 
       if (newMode != currentMode) {
         currentMode = newMode;
@@ -380,7 +391,8 @@ void loop() {
       // Mute / Live Toggle
       else if (tx >= 216 && tx <= 312) {
         isMuted = !isMuted;
-        if (isMuted) noTone(SPEAKER_PIN);
+        if (isMuted)
+          noTone(SPEAKER_PIN);
         drawSynthHUD();
         delay(200);
       }

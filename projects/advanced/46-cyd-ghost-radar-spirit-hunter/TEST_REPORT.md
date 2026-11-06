@@ -42,3 +42,4 @@
    - Periodically synthesizes radio static and decodes creepy keywords (*"BEHIND YOU"*, *"RUN"*, *"COLD"*).
 3. **Dynamic Temperature Response**:
    - Updates HUD every 400ms; casting shadow over CYD immediately drops temperature into freezing negative digits.
+

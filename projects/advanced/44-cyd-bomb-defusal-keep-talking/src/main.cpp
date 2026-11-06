@@ -3,7 +3,7 @@
  * @brief CYD Keep Talking & Nobody Explodes - Two-Player Bomb Defusal
  * @author Tushar Aggarwal (@tushar2704)
  * @repository https://github.com/tushar2704/Cheap-Yellow-Display-Community
- * 
+ *
  * Hardware:
  * - Cheap Yellow Display (ESP32-2432S028R) 2.8" Resistive Touch
  * - Display: ILI9341 320x240 Landscape
@@ -16,21 +16,21 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>
-#include <XPT2046_Touchscreen.h>
 #include <WiFi.h>
+#include <XPT2046_Touchscreen.h>
 #include <esp_now.h>
 
 // ---------------- Pinout ----------------
-#define XPT2046_MOSI  32
-#define XPT2046_MISO  39
-#define XPT2046_CLK   25
-#define XPT2046_CS    33
-#define XPT2046_IRQ   36
+#define XPT2046_MOSI 32
+#define XPT2046_MISO 39
+#define XPT2046_CLK 25
+#define XPT2046_CS 33
+#define XPT2046_IRQ 36
 
-#define LED_RED       4
-#define LED_GREEN     16
-#define LED_BLUE      17
-#define SPEAKER_PIN   26
+#define LED_RED 4
+#define LED_GREEN 16
+#define LED_BLUE 17
+#define SPEAKER_PIN 26
 
 // ---------------- Display & Touch ----------------
 TFT_eSPI tft = TFT_eSPI();
@@ -38,48 +38,44 @@ SPIClass touchSPI(VSPI);
 XPT2046_Touchscreen ts(XPT2046_CS, XPT2046_IRQ);
 
 // ---------------- Color Palette ----------------
-#define COL_BG          0x0821  // Dark Metallic
-#define COL_PANEL       0x18E3  // Military Slate
-#define COL_BORDER      0x39E7  // Chassis Rivets
-#define COL_RED         0xF800  // Red Wire / Alarm
-#define COL_BLUE        0x001F  // Blue Wire
-#define COL_YELLOW      0xFFE0  // Yellow Wire
-#define COL_GREEN       0x07E0  // Green Wire / Defused
-#define COL_WHITE       0xFFFF  // White Wire / Text
-#define COL_GRAY        0x7BEF  // Cut Wire / Inactive
-#define COL_DIGIT_RED   0xF900  // 7-Segment LED glow
+#define COL_BG 0x0821        // Dark Metallic
+#define COL_PANEL 0x18E3     // Military Slate
+#define COL_BORDER 0x39E7    // Chassis Rivets
+#define COL_RED 0xF800       // Red Wire / Alarm
+#define COL_BLUE 0x001F      // Blue Wire
+#define COL_YELLOW 0xFFE0    // Yellow Wire
+#define COL_GREEN 0x07E0     // Green Wire / Defused
+#define COL_WHITE 0xFFFF     // White Wire / Text
+#define COL_GRAY 0x7BEF      // Cut Wire / Inactive
+#define COL_DIGIT_RED 0xF900 // 7-Segment LED glow
 
 // ---------------- Game Roles ----------------
-enum GameRole {
-  ROLE_SELECT,
-  ROLE_BOMB,
-  ROLE_MANUAL
-};
+enum GameRole { ROLE_SELECT, ROLE_BOMB, ROLE_MANUAL };
 
 GameRole currentRole = ROLE_SELECT;
 
 // ---------------- Wire Color Definitions ----------------
-const uint16_t WIRE_COLORS[] = { COL_RED, COL_BLUE, COL_YELLOW, COL_WHITE };
-const char* WIRE_NAMES[] = { "RED", "BLUE", "YEL", "WHT" };
+const uint16_t WIRE_COLORS[] = {COL_RED, COL_BLUE, COL_YELLOW, COL_WHITE};
+const char *WIRE_NAMES[] = {"RED", "BLUE", "YEL", "WHT"};
 
 // ---------------- ESP-NOW Packet ----------------
 struct DefusalPacket {
-  uint8_t msgType;             // 0=STATE, 1=STRIKE, 2=DISARMED, 3=BOOM
-  char serial[8];              // e.g. "CYD-7B9"
+  uint8_t msgType; // 0=STATE, 1=STRIKE, 2=DISARMED, 3=BOOM
+  char serial[8];  // e.g. "CYD-7B9"
   uint8_t secondsRemaining;
   uint8_t strikes;
-  uint8_t wireColors[4];       // 0=RED, 1=BLUE, 2=YELLOW, 3=WHITE
+  uint8_t wireColors[4]; // 0=RED, 1=BLUE, 2=YELLOW, 3=WHITE
   bool wireCut[4];
-  uint8_t targetWireIndex;     // Correct wire index
-  uint8_t keypadOrder[4];      // Sequence 0..3
-  uint8_t keypadStep;          // Next required step (0..3)
+  uint8_t targetWireIndex; // Correct wire index
+  uint8_t keypadOrder[4];  // Sequence 0..3
+  uint8_t keypadStep;      // Next required step (0..3)
   bool keypadDone;
   bool isDefused;
   bool isDetonated;
 };
 
 DefusalPacket gameState;
-uint8_t broadcastAddress[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 // Timer state
 unsigned long lastTickTime = 0;
@@ -90,9 +86,7 @@ bool buzzerTickState = false;
 int manualTab = 0; // 0=Wires, 1=Keypad
 
 // ---------------- Audio Engine ----------------
-void playTick(bool urgent) {
-  tone(SPEAKER_PIN, urgent ? 1600 : 1000, 15);
-}
+void playTick(bool urgent) { tone(SPEAKER_PIN, urgent ? 1600 : 1000, 15); }
 
 void playStrikeSound() {
   tone(SPEAKER_PIN, 220, 250);
@@ -101,7 +95,7 @@ void playStrikeSound() {
 }
 
 void playDisarmFanfare() {
-  int notes[] = { 440, 554, 659, 880, 1108 };
+  int notes[] = {440, 554, 659, 880, 1108};
   for (int n : notes) {
     tone(SPEAKER_PIN, n, 80);
     delay(90);
@@ -126,7 +120,7 @@ void setRGB(bool r, bool g, bool b) {
 
 // ---------------- Broadcast Packet ----------------
 void sendGameState() {
-  esp_now_send(broadcastAddress, (uint8_t*)&gameState, sizeof(gameState));
+  esp_now_send(broadcastAddress, (uint8_t *)&gameState, sizeof(gameState));
 }
 
 // ---------------- ESP-NOW Receive Callback ----------------
@@ -137,15 +131,18 @@ void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   if (len == sizeof(DefusalPacket)) {
     DefusalPacket incoming;
     memcpy(&incoming, incomingData, sizeof(incoming));
-    
+
     // If we are MANUAL unit, update our display from Bomb unit
     if (currentRole == ROLE_MANUAL) {
       gameState = incoming;
-      if (!manualGameOverTriggered && (gameState.isDetonated || gameState.isDefused)) {
+      if (!manualGameOverTriggered &&
+          (gameState.isDetonated || gameState.isDefused)) {
         manualGameOverTriggered = true;
         drawGameOverScreen(gameState.isDefused);
-        if (gameState.isDefused) playDisarmFanfare();
-        else playExplosion();
+        if (gameState.isDefused)
+          playDisarmFanfare();
+        else
+          playExplosion();
       }
     }
   }
@@ -154,10 +151,10 @@ void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
 // ---------------- Initialize New Bomb Game ----------------
 void initNewGame() {
   randomSeed(millis() + analogRead(34));
-  
+
   int serialNum = random(100, 999);
   snprintf(gameState.serial, sizeof(gameState.serial), "CYD-%d", serialNum);
-  
+
   gameState.secondsRemaining = 60;
   gameState.strikes = 0;
   gameState.keypadStep = 0;
@@ -172,15 +169,17 @@ void initNewGame() {
   }
 
   // Determine correct wire according to the rule:
-  // If serial last digit is odd AND there is at least one RED wire -> Cut 2nd wire (index 1)
-  // Else if serial last digit is even AND there is at least one BLUE wire -> Cut 4th wire (index 3)
-  // Otherwise -> Cut 1st wire (index 0)
+  // If serial last digit is odd AND there is at least one RED wire -> Cut 2nd
+  // wire (index 1) Else if serial last digit is even AND there is at least one
+  // BLUE wire -> Cut 4th wire (index 3) Otherwise -> Cut 1st wire (index 0)
   int lastDigit = serialNum % 10;
   bool hasRed = false;
   bool hasBlue = false;
   for (int i = 0; i < 4; i++) {
-    if (gameState.wireColors[i] == 0) hasRed = true;
-    if (gameState.wireColors[i] == 1) hasBlue = true;
+    if (gameState.wireColors[i] == 0)
+      hasRed = true;
+    if (gameState.wireColors[i] == 1)
+      hasBlue = true;
   }
 
   if ((lastDigit % 2 != 0) && hasRed) {
@@ -201,14 +200,14 @@ void initNewGame() {
 // ---------------- UI: Role Selector ----------------
 void drawRoleSelector() {
   tft.fillScreen(COL_BG);
-  
+
   tft.drawRoundRect(8, 8, 304, 224, 8, COL_BORDER);
   tft.fillRect(10, 10, 300, 36, COL_PANEL);
-  
+
   tft.setTextFont(4);
   tft.setTextColor(COL_YELLOW, COL_PANEL);
   tft.drawCentreString("DEFUSAL SQUAD", 160, 16, 4);
-  
+
   tft.setTextFont(2);
   tft.setTextColor(COL_WHITE, COL_BG);
   tft.drawCentreString("SELECT CYD ROLE FOR THIS UNIT", 160, 56, 2);
@@ -239,7 +238,7 @@ void drawStrikes() {
 void drawSingleWire(int w) {
   int wy = 90 + (w * 32);
   tft.drawRoundRect(16, wy, 130, 24, 4, COL_PANEL);
-  
+
   if (gameState.wireCut[w]) {
     tft.fillRect(18, wy + 2, 50, 20, COL_GRAY);
     tft.fillRect(80, wy + 2, 64, 20, COL_GRAY);
@@ -250,12 +249,13 @@ void drawSingleWire(int w) {
     uint16_t wCol = WIRE_COLORS[gameState.wireColors[w]];
     tft.fillRect(18, wy + 2, 126, 20, wCol);
     tft.setTextFont(2);
-    tft.setTextColor((wCol == COL_WHITE || wCol == COL_YELLOW) ? 0x0000 : COL_WHITE, wCol);
+    tft.setTextColor(
+        (wCol == COL_WHITE || wCol == COL_YELLOW) ? 0x0000 : COL_WHITE, wCol);
     tft.drawCentreString(WIRE_NAMES[gameState.wireColors[w]], 81, wy + 5, 2);
   }
 }
 
-const char* KEYPAD_SYMBOLS[] = { "[A] OMEGA", "[B] PI", "[C] LAMBDA", "[D] PSI" };
+const char *KEYPAD_SYMBOLS[] = {"[A] OMEGA", "[B] PI", "[C] LAMBDA", "[D] PSI"};
 
 void drawSingleKeypad(int k) {
   int ky = 90 + (k * 32);
@@ -294,7 +294,7 @@ void drawBombScreen() {
   // Large 7-Segment Countdown Timer Box
   tft.drawRoundRect(205, 6, 105, 36, 4, COL_RED);
   tft.fillRect(207, 8, 101, 32, 0x0000);
-  
+
   tft.setTextFont(4);
   tft.setTextColor(COL_DIGIT_RED, 0x0000);
   char timeBuf[8];
@@ -328,16 +328,16 @@ void drawBombScreen() {
 // ---------------- UI: Manual Screen ----------------
 void drawManualScreen() {
   tft.fillScreen(0x0020); // Dark Blueprint Blue
-  
+
   // Header
   tft.fillRect(0, 0, 320, 32, 0x0188);
   tft.drawFastHLine(0, 32, 320, COL_WHITE);
-  
+
   tft.setTextFont(2);
   tft.setTextColor(COL_WHITE, 0x0188);
   tft.setCursor(8, 8);
   tft.printf("DEFUSAL MANUAL // BOMB: %s", gameState.serial);
-  
+
   // Timer & Strikes live mirror
   tft.setTextColor(COL_YELLOW, 0x0188);
   tft.setCursor(240, 8);
@@ -346,12 +346,14 @@ void drawManualScreen() {
   // Tab Buttons
   tft.fillRoundRect(8, 38, 148, 26, 4, (manualTab == 0) ? COL_WHITE : 0x0104);
   tft.setTextFont(2);
-  tft.setTextColor((manualTab == 0) ? 0x0000 : COL_WHITE, (manualTab == 0) ? COL_WHITE : 0x0104);
+  tft.setTextColor((manualTab == 0) ? 0x0000 : COL_WHITE,
+                   (manualTab == 0) ? COL_WHITE : 0x0104);
   tft.drawCentreString("PAGE 1: WIRES", 82, 43, 2);
 
   tft.fillRoundRect(164, 38, 148, 26, 4, (manualTab == 1) ? COL_WHITE : 0x0104);
   tft.setTextFont(2);
-  tft.setTextColor((manualTab == 1) ? 0x0000 : COL_WHITE, (manualTab == 1) ? COL_WHITE : 0x0104);
+  tft.setTextColor((manualTab == 1) ? 0x0000 : COL_WHITE,
+                   (manualTab == 1) ? COL_WHITE : 0x0104);
   tft.drawCentreString("PAGE 2: KEYPAD", 238, 43, 2);
 
   // Content Area
@@ -399,7 +401,7 @@ void drawManualScreen() {
     tft.setTextColor(COL_WHITE, 0x0041);
     tft.setCursor(16, 105);
     tft.print("ORDER OF PRESSING:");
-    
+
     tft.setTextColor(COL_GREEN, 0x0041);
     tft.setCursor(24, 130);
     tft.print("1ST: [C] LAMBDA");
@@ -415,13 +417,16 @@ void drawManualScreen() {
 // ---------------- Game Over Screen ----------------
 void drawGameOverScreen(bool victory) {
   tft.fillScreen(victory ? 0x03E0 : COL_RED);
-  
+
   tft.setTextFont(4);
   tft.setTextColor(COL_WHITE, victory ? 0x03E0 : COL_RED);
-  tft.drawCentreString(victory ? "BOMB DEFUSED!" : "BOOM! DETONATED!", 160, 60, 4);
+  tft.drawCentreString(victory ? "BOMB DEFUSED!" : "BOOM! DETONATED!", 160, 60,
+                       4);
 
   tft.setTextFont(2);
-  tft.drawCentreString(victory ? "TACTICAL SQUAD SUCCESSFUL" : "EVERYBODY EXPLODED", 160, 105, 2);
+  tft.drawCentreString(victory ? "TACTICAL SQUAD SUCCESSFUL"
+                               : "EVERYBODY EXPLODED",
+                       160, 105, 2);
 
   // Restart Button
   tft.fillRoundRect(60, 150, 200, 48, 8, COL_WHITE);
@@ -520,7 +525,8 @@ void loop() {
         tft.setTextFont(4);
         tft.setTextColor(COL_DIGIT_RED, 0x0000);
         char timeBuf[8];
-        snprintf(timeBuf, sizeof(timeBuf), "00:%02d", gameState.secondsRemaining);
+        snprintf(timeBuf, sizeof(timeBuf), "00:%02d",
+                 gameState.secondsRemaining);
         tft.drawCentreString(timeBuf, 257, 12, 4);
 
         // Flash Red LED when critical
@@ -543,7 +549,7 @@ void loop() {
             int wy = 90 + (w * 32);
             if (ty >= wy && ty <= wy + 24 && !gameState.wireCut[w]) {
               gameState.wireCut[w] = true;
-              
+
               if (w == gameState.targetWireIndex) {
                 // Correct Wire Cut!
                 tone(SPEAKER_PIN, 1800, 100);
@@ -557,7 +563,8 @@ void loop() {
               }
 
               // Check if disarmed (correct wire cut and keypad done)
-              if (gameState.wireCut[gameState.targetWireIndex] && gameState.keypadDone) {
+              if (gameState.wireCut[gameState.targetWireIndex] &&
+                  gameState.keypadDone) {
                 gameState.isDefused = true;
               }
 
@@ -596,7 +603,8 @@ void loop() {
               }
               sendGameState();
               drawStrikes();
-              for (int ik = 0; ik < 4; ik++) drawSingleKeypad(ik);
+              for (int ik = 0; ik < 4; ik++)
+                drawSingleKeypad(ik);
               delay(200);
               break;
             }
@@ -666,4 +674,3 @@ void loop() {
 
   delay(15);
 }
-
