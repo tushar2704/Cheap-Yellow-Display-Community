@@ -225,6 +225,9 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 47 | **Antigravity Vibe Monitor** | Real-time Antigravity session tracker: tool calls, token usage, streaks & NTP standby clock | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/47-vibe-code-monitor-antigravity/) |
 | 48 | **Claude Code Vibe Monitor** | Claude Code live rate-limit monitor: 5-hour rolling window gauge, cost burn & LED alerts | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/48-vibe-code-monitor-claude/) |
 | 49 | **OpenAI Codex Vibe Monitor** | Codex CLI usage dashboard: reasoning token breakdown, cache efficiency & task history | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/49-vibe-code-monitor-codex/) |
+| 50 | **CYD X-Touch Bambu Lab Controller** | Bambu Lab 3D printer hub: nozzle & bed temps, layer tracker, 4-slot AMS bay & pause controls | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/50-cyd-xtouch-bambu-lab-controller/) |
+| 51 | **CYD Cydintosh 1984 Retro Mac** | 1984 Macintosh System 6 GUI: 1-bit dither, Happy Mac chime, MacPaint canvas & Calculator | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/51-cydintosh-1984-retro-mac/) |
+| 52 | **CYD NerdMiner Solo Bitcoin Lottery** | Solo Bitcoin miner & telemetry: dual-core SHA-256 hashrate, valid shares & halving clock | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/52-cyd-nerdminer-solo-lottery/) |
 
 ---
 
