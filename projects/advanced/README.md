@@ -57,6 +57,9 @@
 | 44 | [44 - CYD Keep Talking & Nobody Explodes](44-cyd-bomb-defusal-keep-talking/) | Two-player wireless bomb defusal: dynamic wires, cryptic keypads & secret manual over ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 45 | [45 - CYD Optical Theremin & Synth](45-cyd-optical-theremin-synth/) | Hands-free music machine: optical LDR pitch modulation, neon oscilloscope & drum pads | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 46 | [46 - CYD Ghost Radar & EMF Tracker](46-cyd-ghost-radar-spirit-hunter/) | Paranormal hunter deck: 360° sonar radar, EMF 5 siren, cold spots & Spirit Box EVP sweep | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 47 | [47 - Antigravity Vibe Monitor](47-vibe-code-monitor-antigravity/) | Real-time Antigravity session tracker: tool calls, token usage, streaks & NTP standby clock | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 48 | [48 - Claude Code Vibe Monitor](48-vibe-code-monitor-claude/) | Claude Code live rate-limit monitor: 5-hour rolling window gauge, cost burn & LED alerts | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 49 | [49 - OpenAI Codex Vibe Monitor](49-vibe-code-monitor-codex/) | Codex CLI usage dashboard: reasoning token breakdown, cache efficiency & task history | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 
 ---
 

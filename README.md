@@ -222,6 +222,9 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 44 | **CYD Keep Talking & Nobody Explodes** | Two-player wireless bomb defusal: dynamic wires, cryptic keypads & secret manual over ESP-NOW | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/44-cyd-bomb-defusal-keep-talking/) |
 | 45 | **CYD Optical Theremin & Synth** | Hands-free music machine: optical LDR pitch modulation, neon oscilloscope & drum pads | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/45-cyd-optical-theremin-synth/) |
 | 46 | **CYD Ghost Radar & EMF Tracker** | Paranormal hunter deck: 360° sonar radar, EMF 5 siren, cold spots & Spirit Box EVP sweep | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/46-cyd-ghost-radar-spirit-hunter/) |
+| 47 | **Antigravity Vibe Monitor** | Real-time Antigravity session tracker: tool calls, token usage, streaks & NTP standby clock | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/47-vibe-code-monitor-antigravity/) |
+| 48 | **Claude Code Vibe Monitor** | Claude Code live rate-limit monitor: 5-hour rolling window gauge, cost burn & LED alerts | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/48-vibe-code-monitor-claude/) |
+| 49 | **OpenAI Codex Vibe Monitor** | Codex CLI usage dashboard: reasoning token breakdown, cache efficiency & task history | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/49-vibe-code-monitor-codex/) |
 
 ---
 
