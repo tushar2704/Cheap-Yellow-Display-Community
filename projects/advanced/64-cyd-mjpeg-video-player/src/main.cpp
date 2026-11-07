@@ -692,3 +692,4 @@ void loop() {
     // Frame delay to maintain smooth 24-30 FPS
     delay(15);
 }
+
