@@ -235,6 +235,10 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 57 | **CYD WLED Matrix & Strip Remote** | WLED smart lighting: 16×5 matrix preview, HSV color picker, brightness/speed & 6 presets | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/57-cyd-wled-matrix-strip-controller/) |
 | 58 | **CYD Home Assistant Glass Panel** | Wall-mount smart panel: 4 tabs (Home, Lights, Climate, Energy), thermostat dial & tiles | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/58-cyd-home-assistant-glass-panel/) |
 | 59 | **CYD Marauder WiFi & BLE Auditor** | RF cybersecurity terminal: 802.11 sniffer, deauth IDS alert, 13-ch waterfall & BLE tracker | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/59-cyd-marauder-wifi-ble-security-auditor/) |
+| 60 | **CYD SimHub Racing Cockpit Telemetry** | SimHub racing HUD: 16-LED shift bar, gear indicator, delta lap time, 4-corner tire temps | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/60-cyd-simhub-racing-telemetry/) |
+| 61 | **CYD Creator Live Studio Ticker** | YouTube live sub odometer, daily gain, channel views, latest video rank & celebration chime | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/61-cyd-creator-live-studio-ticker/) |
+| 62 | **CYD Apple Juice & BLE Spam Sentinel** | Cybersecurity RF shield: Apple Juice popup blocker, Fast Pair flood alert & AirTag radar | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/62-cyd-ble-spam-airtag-sentinel/) |
+| 63 | **CYD HamClock Space Weather Station** | Space weather terminal: greyline day/night world map, SFI/SSN/Kp gauges, UTC clock & morse | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/63-cyd-hamclock-space-weather/) |
 
 ---
 

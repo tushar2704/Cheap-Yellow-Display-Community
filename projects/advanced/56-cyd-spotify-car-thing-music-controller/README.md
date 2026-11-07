@@ -83,3 +83,4 @@ A sleek, dedicated **desktop audio player & "Car Thing" media controller** runni
 ## 📄 License
 
 MIT © Cheap Yellow Display Community
+

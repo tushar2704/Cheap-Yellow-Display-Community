@@ -82,3 +82,4 @@ A dedicated **touchscreen remote and master controller** for WLED smart addressa
 ## 📄 License
 
 MIT © Cheap Yellow Display Community
+

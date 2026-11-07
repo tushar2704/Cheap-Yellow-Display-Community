@@ -70,6 +70,10 @@
 | 57 | [57 - CYD WLED Matrix & Strip Remote](57-cyd-wled-matrix-strip-controller/) | WLED smart lighting: 16×5 matrix preview, HSV color picker, brightness/speed & 6 presets | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 | 58 | [58 - CYD Home Assistant Glass Panel](58-cyd-home-assistant-glass-panel/) | Wall-mount smart panel: 4 tabs (Home, Lights, Climate, Energy), thermostat dial & tiles | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 | 59 | [59 - CYD Marauder WiFi & BLE Auditor](59-cyd-marauder-wifi-ble-security-auditor/) | RF cybersecurity terminal: 802.11 sniffer, deauth IDS alert, 13-ch waterfall & BLE tracker | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 60 | [60 - CYD SimHub Racing Cockpit Telemetry](60-cyd-simhub-racing-telemetry/) | SimHub racing HUD: 16-LED shift bar, gear indicator, delta lap time, 4-corner tire temps | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 61 | [61 - CYD Creator Live Studio Ticker](61-cyd-creator-live-studio-ticker/) | YouTube live sub odometer, daily gain, channel views, latest video rank & celebration chime | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 62 | [62 - CYD Apple Juice & BLE Spam Sentinel](62-cyd-ble-spam-airtag-sentinel/) | Cybersecurity RF shield: Apple Juice popup blocker, Fast Pair flood alert & AirTag radar | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
+| 63 | [63 - CYD HamClock Space Weather Station](63-cyd-hamclock-space-weather/) | Space weather terminal: greyline day/night world map, SFI/SSN/Kp gauges, UTC clock & morse | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 
 ---
 

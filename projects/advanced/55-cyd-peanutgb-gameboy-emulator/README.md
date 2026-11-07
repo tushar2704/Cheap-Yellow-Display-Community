@@ -89,3 +89,4 @@ Switchable on the fly with the on-screen `PALETTE` button:
 ## 📄 License
 
 MIT © Cheap Yellow Display Community
+
