@@ -90,3 +90,4 @@ A faithful recreation of the iconic **1984 Macintosh GUI and desktop experience*
 ## 📄 License
 
 MIT © Cheap Yellow Display Community
+

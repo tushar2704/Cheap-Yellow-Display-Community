@@ -63,6 +63,13 @@
 | 50 | [50 - CYD X-Touch Bambu Lab Controller](50-cyd-xtouch-bambu-lab-controller/) | Bambu Lab 3D printer hub: nozzle & bed temps, layer tracker, 4-slot AMS bay & pause controls | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 51 | [51 - CYD Cydintosh 1984 Retro Mac](51-cydintosh-1984-retro-mac/) | 1984 Macintosh System 6 GUI: 1-bit dither, Happy Mac chime, MacPaint canvas & Calculator | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 | 52 | [52 - CYD NerdMiner Solo Bitcoin Lottery](52-cyd-nerdminer-solo-lottery/) | Solo Bitcoin miner & telemetry: dual-core SHA-256 hashrate, valid shares & halving clock | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 53 | [53 - CYD CyberPet Emotive Desk Face](53-cyd-cyberpet-emotive-face/) | Interactive robotic pet: 8 procedural moods, touch petting zones, LDR sleep & chirps | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 54 | [54 - CYD Retro Desk TV Player](54-cyd-retro-desk-tv-video-player/) | 1980s desktop TV: 6 channels (SMPTE, Static, Synth, DVD, Matrix, Scope), scanlines & CRT off | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 55 | [55 - CYD PeanutGB Classic Game Boy](55-cyd-peanutgb-gameboy-emulator/) | Game Boy handheld: 160×144 LCD, boot chime, D-Pad/AB touch, 4 palettes & 3 built-in games | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 56 | [56 - CYD Spotify Car Thing Controller](56-cyd-spotify-car-thing-music-controller/) | Desktop audio deck: vinyl turntable art, scrub bar, touch transport, volume & RGB beat pulse | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 57 | [57 - CYD WLED Matrix & Strip Remote](57-cyd-wled-matrix-strip-controller/) | WLED smart lighting: 16×5 matrix preview, HSV color picker, brightness/speed & 6 presets | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 58 | [58 - CYD Home Assistant Glass Panel](58-cyd-home-assistant-glass-panel/) | Wall-mount smart panel: 4 tabs (Home, Lights, Climate, Energy), thermostat dial & tiles | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 59 | [59 - CYD Marauder WiFi & BLE Auditor](59-cyd-marauder-wifi-ble-security-auditor/) | RF cybersecurity terminal: 802.11 sniffer, deauth IDS alert, 13-ch waterfall & BLE tracker | ⭐⭐⭐⭐⭐ (5/5) | ✅ Ready |
 
 ---
 
