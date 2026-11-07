@@ -33,3 +33,4 @@ Flash: [===       ]  25.6% (used 335489 bytes from 1310720 bytes)
 | **Arcade Speaker** | GPIO 26 Piezo | **PASS** | 8-bit sound effects (wall clinks, eat chimes, death descent). |
 | **LDR Sensor** | GPIO 34 ADC | **PASS** | Ambient lighting reading verified. |
 | **Brand Identity** | Header & Boot Sequence | **PASS** | Verified `IamNotIntoTech` branding and zero third-party references. |
+
