@@ -1,0 +1,25 @@
+{
+  "name": "71 \u2014 \ud83d\udd79\ufe0f Project 71 \u2014 CYD 8-Bit Retro Mini-Arcade Deck",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/71-cyd-retro-arcade-deck.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/71-cyd-retro-arcade-deck.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/71-cyd-retro-arcade-deck.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

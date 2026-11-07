@@ -1,0 +1,25 @@
+{
+  "name": "49 \u2014 49 \u2014 OpenAI Codex Vibe Monitor",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/49-vibe-code-monitor-codex.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/49-vibe-code-monitor-codex.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/49-vibe-code-monitor-codex.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

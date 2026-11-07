@@ -1,0 +1,25 @@
+{
+  "name": "46 \u2014 \ud83d\udc7b Project 46: CYD Ghost Radar & EMF Spirit Tracker (Paranormal Hunter Deck)",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/46-cyd-ghost-radar-spirit-hunter.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/46-cyd-ghost-radar-spirit-hunter.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/46-cyd-ghost-radar-spirit-hunter.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "48 \u2014 48 \u2014 Claude Code Vibe Monitor",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/48-vibe-code-monitor-claude.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/48-vibe-code-monitor-claude.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/48-vibe-code-monitor-claude.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

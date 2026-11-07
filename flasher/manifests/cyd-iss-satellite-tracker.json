@@ -1,0 +1,25 @@
+{
+  "name": "70 \u2014 \ud83d\udef0\ufe0f Project 70 \u2014 CYD ISS & Satellite Orbit Tracker",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/70-cyd-iss-satellite-tracker.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/70-cyd-iss-satellite-tracker.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/70-cyd-iss-satellite-tracker.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

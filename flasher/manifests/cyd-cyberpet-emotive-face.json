@@ -1,0 +1,25 @@
+{
+  "name": "53 \u2014 53 \u2014 CYD CyberPet Emotive Desk Face Companion",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/53-cyd-cyberpet-emotive-face.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/53-cyd-cyberpet-emotive-face.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/53-cyd-cyberpet-emotive-face.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

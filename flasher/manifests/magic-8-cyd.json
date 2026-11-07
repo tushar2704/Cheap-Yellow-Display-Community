@@ -1,0 +1,25 @@
+{
+  "name": "41 \u2014 \ud83c\udfb1 Project 41: Magic 8 CYD",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/41-magic-8-cyd.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/41-magic-8-cyd.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/41-magic-8-cyd.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

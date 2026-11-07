@@ -1,0 +1,25 @@
+{
+  "name": "38 \u2014 \ud83d\ude80 Project 38: CYD-to-CYD Space Dogfight Duel",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/38-cyd-to-cyd-space-dogfight.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/38-cyd-to-cyd-space-dogfight.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/38-cyd-to-cyd-space-dogfight.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

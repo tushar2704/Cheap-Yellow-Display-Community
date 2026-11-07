@@ -1,0 +1,25 @@
+{
+  "name": "69 \u2014 \ud83d\udce1 Project 69 \u2014 CYD LoRa APRS Tactical Position Tracker & Beacon",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/69-cyd-lora-aprs-tactical-beacon.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/69-cyd-lora-aprs-tactical-beacon.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/69-cyd-lora-aprs-tactical-beacon.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

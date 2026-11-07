@@ -1,0 +1,25 @@
+{
+  "name": "42 \u2014 \ud83d\udea8 Project 42: CYD Truth-O-Matic 9000 (Cyberpunk Polygraph & Lie Detector)",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/42-truth-o-matic-polygraph.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/42-truth-o-matic-polygraph.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/42-truth-o-matic-polygraph.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "39 \u2014 \ud83d\udce1 Project 39: CYD Stealth WiFi Radar Hunter",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/39-cyd-stealth-wifi-radar-hunter.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/39-cyd-stealth-wifi-radar-hunter.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/39-cyd-stealth-wifi-radar-hunter.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

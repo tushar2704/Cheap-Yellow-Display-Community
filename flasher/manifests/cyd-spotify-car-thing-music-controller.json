@@ -1,0 +1,25 @@
+{
+  "name": "56 \u2014 56 \u2014 CYD Spotify / Apple Music Desk Controller (Car Thing)",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/56-cyd-spotify-car-thing-music-controller.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/56-cyd-spotify-car-thing-music-controller.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/56-cyd-spotify-car-thing-music-controller.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "72 \u2014 \u26a1 Project 72 \u2014 CYD Lightning Strike & Storm Warning Radar",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/72-cyd-lightning-detector.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/72-cyd-lightning-detector.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/72-cyd-lightning-detector.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "64 \u2014 \ud83c\udfac Project 64 \u2014 CYD SD Card MJPEG Video & Cinema Player",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/64-cyd-mjpeg-video-player.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/64-cyd-mjpeg-video-player.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/64-cyd-mjpeg-video-player.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

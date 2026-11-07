@@ -1,0 +1,25 @@
+{
+  "name": "43 \u2014 \u2622\ufe0f Project 43: CYD Pip-Boy 3000 (Wasteland Geiger Deck & 2.4GHz RF Rads Meter)",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/43-cyd-pip-boy-fallout-rad-meter.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/43-cyd-pip-boy-fallout-rad-meter.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/43-cyd-pip-boy-fallout-rad-meter.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

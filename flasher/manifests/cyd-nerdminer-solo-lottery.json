@@ -1,0 +1,25 @@
+{
+  "name": "52 \u2014 52 \u2014 CYD NerdMiner Solo Bitcoin Lottery Miner",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/52-cyd-nerdminer-solo-lottery.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/52-cyd-nerdminer-solo-lottery.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/52-cyd-nerdminer-solo-lottery.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

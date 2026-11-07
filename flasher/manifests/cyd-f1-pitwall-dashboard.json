@@ -1,0 +1,25 @@
+{
+  "name": "66 \u2014 \ud83c\udfce\ufe0f Project 66 \u2014 CYD F1 Pit Wall Telemetry Dashboard",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/66-cyd-f1-pitwall-dashboard.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/66-cyd-f1-pitwall-dashboard.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/66-cyd-f1-pitwall-dashboard.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

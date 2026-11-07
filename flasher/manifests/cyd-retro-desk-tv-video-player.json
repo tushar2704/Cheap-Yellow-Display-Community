@@ -1,0 +1,25 @@
+{
+  "name": "54 \u2014 54 \u2014 CYD Retro Desk TV / Video & Animation Player",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/54-cyd-retro-desk-tv-video-player.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/54-cyd-retro-desk-tv-video-player.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/54-cyd-retro-desk-tv-video-player.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

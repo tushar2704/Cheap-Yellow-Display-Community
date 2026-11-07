@@ -1,0 +1,25 @@
+{
+  "name": "61 \u2014 61 \u2014 CYD Creator Live Studio Ticker",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/61-cyd-creator-live-studio-ticker.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/61-cyd-creator-live-studio-ticker.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/61-cyd-creator-live-studio-ticker.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

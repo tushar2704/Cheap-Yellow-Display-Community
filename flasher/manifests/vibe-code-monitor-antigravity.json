@@ -1,0 +1,25 @@
+{
+  "name": "47 \u2014 47 \u2014 Antigravity Vibe Monitor",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/47-vibe-code-monitor-antigravity.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/47-vibe-code-monitor-antigravity.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/47-vibe-code-monitor-antigravity.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

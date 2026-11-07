@@ -1,0 +1,25 @@
+{
+  "name": "51 \u2014 51 \u2014 CYD Cydintosh 1984 Retro Mac Emulator",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/51-cydintosh-1984-retro-mac.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/51-cydintosh-1984-retro-mac.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/51-cydintosh-1984-retro-mac.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

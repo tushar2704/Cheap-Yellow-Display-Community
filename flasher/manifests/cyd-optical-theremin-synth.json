@@ -1,0 +1,25 @@
+{
+  "name": "45 \u2014 \ud83c\udfb5 Project 45: CYD Optical Theremin & Neon Synth Jam (Hands-Free Music Machine)",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/45-cyd-optical-theremin-synth.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/45-cyd-optical-theremin-synth.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/45-cyd-optical-theremin-synth.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

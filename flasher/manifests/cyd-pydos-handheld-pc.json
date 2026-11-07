@@ -1,0 +1,25 @@
+{
+  "name": "65 \u2014 \ud83d\udcbe Project 65 \u2014 CYD PyDOS Vintage MS-DOS Handheld Computer",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../binaries/65-cyd-pydos-handheld-pc.bootloader.bin",
+          "offset": 4096
+        },
+        {
+          "path": "../binaries/65-cyd-pydos-handheld-pc.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "../binaries/65-cyd-pydos-handheld-pc.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}
