@@ -242,6 +242,9 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 64 | **CYD SD Card MJPEG Cinema Player** | MicroSD video player: 4 motion cinema reels, interactive scrub HUD & ambilight | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/64-cyd-mjpeg-video-player/) |
 | 65 | **CYD PyDOS Vintage MS-DOS Handheld** | MS-DOS 6.22 handheld PC: 42-key chiclet keyboard, CRT phosphor switch & PC speaker | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/65-cyd-pydos-handheld-pc/) |
 | 66 | **CYD F1 Pit Wall Telemetry Dashboard** | F1 pit wall monitor: live timing gaps, tire degradation matrix & race flag sirens | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/66-cyd-f1-pitwall-dashboard/) |
+| 67 | **CYD ADS-B Flight Radar & Air Traffic** | 360° radar scope: 10/25/50 NM range rings, aircraft vector vectors, Squawk 7700 alert | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/67-cyd-adsb-flight-radar/) |
+| 68 | **CYD Denki-Kurage Pixel Jellyfish** | Bioluminescent aquarium: undulation locomotion, water ripples, feeding & Day/Abyss | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/68-cyd-pixel-aquarium-jellyfish/) |
+| 69 | **CYD LoRa APRS Tactical Beacon** | Tactical APRS terminal: Maidenhead polar grid, GPS telemetry & Bell 202 AFSK audio | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/69-cyd-lora-aprs-tactical-beacon/) |
 
 ---
 

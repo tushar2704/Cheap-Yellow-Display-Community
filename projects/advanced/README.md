@@ -77,6 +77,9 @@
 | 64 | [64 - CYD SD Card MJPEG Cinema Player](64-cyd-mjpeg-video-player/) | MicroSD video player: 4 motion cinema reels, interactive scrub HUD & ambilight | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 | 65 | [65 - CYD PyDOS Vintage MS-DOS Handheld](65-cyd-pydos-handheld-pc/) | MS-DOS 6.22 handheld PC: 42-key chiclet keyboard, CRT phosphor switch & PC speaker | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 | 66 | [66 - CYD F1 Pit Wall Telemetry Dashboard](66-cyd-f1-pitwall-dashboard/) | F1 pit wall monitor: live timing gaps, tire degradation matrix & race flag sirens | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 67 | [67 - CYD ADS-B Flight Radar & Air Traffic](67-cyd-adsb-flight-radar/) | 360° radar scope: 10/25/50 NM range rings, aircraft vector vectors, Squawk 7700 alert | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 68 | [68 - CYD Denki-Kurage Pixel Jellyfish](68-cyd-pixel-aquarium-jellyfish/) | Bioluminescent aquarium: undulation locomotion, water ripples, feeding & Day/Abyss | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 69 | [69 - CYD LoRa APRS Tactical Beacon](69-cyd-lora-aprs-tactical-beacon/) | Tactical APRS terminal: Maidenhead polar grid, GPS telemetry & Bell 202 AFSK audio | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 
 ---
 
