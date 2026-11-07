@@ -239,6 +239,9 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 61 | **CYD Creator Live Studio Ticker** | YouTube live sub odometer, daily gain, channel views, latest video rank & celebration chime | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/61-cyd-creator-live-studio-ticker/) |
 | 62 | **CYD Apple Juice & BLE Spam Sentinel** | Cybersecurity RF shield: Apple Juice popup blocker, Fast Pair flood alert & AirTag radar | ⭐⭐⭐⭐⭐ (5/5) | [Open](projects/advanced/62-cyd-ble-spam-airtag-sentinel/) |
 | 63 | **CYD HamClock Space Weather Station** | Space weather terminal: greyline day/night world map, SFI/SSN/Kp gauges, UTC clock & morse | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/63-cyd-hamclock-space-weather/) |
+| 64 | **CYD SD Card MJPEG Cinema Player** | MicroSD video player: 4 motion cinema reels, interactive scrub HUD & ambilight | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/64-cyd-mjpeg-video-player/) |
+| 65 | **CYD PyDOS Vintage MS-DOS Handheld** | MS-DOS 6.22 handheld PC: 42-key chiclet keyboard, CRT phosphor switch & PC speaker | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/65-cyd-pydos-handheld-pc/) |
+| 66 | **CYD F1 Pit Wall Telemetry Dashboard** | F1 pit wall monitor: live timing gaps, tire degradation matrix & race flag sirens | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/66-cyd-f1-pitwall-dashboard/) |
 
 ---
 
