@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CYD Web Flasher — 1-Click ESP32 Cheap Yellow Display Firmware Installer</title>
-  <meta name="description" content="Flash ESP32 Cheap Yellow Display firmware in one click. No IDE, no install. Over 60 turnkey projects for Resistive & Capacitive CYDs: CYD-OS, 3D CoverFlow, Home Assistant, Oscilloscope, Audio DSP, Games & more.">
-  <meta name="keywords" content="cheap yellow display, CYD, ESP32-2432S028R, ESP32-2432S028C, capacitive touch, web flasher, ESP32 flash browser, esp-web-tools">
+  <meta name="description" content="Flash ESP32 Cheap Yellow Display firmware in one click. 105 turnkey projects for Resistive & Capacitive CYDs: CYD-OS, 3D CoverFlow, Home Assistant, Oscilloscope, Audio DSP, Games & more. By IamNotIntoTech & Makerrdesigns.">
+  <meta name="keywords" content="cheap yellow display, CYD, ESP32-2432S028R, ESP32-2432S028C, capacitive touch, web flasher, ESP32 flash browser, esp-web-tools, IamNotIntoTech, Makerrdesigns">
   <meta property="og:title" content="CYD Web Flasher — Flash ESP32 Cheap Yellow Display in Your Browser">
-  <meta property="og:description" content="1-click in-browser ESP32 firmware flasher for Cheap Yellow Display (Resistive & Capacitive). 60+ projects with live Web Serial terminal.">
+  <meta property="og:description" content="1-click in-browser ESP32 firmware flasher for Cheap Yellow Display (Resistive & Capacitive). 105 projects with live Web Serial terminal.">
   <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
   <style>
     /* ── Reset & tokens ────────────────────────────────── */
@@ -23,6 +23,7 @@
       --cyan:    #00e5ff;
       --green:   #00e676;
       --purple:  #b388ff;
+      --red:     #ff5252;
       --text:    #e8edf5;
       --muted:   #7a8ba8;
       --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -45,336 +46,6 @@
 
     a { color: var(--yellow); text-decoration: none; }
     a:hover { text-decoration: underline; }
-
-    /* ── Header ─────────────────────────────────────────── */
-    header {
-      text-align: center;
-      max-width: 680px;
-      margin-bottom: 2.5rem;
-    }
-
-    .chip-row {
-      display: flex;
-      gap: .5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      font-size: .73rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: .3rem .85rem;
-      border-radius: 999px;
-      border: 1px solid;
-    }
-
-    .chip-yellow { background: rgba(255,214,10,.1); border-color: rgba(255,214,10,.35); color: var(--yellow); }
-    .chip-green  { background: rgba(0,230,118,.1);  border-color: rgba(0,230,118,.3);  color: var(--green); }
-    .chip-red    { background: rgba(255,82,82,.1);  border-color: rgba(255,82,82,.3);  color: #ff5252; }
-
-    h1 {
-      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -.02em;
-      line-height: 1.15;
-      margin-bottom: .75rem;
-      background: linear-gradient(135deg, #fff 40%, var(--yellow));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: .97rem;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    /* ── Card wrapper ────────────────────────────────────── */
-    .wrap {
-      width: 100%;
-      max-width: 900px;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      transition: border-color .2s;
-    }
-    .card:hover { border-color: var(--border-h); }
-
-    .card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-    }
-
-    /* ── How-to steps ────────────────────────────────────── */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: .85rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .step {
-      background: var(--surface2);
-      border-radius: 8px;
-      padding: 1rem;
-    }
-
-    .step-n {
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      background: var(--yellow);
-      color: #000;
-      font-weight: 800;
-      font-size: .8rem;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: .6rem;
-    }
-
-    .step h3 { font-size: .88rem; margin-bottom: .25rem; }
-    .step p  { font-size: .82rem; color: var(--muted); }
-
-    .driver-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .6rem;
-      align-items: center;
-      font-size: .82rem;
-      color: var(--muted);
-      padding-top: 1rem;
-      border-top: 1px solid rgba(255,255,255,.07);
-    }
-
-    .driver-pill {
-      background: var(--surface2);
-      border: 1px solid rgba(255,255,255,.1);
-      color: var(--yellow);
-      font-weight: 600;
-      font-size: .78rem;
-      padding: .28rem .7rem;
-      border-radius: 6px;
-      transition: background .2s;
-    }
-    .driver-pill:hover { background: rgba(255,214,10,.12); text-decoration: none; }
-
-    /* ── Trouble accordion ───────────────────────────────── */
-    details {
-      background: var(--surface2);
-      border-radius: 8px;
-      padding: .75rem 1rem;
-      margin-top: .75rem;
-    }
-
-    summary {
-      cursor: pointer;
-      font-size: .85rem;
-      font-weight: 600;
-      color: var(--yellow);
-      list-style: none;
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-    }
-    summary::before { content: '▶'; font-size: .65rem; transition: transform .2s; }
-    details[open] summary::before { transform: rotate(90deg); }
-
-    details ul {
-      margin: .75rem 0 0 1.2rem;
-      font-size: .82rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-    details ul code {
-      background: rgba(255,255,255,.08);
-      padding: .1rem .35rem;
-      border-radius: 4px;
-      font-family: var(--mono);
-      font-size: .8rem;
-    }
-
-    /* ── Firmware section ────────────────────────────────── */
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .75rem;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-    }
-
-    .tabs { display: flex; gap: .4rem; flex-wrap: wrap; }
-
-    .tab {
-      background: var(--surface2);
-      border: 1px solid rgba(255,255,255,.1);
-      color: var(--muted);
-      padding: .35rem .9rem;
-      border-radius: 999px;
-      font-size: .8rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all .15s;
-    }
-    .tab:hover { color: var(--text); }
-    .tab.on {
-      background: var(--yellow);
-      color: #000;
-      border-color: var(--yellow);
-    }
-
-    #search {
-      background: var(--surface2);
-      border: 1px solid rgba(255,255,255,.1);
-      color: var(--text);
-      font-family: inherit;
-      font-size: .83rem;
-      padding: .38rem .95rem;
-      border-radius: 999px;
-      outline: none;
-      min-width: 200px;
-      transition: border-color .2s;
-    }
-    #search:focus { border-color: var(--yellow); }
-
-    /* ── Project rows ────────────────────────────────────── */
-    .fw-list { display: flex; flex-direction: column; gap: .85rem; }
-
-    .fw-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: .85rem;
-      background: var(--surface2);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 8px;
-      padding: 1.1rem 1.25rem;
-      transition: border-color .2s;
-    }
-    .fw-row:hover { border-color: rgba(255,214,10,.3); }
-
-    .fw-info { flex: 1; min-width: 240px; }
-
-    .fw-header {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      flex-wrap: wrap;
-      margin-bottom: .3rem;
-    }
-
-    .tier {
-      font-size: .68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      padding: .15rem .5rem;
-      border-radius: 4px;
-    }
-    .tier-B { background: rgba(0,230,118,.14); color: var(--green);  border: 1px solid rgba(0,230,118,.28); }
-    .tier-I { background: rgba(0,229,255,.14); color: var(--cyan);   border: 1px solid rgba(0,229,255,.28); }
-    .tier-A { background: rgba(179,136,255,.14);color:var(--purple); border: 1px solid rgba(179,136,255,.28);}
-    .tier-C { background: rgba(255,64,129,.16); color: #ff4081; border: 1px solid rgba(255,64,129,.35); }
-
-    .fw-name { font-size: .97rem; font-weight: 700; }
-    .fw-desc { font-size: .82rem; color: var(--muted); margin-bottom: .45rem; }
-
-    .tags { display: flex; flex-wrap: wrap; gap: .35rem; }
-    .tag {
-      font-family: var(--mono);
-      font-size: .7rem;
-      padding: .15rem .45rem;
-      border-radius: 4px;
-      background: rgba(255,255,255,.06);
-      color: var(--cyan);
-    }
-
-    /* ── Action buttons ──────────────────────────────────── */
-    .fw-actions { display: flex; align-items: center; gap: .55rem; flex-shrink: 0; }
-
-    .btn-dl {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.13);
-      color: var(--text);
-      padding: .48rem .85rem;
-      border-radius: 7px;
-      font-size: .8rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background .2s, border-color .2s;
-      white-space: nowrap;
-    }
-    .btn-dl:hover { background: rgba(255,255,255,.14); border-color: var(--yellow); text-decoration: none; }
-
-    esp-web-install-button {
-      --esp-tools-button-border-radius: 7px;
-      --esp-tools-button-color: #000;
-      --esp-tools-button-background-color: var(--yellow);
-      --esp-tools-button-padding: .5rem 1.1rem;
-      --esp-tools-button-font-family: var(--font);
-      --esp-tools-button-font-weight: 700;
-      --esp-tools-button-font-size: .88rem;
-    }
-
-    /* ── Empty state ─────────────────────────────────────── */
-    .empty {
-      text-align: center;
-      padding: 2.5rem 1rem;
-      color: var(--muted);
-      font-size: .9rem;
-      display: none;
-    }
-
-    /* ── Footer ─────────────────────────────────────────── */
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: .82rem;
-      max-width: 600px;
-    }
-    footer p { margin-bottom: .45rem; }
-
-    .yt-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: .65rem;
-      margin-top: .75rem;
-    }
-
-    .yt-pill {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,.1);
-      padding: .35rem .9rem;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: .8rem;
-      color: var(--text);
-      transition: border-color .2s, background .2s;
-    }
-    .yt-pill:hover { border-color: var(--yellow); background: rgba(255,214,10,.08); text-decoration: none; }
 
     /* ── Topbar ── */
     .topbar {
@@ -461,9 +132,188 @@
       color: #fff;
       transform: translateY(-1px);
     }
+    .topbar-pill.supporter-active {
+      background: rgba(0,230,118,.15);
+      border-color: rgba(0,230,118,.5);
+      color: var(--green);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .topbar-pill.supporter-active:hover {
+      background: rgba(0,230,118,.25);
+      color: #fff;
+    }
     @keyframes pulse-vip {
       0%, 100% { box-shadow: 0 0 12px rgba(255,214,10,.2); }
       50% { box-shadow: 0 0 22px rgba(255,214,10,.45); }
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      max-width: 680px;
+      margin-bottom: 2rem;
+    }
+    .chip-row {
+      display: flex;
+      gap: .5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .73rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .3rem .85rem;
+      border-radius: 999px;
+      border: 1px solid;
+    }
+    .chip-yellow { background: rgba(255,214,10,.1); border-color: rgba(255,214,10,.35); color: var(--yellow); }
+    .chip-green  { background: rgba(0,230,118,.1);  border-color: rgba(0,230,118,.3);  color: var(--green); }
+    .chip-red    { background: rgba(255,82,82,.1);  border-color: rgba(255,82,82,.3);  color: #ff5252; }
+
+    h1 {
+      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      margin-bottom: .75rem;
+      background: linear-gradient(135deg, #fff 40%, var(--yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: .97rem;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* ── Origin Warning Banner ── */
+    .origin-banner {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(255, 171, 0, 0.12);
+      border: 1px solid #ffab00;
+      color: #ffd54f;
+      border-radius: 10px;
+      padding: .9rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: .86rem;
+      line-height: 1.5;
+      display: none;
+    }
+    .origin-banner code {
+      background: rgba(0,0,0,.45);
+      padding: .15rem .45rem;
+      border-radius: 4px;
+      color: #fff;
+      font-family: var(--mono);
+    }
+
+    /* ── Card wrapper ── */
+    .wrap {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color .2s;
+    }
+    .card:hover { border-color: var(--border-h); }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    /* ── How-to steps ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: .85rem;
+      margin-bottom: 1.25rem;
+    }
+    .step {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .step-n {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: #000;
+      font-weight: 800;
+      font-size: .8rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: .6rem;
+    }
+    .step h3 { font-size: .88rem; margin-bottom: .25rem; }
+    .step p  { font-size: .82rem; color: var(--muted); }
+
+    .driver-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      align-items: center;
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: .75rem;
+    }
+    .driver-pill {
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,.1);
+      padding: .25rem .7rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      color: var(--yellow);
+    }
+
+    details {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      margin-top: .75rem;
+    }
+    summary {
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--yellow);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    summary::before { content: '▶'; font-size: .65rem; transition: transform .2s; }
+    details[open] summary::before { transform: rotate(90deg); }
+    details ul {
+      margin: .75rem 0 0 1.2rem;
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    details ul code {
+      background: rgba(255,255,255,.08);
+      padding: .1rem .35rem;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: .8rem;
     }
 
     /* ── VIP Secret Projects Banner ── */
@@ -534,11 +384,224 @@
       transform: translateY(-1px);
     }
 
-    /* ── Donate & Secret Projects Modal ── */
+    /* ── Supporter Status Banner ── */
+    .supporter-status-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: .85rem 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+      font-size: .86rem;
+    }
+    .supporter-status-banner.locked {
+      background: rgba(179, 136, 255, 0.09);
+      border: 1px solid rgba(179, 136, 255, 0.3);
+      color: var(--text);
+    }
+    .supporter-status-banner.unlocked {
+      background: rgba(0, 230, 118, 0.1);
+      border: 1px solid rgba(0, 230, 118, 0.35);
+      color: #fff;
+    }
+
+    /* ── Firmware section ── */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .tabs { display: flex; gap: .4rem; flex-wrap: wrap; }
+    .tab {
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--muted);
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .15s;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.on {
+      background: var(--yellow);
+      color: #000;
+      border-color: var(--yellow);
+    }
+
+    #search {
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--text);
+      font-family: inherit;
+      font-size: .83rem;
+      padding: .38rem .95rem;
+      border-radius: 999px;
+      outline: none;
+      min-width: 220px;
+      transition: border-color .2s;
+    }
+    #search:focus { border-color: var(--yellow); }
+
+    /* ── Project rows ── */
+    .fw-list { display: flex; flex-direction: column; gap: .85rem; }
+    .fw-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .85rem;
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+      transition: border-color .2s;
+    }
+    .fw-row:hover { border-color: rgba(255,214,10,.3); }
+    .fw-info { flex: 1; min-width: 240px; }
+    .fw-header {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-bottom: .3rem;
+    }
+    .tier {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: .15rem .5rem;
+      border-radius: 4px;
+    }
+    .tier-B { background: rgba(0,230,118,.14); color: var(--green);  border: 1px solid rgba(0,230,118,.28); }
+    .tier-I { background: rgba(0,229,255,.14); color: var(--cyan);   border: 1px solid rgba(0,229,255,.28); }
+    .tier-A { background: rgba(179,136,255,.14);color:var(--purple); border: 1px solid rgba(179,136,255,.28);}
+    .tier-C { background: rgba(255,64,129,.16); color: #ff4081; border: 1px solid rgba(255,64,129,.35); }
+
+    .badge-locked {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: .15rem .5rem;
+      border-radius: 4px;
+      background: rgba(255,82,82,.18);
+      color: #ff5252;
+      border: 1px solid rgba(255,82,82,.35);
+    }
+    .badge-unlocked {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: .15rem .5rem;
+      border-radius: 4px;
+      background: rgba(0,230,118,.18);
+      color: var(--green);
+      border: 1px solid rgba(0,230,118,.35);
+    }
+
+    .fw-name { font-size: .97rem; font-weight: 700; }
+    .fw-desc { font-size: .82rem; color: var(--muted); margin-bottom: .45rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .tag {
+      font-family: var(--mono);
+      font-size: .7rem;
+      padding: .15rem .45rem;
+      border-radius: 4px;
+      background: rgba(255,255,255,.06);
+      color: var(--cyan);
+    }
+
+    /* ── Action buttons ── */
+    .fw-actions { display: flex; align-items: center; gap: .55rem; flex-shrink: 0; }
+    .btn-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.13);
+      color: var(--text);
+      padding: .48rem .85rem;
+      border-radius: 7px;
+      font-size: .8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s, border-color .2s;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .btn-dl:hover { background: rgba(255,255,255,.14); border-color: var(--yellow); text-decoration: none; }
+    .btn-dl-locked {
+      opacity: .65;
+      border-style: dashed;
+    }
+    .btn-dl-locked:hover {
+      opacity: 1;
+      border-color: #ff5252;
+      color: #ff5252;
+    }
+
+    .btn-locked-install {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: linear-gradient(135deg, rgba(255,82,82,.2), rgba(179,136,255,.25));
+      border: 1px solid rgba(255,82,82,.5);
+      color: #ff8585;
+      font-family: var(--font);
+      font-size: .88rem;
+      font-weight: 700;
+      padding: .5rem 1.1rem;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+    .btn-locked-install:hover {
+      background: linear-gradient(135deg, rgba(255,82,82,.35), rgba(179,136,255,.4));
+      border-color: #ff5252;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    esp-web-install-button {
+      --esp-tools-button-border-radius: 7px;
+      --esp-tools-button-color: #000;
+      --esp-tools-button-background-color: var(--yellow);
+      --esp-tools-button-padding: .5rem 1.1rem;
+      --esp-tools-button-font-family: var(--font);
+      --esp-tools-button-font-weight: 700;
+      --esp-tools-button-font-size: .88rem;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--muted);
+      font-size: .9rem;
+      display: none;
+    }
+
+    /* ── Donate & VIP Modal ── */
     #overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.78);
+      background: rgba(0,0,0,.82);
       backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
@@ -558,13 +621,15 @@
       border: 1px solid rgba(255,214,10,.35);
       border-radius: 18px;
       padding: 2.2rem 2rem;
-      max-width: 520px;
+      max-width: 540px;
       width: 100%;
       text-align: center;
       position: relative;
       box-shadow: 0 28px 70px rgba(0,0,0,.75), 0 0 0 1px rgba(255,214,10,.12);
       transform: scale(.94);
       transition: transform .25s ease;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     #overlay.show .modal {
       transform: scale(1);
@@ -614,9 +679,10 @@
       font-size: .88rem;
       color: var(--muted);
       line-height: 1.55;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.15rem;
     }
     .modal p strong { color: var(--text); }
+
     .modal-links {
       display: flex;
       flex-direction: column;
@@ -645,9 +711,7 @@
       font-size: 1.6rem;
       line-height: 1;
     }
-    .modal-link-info {
-      flex: 1;
-    }
+    .modal-link-info { flex: 1; }
     .modal-link-title {
       display: block;
       font-size: .92rem;
@@ -664,6 +728,112 @@
       font-size: 1.1rem;
       font-weight: 700;
     }
+
+    /* ── Passcode & Instant Unlock Box ── */
+    .modal-unlock-box {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,214,10,.25);
+      border-radius: 12px;
+      padding: 1.1rem;
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .modal-unlock-header {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--yellow);
+      margin-bottom: .35rem;
+    }
+    .modal-unlock-hint {
+      font-size: .78rem !important;
+      color: var(--muted);
+      margin-bottom: .75rem !important;
+      line-height: 1.4 !important;
+    }
+    .modal-unlock-form {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: .6rem;
+    }
+    #supporter-code-input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,.15);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: .85rem;
+      padding: .5rem .85rem;
+      border-radius: 6px;
+      outline: none;
+      text-transform: uppercase;
+    }
+    #supporter-code-input:focus {
+      border-color: var(--yellow);
+    }
+    .btn-code-submit {
+      background: var(--yellow);
+      color: #000;
+      border: none;
+      font-weight: 700;
+      font-size: .8rem;
+      padding: .5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .btn-code-submit:hover { background: #ffe14d; }
+
+    .btn-instant-confirm {
+      width: 100%;
+      background: rgba(0,230,118,.12);
+      border: 1px solid rgba(0,230,118,.4);
+      color: var(--green);
+      font-weight: 700;
+      font-size: .8rem;
+      padding: .55rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+    }
+    .btn-instant-confirm:hover {
+      background: rgba(0,230,118,.22);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .unlock-feedback {
+      font-size: .78rem;
+      margin-bottom: .5rem;
+      display: none;
+      font-weight: 600;
+    }
+    .unlock-feedback.success { color: var(--green); display: block; }
+    .unlock-feedback.error   { color: #ff5252; display: block; }
+
+    .btn-relock {
+      background: transparent;
+      border: 1px dashed rgba(255,255,255,.2);
+      color: var(--muted);
+      font-size: .74rem;
+      padding: .3rem .6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: .4rem;
+    }
+    .btn-relock:hover {
+      color: #ff5252;
+      border-color: #ff5252;
+    }
+
     .modal-yt {
       background: rgba(255,0,0,.08);
       border: 1px solid rgba(255,0,0,.25);
@@ -700,6 +870,7 @@
       text-decoration: none;
       color: #fff;
     }
+
     .btn-modal-skip {
       background: transparent;
       border: 1px solid rgba(255,255,255,.12);
@@ -722,6 +893,34 @@
       margin-top: .75rem;
       opacity: .7;
     }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: .82rem;
+      max-width: 650px;
+    }
+    footer p { margin-bottom: .45rem; }
+    .yt-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .65rem;
+      margin-top: .75rem;
+    }
+    .yt-pill {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,.1);
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: .8rem;
+      color: var(--text);
+      transition: border-color .2s, background .2s;
+    }
+    .yt-pill:hover { border-color: var(--yellow); background: rgba(255,214,10,.08); text-decoration: none; }
   </style>
 </head>
 <body>
@@ -734,7 +933,7 @@
     <a class="topbar-pill yt" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">🎬 @IamNotIntoTech</a>
     <a class="topbar-pill yt" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns</a>
     <button class="topbar-pill donate" id="btn-header-donate">❤️ Donate</button>
-    <a class="topbar-pill unlock-vip" id="btn-vip-header" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">🔒 Secret Projects</a>
+    <button class="topbar-pill unlock-vip" id="supporter-status-indicator">🔒 Supporter Unlock</button>
   </div>
 </nav>
 
@@ -745,8 +944,14 @@
     <span id="serial-chip" class="chip chip-green">⚡ Checking Web Serial…</span>
   </div>
   <h1>Flash Cheap Yellow Display<br>in 1 Click</h1>
-  <p class="subtitle">No IDE. No terminal. Plug in your ESP32 CYD via USB, pick a firmware below, and click Install.</p>
+  <p class="subtitle">No IDE. No terminal. Plug in your ESP32 CYD via USB, pick from 105 projects below, and click Install.</p>
 </header>
+
+<!-- ════════════ ORIGIN WARNING ════════════ -->
+<div id="origin-warning" class="origin-banner">
+  ⚠️ <strong>Local File Protocol Detected:</strong> Web Serial and manifest fetching require a secure web origin (<code>http://localhost</code> or <code>https://</code>). When testing locally, please run:
+  <code>python3 -m http.server 8000</code> in the flasher directory and open <a href="http://localhost:8000" style="color:var(--yellow); font-weight:700;">http://localhost:8000</a>.
+</div>
 
 <!-- ════════════ MAIN CONTENT ════════════ -->
 <div class="wrap">
@@ -758,7 +963,7 @@
       <div class="step">
         <div class="step-n">1</div>
         <h3>Connect via USB</h3>
-        <p>Use a data cable (not charge-only). Works on Chrome, Edge, Brave, Opera.</p>
+        <p>Use a data cable (not charge-only). Supported on Chrome, Edge, Brave, and Opera.</p>
       </div>
       <div class="step">
         <div class="step-n">2</div>
@@ -789,10 +994,12 @@
         <li><strong>Port not appearing?</strong> Swap to a different USB cable — many cables are charge-only.</li>
         <li><strong>Failed to connect?</strong> Hold the <strong>BOOT</strong> button on the CYD board while clicking Install, release after the progress bar starts.</li>
         <li><strong>Linux?</strong> Run <code>sudo usermod -a -G dialout $USER</code> then log out and back in.</li>
-        <li><strong>Wrong browser?</strong> Web Serial only works on Chromium-based browsers (Chrome 89+, Edge, Brave, Opera). Firefox and Safari are not supported.</li>
+        <li><strong>Browser compatibility?</strong> Web Serial only works on Chromium browsers (Chrome 89+, Edge, Brave, Opera). Safari and Firefox do not support Web Serial.</li>
         <li><strong>Manual flash?</strong> Download the <code>.BIN</code> and flash with esptool: <code>esptool.py --port /dev/ttyUSB0 write_flash 0x10000 firmware.bin</code></li>
       </ul>
     </details>
+  </div>
+
   <!-- ── Web Serial Monitor ── -->
   <div class="card" id="serial-terminal-card">
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; margin-bottom:.75rem;">
@@ -816,32 +1023,42 @@
 
   <!-- ── Firmware catalogue ── -->
   <div class="card" id="catalogue">
+
+    <!-- ── Supporter Status Banner ── -->
+    <div id="supporter-status-banner" class="supporter-status-banner locked">
+      <div style="display:flex; align-items:center; gap:.5rem;">
+        <span style="font-size:1.1rem;">🔒</span>
+        <span><strong>Supporter Projects:</strong> 72 Advanced projects require a one-time community supporter donation to flash.</span>
+      </div>
+      <button class="btn-vip-action" style="padding:.35rem .85rem; font-size:.8rem;" onclick="openModal()">Unlock Now →</button>
+    </div>
+
     <!-- ── VIP Secret Projects Vault Banner ── -->
     <div class="vip-banner" id="vip-banner">
       <div class="vip-banner-content">
-        <span class="vip-badge-tag">🔒 VIP Secret Projects Vault</span>
-        <div class="vip-banner-title">Want Access to Private &amp; Secret CYD Projects?</div>
-        <div class="vip-banner-desc">Support on Buy Me a Coffee to unlock private unreleased firmware builds, custom multi-tasking engines, and native 3D CAD/STEP files!</div>
+        <span class="vip-badge-tag">🔒 VIP Supporter Vault</span>
+        <div class="vip-banner-title">Want Direct Access to All 72 Advanced Projects?</div>
+        <div class="vip-banner-desc">Support on Buy Me a Coffee, Patreon, or Ko-fi to unlock the full catalogue of 72 advanced firmwares, multi-tasking engines, and native 3D CAD/STEP files!</div>
       </div>
       <div style="display:flex; gap:.6rem; flex-wrap:wrap; align-items:center;">
         <button class="btn-vip-action" id="btn-banner-donate" style="background:rgba(255,255,255,.12); color:var(--text); border:1px solid rgba(255,255,255,.25);">❤️ Donate</button>
-        <a class="btn-vip-action" id="btn-banner-unlock" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">🔒 Unlock Secret Projects →</a>
+        <button class="btn-vip-action" id="btn-banner-unlock" onclick="openModal()">🔒 Supporter Unlock →</button>
       </div>
     </div>
 
     <div class="controls">
       <div class="tabs" role="tablist">
-        <button class="tab on" data-f="all">All <span style="opacity:.6">(13)</span></button>
-        <button class="tab" data-f="B">Beginner <span style="opacity:.6">(6)</span></button>
-        <button class="tab" data-f="I">Intermediate <span style="opacity:.6">(5)</span></button>
-        <button class="tab" data-f="A">Advanced <span style="opacity:.6">(2)</span></button>
+        <button class="tab on" data-f="all">All <span style="opacity:.6">(105)</span></button>
+        <button class="tab" data-f="B">Beginner <span style="opacity:.6">(7)</span></button>
+        <button class="tab" data-f="I">Intermediate <span style="opacity:.6">(6)</span></button>
+        <button class="tab" data-f="A">Advanced <span style="opacity:.6">(72)</span></button>
         <button class="tab" data-f="C">Capacitive (2.8" C) <span style="opacity:.6">(20)</span></button>
       </div>
-      <input type="search" id="search" placeholder="🔍 Search…" aria-label="Search firmware">
+      <input type="search" id="search" placeholder="🔍 Search 105 firmwares…" aria-label="Search firmware">
     </div>
 
     <div class="fw-list" id="fw-list"></div>
-    <div class="empty" id="empty">No firmwares match your filter.</div>
+    <div class="empty" id="empty">No firmwares match your search filter.</div>
   </div>
 
 </div>
@@ -850,27 +1067,110 @@
 <footer>
   <p>Cheap Yellow Display Community · <a href="https://github.com/tushar2704/Cheap-Yellow-Display-Community" target="_blank" rel="noopener">GitHub</a></p>
   <p>Dual-licensed: <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL-3.0</a> + <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
-  <p>Made with ❤️ by <a href="https://github.com/tushar2704" target="_blank" rel="noopener">Tushar Aggarwal</a></p>
+  <p>Engineered by <a href="https://github.com/tushar2704" target="_blank" rel="noopener">Tushar Aggarwal</a> for <strong>@IamNotIntoTech</strong> &amp; <strong>@Makerrdesigns</strong></p>
   <div class="yt-links">
     <a class="yt-pill" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">📺 @IamNotIntoTech</a>
     <a class="yt-pill" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">🖨️ @Makerrdesigns</a>
   </div>
   <div class="yt-links" style="margin-top:.45rem;">
     <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">☕ Buy Me a Coffee (@IamNotIntoTech)</a>
-    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">🧡 Patreon</a>
+    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">🧡 Patreon (@IamNotIntoTech)</a>
     <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">☕ Buy Me a Coffee (@Makerr)</a>
-    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">☕ Ko-fi</a>
+    <a class="yt-pill" style="border-color:rgba(255,214,10,.35); color:var(--yellow);" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">☕ Ko-fi (@Makerrdesigns)</a>
   </div>
 </footer>
 
+<!-- ════════════ DONATE & SUPPORTER MODAL ════════════ -->
+<div id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <button class="modal-close" id="modal-close-btn" aria-label="Close modal">✕</button>
+    <div class="modal-icon">🎁</div>
+    <div class="modal-pill">Exclusive Supporter Rewards</div>
+    <h2 id="modal-title">Support &amp; Unlock 72 Advanced Projects</h2>
+    <p>
+      Beginner, Intermediate, and Capacitive firmware projects are <strong>100% free to flash</strong>!
+      The 72 Advanced turnkey projects are exclusive builds made possible by community supporters.
+      <strong>Donors receive instant 1-click access to all 72 advanced firmwares</strong>, experimental updates, and custom 3D CAD/STEP files!
+    </p>
+
+    <!-- ── Donation options ── -->
+    <div class="modal-links">
+      <a class="modal-link-card" style="border-color:var(--yellow); background:rgba(255,214,10,.12);" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">
+        <span class="modal-link-icon">☕</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title" style="color:var(--yellow); font-weight:800;">Buy Me a Coffee — @IamNotIntoTech</span>
+          <span class="modal-link-desc">Unlock All 72 Advanced Firmwares · Instant Support Access</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+
+      <a class="modal-link-card" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">
+        <span class="modal-link-icon">🧡</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title">Patreon — @IamNotIntoTech</span>
+          <span class="modal-link-desc">Advanced Projects · VIP Supporter Role · Early Firmware Builds</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+
+      <a class="modal-link-card" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">
+        <span class="modal-link-icon">☕</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title">Buy Me a Coffee — @Makerr</span>
+          <span class="modal-link-desc">3D CAD Enclosures · STEP Files · Maker Hardware Support</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+
+      <a class="modal-link-card" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">
+        <span class="modal-link-icon">☕</span>
+        <div class="modal-link-info">
+          <span class="modal-link-title">Ko-fi — @Makerrdesigns</span>
+          <span class="modal-link-desc">Direct Support · Exclusive Advanced Projects Access</span>
+        </div>
+        <span class="modal-link-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- ── Passcode & Instant Unlock Form ── -->
+    <div class="modal-unlock-box">
+      <div class="modal-unlock-header">
+        <span class="modal-unlock-icon">🔑</span>
+        <strong>Already Supported? Enter Code:</strong>
+      </div>
+      <p class="modal-unlock-hint">Enter your supporter code (e.g., <code>IAMNOTINTOTECH</code>) or confirm your contribution below to unlock all 72 advanced firmwares instantly.</p>
+      <div class="modal-unlock-form">
+        <input type="text" id="supporter-code-input" placeholder="e.g. IAMNOTINTOTECH" autocomplete="off" />
+        <button id="btn-submit-code" class="btn-code-submit">Unlock</button>
+      </div>
+      <div id="unlock-feedback" class="unlock-feedback"></div>
+      <button id="btn-instant-confirm" class="btn-instant-confirm">
+        ✨ I Have Donated via Coffee / Patreon / Ko-fi (Unlock Now)
+      </button>
+      <div id="relock-container" style="display:none;">
+        <button id="btn-relock" class="btn-relock">🔒 Relock / Reset Supporter Status</button>
+      </div>
+    </div>
+
+    <div class="modal-yt">
+      <span class="modal-yt-title">📺 Watch free CYD tutorials &amp; CAD builds on YouTube:</span>
+      <div class="modal-yt-btns">
+        <a class="modal-yt-btn" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">▶️ @IamNotIntoTech</a>
+        <a class="modal-yt-btn" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">▶️ @Makerrdesigns</a>
+      </div>
+    </div>
+
+    <button class="btn-modal-skip" id="modal-skip">Back to Catalogue →</button>
+    <p class="modal-fine">Beginner, Intermediate, &amp; Capacitive projects are always 100% free.</p>
+  </div>
+</div>
+
 <script>
 /* ═══════════════════════════════════════════════════════════
-   Firmware catalogue — edit this array to add/remove projects
-   tier: "B" = beginner, "I" = intermediate, "A" = advanced
-   manifest: path relative to THIS page's directory
+   Firmware Catalogue (105 Turnkey Projects)
+   tier: "B" = beginner, "I" = intermediate, "A" = advanced, "C" = capacitive
 ═══════════════════════════════════════════════════════════ */
 const FIRMWARE = [
-  // ── Beginner ──────────────────────────────────────────
   {
     id: "hello-cyd",
     tier: "B",
@@ -934,8 +1234,6 @@ const FIRMWARE = [
     manifest: "manifests/retro-matrix.json",
     bin: "binaries/07-retro-matrix.bin"
   },
-
-  // ── Intermediate ──────────────────────────────────────
   {
     id: "weather-station",
     tier: "I",
@@ -990,8 +1288,6 @@ const FIRMWARE = [
     manifest: "manifests/pomodoro-timer.json",
     bin: "binaries/06-pomodoro-timer.bin"
   },
-
-  // ── Advanced ──────────────────────────────────────────
   {
     id: "cyd-os",
     tier: "A",
@@ -1307,8 +1603,339 @@ const FIRMWARE = [
     manifest: "manifests/cyd-to-cyd-extended-display.json",
     bin: "binaries/35-cyd-to-cyd-extended-display.bin"
   },
-
-  // ── Capacitive 2.8" (ESP32-2432S028C) ─────────────────────
+  {
+    id: "cyd-to-cyd-blackberry-messenger",
+    tier: "A",
+    name: "36 — CYD-to-CYD BlackBerry Messenger (CYD-BBM)",
+    desc: "Off-grid P2P communicator with authentic BBM UI, tactile on-screen QWERTY keyboard, ping vibrations, and delivered receipts.",
+    tags: ["ESP-NOW", "Messaging", "QWERTY", "Off-Grid", "P2P"],
+    manifest: "manifests/cyd-to-cyd-blackberry-messenger.json",
+    bin: "binaries/36-cyd-to-cyd-blackberry-messenger.bin"
+  },
+  {
+    id: "cyd-to-cyd-remote-telecommander",
+    tier: "A",
+    name: "37 — CYD-to-CYD Remote Tele-Commander (KVM & Actuator)",
+    desc: "Dual-display wireless controller & KVM appliance deck with touch jog dials, servo relays, and real-time state telemetry.",
+    tags: ["ESP-NOW", "Tele-operation", "Robotics", "KVM", "Relays"],
+    manifest: "manifests/cyd-to-cyd-remote-telecommander.json",
+    bin: "binaries/37-cyd-to-cyd-remote-telecommander.bin"
+  },
+  {
+    id: "cyd-to-cyd-space-dogfight",
+    tier: "A",
+    name: "38 — CYD-to-CYD Space Dogfight Duel",
+    desc: "High-energy retro arcade 2-player space combat across dual displays with cross-screen lasers, shield meters, and particle bursts.",
+    tags: ["Gaming", "Arcade", "ESP-NOW", "Multiplayer", "Physics"],
+    manifest: "manifests/cyd-to-cyd-space-dogfight.json",
+    bin: "binaries/38-cyd-to-cyd-space-dogfight.bin"
+  },
+  {
+    id: "cyd-stealth-wifi-radar-hunter",
+    tier: "A",
+    name: "39 — CYD Stealth WiFi Radar Hunter",
+    desc: "Standalone 2.4GHz RF privacy scanner, stealth beacon detector, polar signal radar sweep, and deauth anomaly tracker.",
+    tags: ["Cybersecurity", "RF", "WiFi", "Radar", "Privacy"],
+    manifest: "manifests/cyd-stealth-wifi-radar-hunter.json",
+    bin: "binaries/39-cyd-stealth-wifi-radar-hunter.bin"
+  },
+  {
+    id: "cyd-to-cyd-airdrop-secret-vault",
+    tier: "A",
+    name: "40 — CYD-to-CYD AirDrop & Secret Vault",
+    desc: "Encrypted offline credential safe and peer-to-peer cryptographic file beam with ChaCha20 encryption and OTP pairing.",
+    tags: ["Security", "Crypto", "ESP-NOW", "Vault", "AirDrop"],
+    manifest: "manifests/cyd-to-cyd-airdrop-secret-vault.json",
+    bin: "binaries/40-cyd-to-cyd-airdrop-secret-vault.bin"
+  },
+  {
+    id: "magic-8-cyd",
+    tier: "A",
+    name: "41 — Magic 8 CYD & Motion Oracle",
+    desc: "Interactive mystical Magic 8-Ball oracle, fluid shake synthesizer, digital axis accelerometer station, and answer deck.",
+    tags: ["Sensors", "Motion", "Oracle", "Interactive", "TFT"],
+    manifest: "manifests/magic-8-cyd.json",
+    bin: "binaries/41-magic-8-cyd.bin"
+  },
+  {
+    id: "truth-o-matic-polygraph",
+    tier: "A",
+    name: "42 — Truth-O-Matic 9000 Lie Detector",
+    desc: "Retro-cyberpunk biometric polygraph interrogation station with galvanic skin response, pulse rate simulator, and CRT stress gauges.",
+    tags: ["Cyberpunk", "Polygraph", "Biometrics", "Sensors", "Interrogation"],
+    manifest: "manifests/truth-o-matic-polygraph.json",
+    bin: "binaries/42-truth-o-matic-polygraph.bin"
+  },
+  {
+    id: "cyd-pip-boy-fallout-rad-meter",
+    tier: "A",
+    name: "43 — CYD Pip-Boy 3000 Wasteland Deck",
+    desc: "Retro-futuristic Fallout Pip-Boy terminal with animated Vault Boy, audio Geiger counter ticks, 2.4GHz RF rads meter, and inventory stats.",
+    tags: ["Fallout", "PipBoy", "Retro", "Geiger", "Sci-Fi"],
+    manifest: "manifests/cyd-pip-boy-fallout-rad-meter.json",
+    bin: "binaries/43-cyd-pip-boy-fallout-rad-meter.bin"
+  },
+  {
+    id: "cyd-bomb-defusal-keep-talking",
+    tier: "A",
+    name: "44 — CYD Keep Talking Bomb Defusal",
+    desc: "Cooperative 2-player wireless bomb defusal arcade game with digital clock countdown, wire cuts, keypad decoders, and audio alarm buzzer.",
+    tags: ["Gaming", "Arcade", "Two-Player", "ESP-NOW", "Puzzle"],
+    manifest: "manifests/cyd-bomb-defusal-keep-talking.json",
+    bin: "binaries/44-cyd-bomb-defusal-keep-talking.bin"
+  },
+  {
+    id: "cyd-optical-theremin-synth",
+    tier: "A",
+    name: "45 — CYD Optical Theremin & Neon Synth Jam",
+    desc: "Hands-free electronic musical instrument using LDR optical sensor and touch ribbon keyboard, with 4 waveforms and visual neon scope.",
+    tags: ["Audio", "Synth", "Music", "Optical", "PWM"],
+    manifest: "manifests/cyd-optical-theremin-synth.json",
+    bin: "binaries/45-cyd-optical-theremin-synth.bin"
+  },
+  {
+    id: "cyd-ghost-radar-spirit-hunter",
+    tier: "A",
+    name: "46 — CYD Ghost Radar & EMF Spirit Tracker",
+    desc: "Paranormal hunting deck with 5-level EMF meter, 360-degree radar sweep, Spirit Box voice simulator, and EVP audio recorder.",
+    tags: ["Paranormal", "EMF", "Sensors", "Radar", "Audio"],
+    manifest: "manifests/cyd-ghost-radar-spirit-hunter.json",
+    bin: "binaries/46-cyd-ghost-radar-spirit-hunter.bin"
+  },
+  {
+    id: "vibe-code-monitor-antigravity",
+    tier: "A",
+    name: "47 — Antigravity Vibe Monitor",
+    desc: "Real-time telemetry HUD for Google Antigravity agentic coding with step tracking, live token meters, and multi-agent status.",
+    tags: ["AI", "Antigravity", "VibeCoding", "HUD", "Telemetry"],
+    manifest: "manifests/vibe-code-monitor-antigravity.json",
+    bin: "binaries/47-vibe-code-monitor-antigravity.bin"
+  },
+  {
+    id: "vibe-code-monitor-claude",
+    tier: "A",
+    name: "48 — Claude Code Vibe Monitor",
+    desc: "Real-time Anthropic Claude Code rate-limit, 5-hour quota usage, active model ticker, and token cost monitor for desktop.",
+    tags: ["AI", "ClaudeCode", "Anthropic", "Monitor", "HUD"],
+    manifest: "manifests/vibe-code-monitor-claude.json",
+    bin: "binaries/48-vibe-code-monitor-claude.bin"
+  },
+  {
+    id: "vibe-code-monitor-codex",
+    tier: "A",
+    name: "49 — OpenAI Codex Vibe Monitor",
+    desc: "Real-time OpenAI Codex CLI token gauge, TPM/RPM rate-limit bar, session cost calculator, and active model status indicator.",
+    tags: ["AI", "Codex", "OpenAI", "Monitor", "Telemetry"],
+    manifest: "manifests/vibe-code-monitor-codex.json",
+    bin: "binaries/49-vibe-code-monitor-codex.bin"
+  },
+  {
+    id: "cyd-xtouch-bambu-lab-controller",
+    tier: "A",
+    name: "50 — CYD X-Touch Bambu Lab Controller",
+    desc: "Wireless touchscreen remote & live telemetry HUD for Bambu Lab 3D printers with nozzle/bed temps, fan control, and AMS slot monitor.",
+    tags: ["3DPrinting", "BambuLab", "MQTT", "Touch", "HUD"],
+    manifest: "manifests/cyd-xtouch-bambu-lab-controller.json",
+    bin: "binaries/50-cyd-xtouch-bambu-lab-controller.bin"
+  },
+  {
+    id: "cydintosh-1984-retro-mac",
+    tier: "A",
+    name: "51 — Cydintosh 1984 Retro Mac Emulator",
+    desc: "Faithful recreation of the iconic 1984 Macintosh GUI with classic desktop, draggable windows, MacPaint canvas, and Calculator desk accessory.",
+    tags: ["Retro", "Macintosh", "Apple", "GUI", "Emulation"],
+    manifest: "manifests/cydintosh-1984-retro-mac.json",
+    bin: "binaries/51-cydintosh-1984-retro-mac.bin"
+  },
+  {
+    id: "cyd-nerdminer-solo-lottery",
+    tier: "A",
+    name: "52 — CYD NerdMiner Solo Bitcoin Lottery",
+    desc: "Solo Bitcoin ASIC-style lottery miner running SHA-256 micro-mining at 55+ KH/s with block height, halving countdown, and live hashrate graph.",
+    tags: ["Bitcoin", "Crypto", "Mining", "SHA256", "Stratum"],
+    manifest: "manifests/cyd-nerdminer-solo-lottery.json",
+    bin: "binaries/52-cyd-nerdminer-solo-lottery.bin"
+  },
+  {
+    id: "cyd-cyberpet-emotive-face",
+    tier: "A",
+    name: "53 — CYD CyberPet Emotive Desk Face Companion",
+    desc: "Lifelike desk companion with procedurally animated vector eyes, emotional moods (Happy, Sleepy, Sassy), and light-sensing reactions.",
+    tags: ["Robotics", "CyberPet", "Animation", "DeskCompanion", "Eyes"],
+    manifest: "manifests/cyd-cyberpet-emotive-face.json",
+    bin: "binaries/53-cyd-cyberpet-emotive-face.bin"
+  },
+  {
+    id: "cyd-retro-desk-tv-video-player",
+    tier: "A",
+    name: "54 — CYD Retro Desk TV Video & Animation Player",
+    desc: "1980s Retro Trinitron TV desk player with CRT scanlines, rotary channel dial, static noise effects, and looping cartoon animations.",
+    tags: ["Retro", "Trinitron", "CRT", "Video", "Animation"],
+    manifest: "manifests/cyd-retro-desk-tv-video-player.json",
+    bin: "binaries/54-cyd-retro-desk-tv-video-player.bin"
+  },
+  {
+    id: "cyd-peanutgb-gameboy-emulator",
+    tier: "A",
+    name: "55 — CYD PeanutGB Classic Game Boy Handheld",
+    desc: "Full Game Boy emulator featuring authentic 4-shade green DMG LCD palette, on-screen D-pad and buttons, and SD card ROM loading.",
+    tags: ["Gaming", "GameBoy", "Emulation", "Retro", "PeanutGB"],
+    manifest: "manifests/cyd-peanutgb-gameboy-emulator.json",
+    bin: "binaries/55-cyd-peanutgb-gameboy-emulator.bin"
+  },
+  {
+    id: "cyd-spotify-car-thing-music-controller",
+    tier: "A",
+    name: "56 — CYD Spotify / Apple Music Desk Controller",
+    desc: "Dedicated desk music player & Car Thing media remote with album art renderer, smooth scrub slider, and playback controls via WiFi Web API.",
+    tags: ["Spotify", "CarThing", "Music", "MediaRemote", "Artwork"],
+    manifest: "manifests/cyd-spotify-car-thing-music-controller.json",
+    bin: "binaries/56-cyd-spotify-car-thing-music-controller.bin"
+  },
+  {
+    id: "cyd-wled-matrix-strip-controller",
+    tier: "A",
+    name: "57 — CYD WLED Matrix & Lightstrip Controller",
+    desc: "Touchscreen master remote for WLED smart lights with HSV color wheel, 100+ effect picker, speed/intensity sliders, and multi-segment control.",
+    tags: ["WLED", "SmartLighting", "NeoPixel", "ColorWheel", "HomeAutomation"],
+    manifest: "manifests/cyd-wled-matrix-strip-controller.json",
+    bin: "binaries/57-cyd-wled-matrix-strip-controller.bin"
+  },
+  {
+    id: "cyd-home-assistant-glass-panel",
+    tier: "A",
+    name: "58 — CYD Home Assistant Quick-Tiles Glass Panel",
+    desc: "Wall-mount glassmorphic smart home control panel with quick-tiles for lighting, HVAC climate dial, security sensors, and WebSocket sync.",
+    tags: ["HomeAssistant", "SmartHome", "Glassmorphism", "IoT", "Touch"],
+    manifest: "manifests/cyd-home-assistant-glass-panel.json",
+    bin: "binaries/58-cyd-home-assistant-glass-panel.bin"
+  },
+  {
+    id: "cyd-marauder-wifi-ble-security-auditor",
+    tier: "A",
+    name: "59 — CYD Marauder WiFi & BLE Security Auditor",
+    desc: "Standalone RF cybersecurity suite with WiFi packet sniffing, beacon spam detector, deauth alert engine, and Bluetooth device discovery.",
+    tags: ["Cybersecurity", "Marauder", "WiFi", "BLE", "RFSniffer"],
+    manifest: "manifests/cyd-marauder-wifi-ble-security-auditor.json",
+    bin: "binaries/59-cyd-marauder-wifi-ble-security-auditor.bin"
+  },
+  {
+    id: "cyd-simhub-racing-telemetry",
+    tier: "A",
+    name: "60 — CYD SimHub Racing Cockpit Telemetry HUD",
+    desc: "Professional racing simulator telemetry HUD with LED shift-light bar, gear number, digital speedometer, tire pressures, and lap delta.",
+    tags: ["SimRacing", "SimHub", "Motorsport", "Telemetry", "HUD"],
+    manifest: "manifests/cyd-simhub-racing-telemetry.json",
+    bin: "binaries/60-cyd-simhub-racing-telemetry.bin"
+  },
+  {
+    id: "cyd-creator-live-studio-ticker",
+    tier: "A",
+    name: "61 — CYD Creator Live Studio Ticker",
+    desc: "Desktop statistics ticker for YouTube and Twitch creators with live subscriber counter, recent view velocity, and On-Air studio status.",
+    tags: ["YouTube", "Creators", "Analytics", "Studio", "OnAir"],
+    manifest: "manifests/cyd-creator-live-studio-ticker.json",
+    bin: "binaries/61-cyd-creator-live-studio-ticker.bin"
+  },
+  {
+    id: "cyd-ble-spam-airtag-sentinel",
+    tier: "A",
+    name: "62 — CYD Apple Juice & BLE Spam Sentinel",
+    desc: "Bluetooth Low Energy security defender detecting Apple Action Modal flood attacks, rogue AirTag trackers, and Flipper Zero BLE spam.",
+    tags: ["Cybersecurity", "BLE", "AirTag", "AppleJuice", "Defense"],
+    manifest: "manifests/cyd-ble-spam-airtag-sentinel.json",
+    bin: "binaries/62-cyd-ble-spam-airtag-sentinel.bin"
+  },
+  {
+    id: "cyd-hamclock-space-weather",
+    tier: "A",
+    name: "63 — CYD HamClock Space Weather Station",
+    desc: "Amateur radio and astronomical desktop terminal with solar flux index (SFI), geomagnetic K-index, aurora probability, and day/night greyline.",
+    tags: ["HamRadio", "SpaceWeather", "Astronomy", "Solar", "NTP"],
+    manifest: "manifests/cyd-hamclock-space-weather.json",
+    bin: "binaries/63-cyd-hamclock-space-weather.bin"
+  },
+  {
+    id: "cyd-mjpeg-video-player",
+    tier: "A",
+    name: "64 — CYD SD Card MJPEG Video & Cinema Player",
+    desc: "High-speed motion video playback engine streaming 30 FPS MJPEG cinema directly from MicroSD card with hardware double-buffering.",
+    tags: ["Video", "MJPEG", "Cinema", "MicroSD", "Graphics"],
+    manifest: "manifests/cyd-mjpeg-video-player.json",
+    bin: "binaries/64-cyd-mjpeg-video-player.bin"
+  },
+  {
+    id: "cyd-pydos-handheld-pc",
+    tier: "A",
+    name: "65 — CYD PyDOS Vintage MS-DOS Handheld Computer",
+    desc: "Retro MS-DOS 6.22 micro-computer terminal running MicroPython / PyDOS with command shell (DIR, COPY, TYPE, EDIT) and on-screen keyboard.",
+    tags: ["DOS", "MicroPython", "RetroComputing", "CommandPrompt", "Handheld"],
+    manifest: "manifests/cyd-pydos-handheld-pc.json",
+    bin: "binaries/65-cyd-pydos-handheld-pc.bin"
+  },
+  {
+    id: "cyd-f1-pitwall-dashboard",
+    tier: "A",
+    name: "66 — CYD F1 Pit Wall Telemetry Dashboard",
+    desc: "Professional Formula 1 race strategy console with live Grand Prix leaderboard, interval delta, sector mini-sectors, and tire compound telemetry.",
+    tags: ["Formula1", "Motorsport", "Telemetry", "Racing", "Leaderboard"],
+    manifest: "manifests/cyd-f1-pitwall-dashboard.json",
+    bin: "binaries/66-cyd-f1-pitwall-dashboard.bin"
+  },
+  {
+    id: "cyd-adsb-flight-radar",
+    tier: "A",
+    name: "67 — CYD ADS-B Flight Radar & Aircraft Tracker",
+    desc: "Real-time aviation virtual radar scope showing flights overhead with altitude color-coding, transponder squawk codes, and distance vector rings.",
+    tags: ["Aviation", "ADSB", "FlightRadar", "Planespotting", "Radar"],
+    manifest: "manifests/cyd-adsb-flight-radar.json",
+    bin: "binaries/67-cyd-adsb-flight-radar.bin"
+  },
+  {
+    id: "cyd-pixel-aquarium-jellyfish",
+    tier: "A",
+    name: "68 — CYD Denki-Kurage Pixel Jellyfish Aquarium",
+    desc: "Bioluminescent Japanese electric jellyfish digital marine aquarium with soft undulating pixel tentacle physics, bubble streams, and feeding gestures.",
+    tags: ["PixelArt", "Aquarium", "Jellyfish", "Animation", "Relaxation"],
+    manifest: "manifests/cyd-pixel-aquarium-jellyfish.json",
+    bin: "binaries/68-cyd-pixel-aquarium-jellyfish.bin"
+  },
+  {
+    id: "cyd-lora-aprs-tactical-beacon",
+    tier: "A",
+    name: "69 — CYD LoRa APRS Tactical Position Tracker",
+    desc: "Tactical amateur radio APRS position tracker and emergency beacon console with GPS coordinates, Maidenhead grid square, and off-grid messaging.",
+    tags: ["HamRadio", "APRS", "LoRa", "Emergency", "GPS"],
+    manifest: "manifests/cyd-lora-aprs-tactical-beacon.json",
+    bin: "binaries/69-cyd-lora-aprs-tactical-beacon.bin"
+  },
+  {
+    id: "cyd-iss-satellite-tracker",
+    tier: "A",
+    name: "70 — CYD ISS & Satellite Orbit Tracker",
+    desc: "Real-time International Space Station and satellite orbit tracking terminal with 2D world map ground track, next pass countdown, and elevation angle.",
+    tags: ["Space", "ISS", "Satellite", "NASA", "OrbitTracking"],
+    manifest: "manifests/cyd-iss-satellite-tracker.json",
+    bin: "binaries/70-cyd-iss-satellite-tracker.bin"
+  },
+  {
+    id: "cyd-retro-arcade-deck",
+    tier: "A",
+    name: "71 — CYD 8-Bit Retro Mini-Arcade Deck",
+    desc: "Standalone retro multi-game arcade handheld with Space Invaders, Breakout, Snake, and Tetris games, high-score memory, and piezo sounds.",
+    tags: ["RetroGaming", "Arcade", "8Bit", "Chiptune", "Handheld"],
+    manifest: "manifests/cyd-retro-arcade-deck.json",
+    bin: "binaries/71-cyd-retro-arcade-deck.bin"
+  },
+  {
+    id: "cyd-lightning-detector",
+    tier: "A",
+    name: "72 — CYD Lightning Strike & Storm Warning Radar",
+    desc: "Severe thunderstorm and lightning early warning radar with AS3935 sensor emulation, distance rings (1-40 km), storm intensity gauge, and audio alert.",
+    tags: ["Weather", "Lightning", "Radar", "StormTracker", "Sensors"],
+    manifest: "manifests/cyd-lightning-detector.json",
+    bin: "binaries/72-cyd-lightning-detector.bin"
+  },
   {
     id: "cap-01-cardflow",
     tier: "C",
@@ -1492,9 +2119,9 @@ const FIRMWARE = [
 ];
 
 /* ── Tier labels ── */
-const TIER_LABEL = { B: "Beginner", I: "Intermediate", A: "Advanced", C: "Capacitive 2.8"" };
+const TIER_LABEL = { B: "Beginner", I: "Intermediate", A: "Advanced", C: "Capacitive 2.8\"" };
 
-/* ── Web Serial check ── */
+/* ── Web Serial Support Check ── */
 const chip = document.getElementById('serial-chip');
 if (!('serial' in navigator)) {
   chip.textContent = '⚠️ Web Serial not supported';
@@ -1504,7 +2131,72 @@ if (!('serial' in navigator)) {
   chip.className = 'chip chip-green';
 }
 
-/* ── Render cards ── */
+/* ── Local File Protocol Check ── */
+if (window.location.protocol === 'file:') {
+  const originWarn = document.getElementById('origin-warning');
+  if (originWarn) originWarn.style.display = 'block';
+}
+
+/* ── Supporter Lock & Unlock State Management ── */
+const SUPPORTER_STORAGE_KEY = 'cyd_supporter_unlocked_v1';
+let isSupporterUnlocked = localStorage.getItem(SUPPORTER_STORAGE_KEY) === 'true';
+
+const VALID_CODES = [
+  'IAMNOTINTOTECH', 'CYD2026', 'SUPPORTER', 'DONOR', 'VIP', 'MAKER', 'MAKERR', 'COMMUNITY', 'ESP32', 'CHEAP-YELLOW-DISPLAY'
+];
+
+function setSupporterStatus(unlocked) {
+  isSupporterUnlocked = unlocked;
+  if (unlocked) {
+    localStorage.setItem(SUPPORTER_STORAGE_KEY, 'true');
+  } else {
+    localStorage.removeItem(SUPPORTER_STORAGE_KEY);
+  }
+  updateSupporterUI();
+  renderCatalogue();
+}
+
+function updateSupporterUI() {
+  const statusBadge = document.getElementById('supporter-status-indicator');
+  const banner = document.getElementById('supporter-status-banner');
+  const relockBox = document.getElementById('relock-container');
+  
+  if (isSupporterUnlocked) {
+    if (statusBadge) {
+      statusBadge.textContent = '⭐ VIP Supporter (72 Unlocked)';
+      statusBadge.className = 'topbar-pill supporter-active';
+    }
+    if (banner) {
+      banner.className = 'supporter-status-banner unlocked';
+      banner.innerHTML = `
+        <div style="display:flex; align-items:center; gap:.5rem;">
+          <span style="font-size:1.15rem;">🎉</span>
+          <span><strong>VIP Supporter Active:</strong> All 72 Advanced projects are unlocked for 1-click Web Serial flashing and downloads!</span>
+        </div>
+        <button class="btn-dl" style="padding:.25rem .75rem; font-size:.78rem;" onclick="openModal()">Manage</button>
+      `;
+    }
+    if (relockBox) relockBox.style.display = 'block';
+  } else {
+    if (statusBadge) {
+      statusBadge.textContent = '🔒 Supporter Unlock';
+      statusBadge.className = 'topbar-pill unlock-vip';
+    }
+    if (banner) {
+      banner.className = 'supporter-status-banner locked';
+      banner.innerHTML = `
+        <div style="display:flex; align-items:center; gap:.5rem;">
+          <span style="font-size:1.15rem;">🔒</span>
+          <span><strong>Supporter Projects:</strong> 72 Advanced projects require a one-time community supporter donation to flash.</span>
+        </div>
+        <button class="btn-vip-action" style="padding:.35rem .85rem; font-size:.8rem;" onclick="openModal()">Unlock Now →</button>
+      `;
+    }
+    if (relockBox) relockBox.style.display = 'none';
+  }
+}
+
+/* ── Render Cards ── */
 function buildCard(fw) {
   const row = document.createElement('article');
   row.className = 'fw-row';
@@ -1512,21 +2204,45 @@ function buildCard(fw) {
   row.dataset.text = (fw.name + ' ' + fw.desc + ' ' + fw.tags.join(' ')).toLowerCase();
   row.id = 'fw-' + fw.id;
 
+  const isAdvanced = fw.tier === 'A';
+  const isLocked = isAdvanced && !isSupporterUnlocked;
+
+  let badgeHtml = `<span class="tier tier-${fw.tier}">${TIER_LABEL[fw.tier]}</span>`;
+  if (isAdvanced) {
+    if (isLocked) {
+      badgeHtml += ` <span class="badge-locked">🔒 Supporter Only</span>`;
+    } else {
+      badgeHtml += ` <span class="badge-unlocked">🔓 Supporter Unlocked</span>`;
+    }
+  }
+
+  let actionHtml = '';
+  if (isLocked) {
+    actionHtml = `
+      <button class="btn-dl btn-dl-locked" onclick="openModal('fw-${fw.id}')" title="Donation required to download">🔒 .BIN</button>
+      <button class="btn-locked-install" onclick="openModal('fw-${fw.id}')">🔒 Supporter Unlock</button>
+    `;
+  } else {
+    actionHtml = `
+      <a class="btn-dl" href="${fw.bin}" download title="Download binary">⬇ .BIN</a>
+      <esp-web-install-button manifest="${fw.manifest}">
+        <button slot="activate">Install</button>
+        <span slot="unsupported">Chrome/Edge only</span>
+      </esp-web-install-button>
+    `;
+  }
+
   row.innerHTML = `
     <div class="fw-info">
       <div class="fw-header">
-        <span class="tier tier-${fw.tier}">${TIER_LABEL[fw.tier]}</span>
+        ${badgeHtml}
         <span class="fw-name">${fw.name}</span>
       </div>
       <p class="fw-desc">${fw.desc}</p>
       <div class="tags">${fw.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
     </div>
     <div class="fw-actions">
-      <a class="btn-dl" href="${fw.bin}" download title="Download binary">⬇ .BIN</a>
-      <esp-web-install-button manifest="${fw.manifest}">
-        <button slot="activate">Install</button>
-        <span slot="unsupported">Chrome/Edge only</span>
-      </esp-web-install-button>
+      ${actionHtml}
     </div>`;
 
   return row;
@@ -1534,9 +2250,14 @@ function buildCard(fw) {
 
 const list  = document.getElementById('fw-list');
 const empty = document.getElementById('empty');
-FIRMWARE.forEach(fw => list.appendChild(buildCard(fw)));
 
-/* ── Filter + search ── */
+function renderCatalogue() {
+  list.innerHTML = '';
+  FIRMWARE.forEach(fw => list.appendChild(buildCard(fw)));
+  applyFilter();
+}
+
+/* ── Filter + Search ── */
 let activeTier = 'all';
 let searchTerm = '';
 
@@ -1566,7 +2287,7 @@ document.getElementById('search').addEventListener('input', e => {
   applyFilter();
 });
 
-/* ── Web Serial Monitor / Terminal ── */
+/* ── Live Web Serial Monitor / Terminal ── */
 let monPort = null;
 let monReader = null;
 const btnMonConnect = document.getElementById('btn-serial-connect');
@@ -1574,7 +2295,7 @@ const monTerminal = document.getElementById('serial-output');
 
 btnMonConnect.addEventListener('click', async () => {
   if (!navigator.serial) {
-    alert("Web Serial is supported in Chrome, Edge, Brave, and Opera.");
+    alert("Web Serial is supported on Chrome, Edge, Brave, and Opera.");
     return;
   }
   if (monPort) {
@@ -1613,6 +2334,7 @@ btnMonConnect.addEventListener('click', async () => {
     monTerminal.textContent += `\n[Serial Error: ${err.message}]\n`;
     monPort = null;
     btnMonConnect.textContent = "🔌 Connect Monitor";
+    btnMonConnect.style.color = "var(--cyan)";
   }
 });
 
@@ -1635,123 +2357,85 @@ document.getElementById('serial-input').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') sendMonText();
 });
 
-/* ════════════════════════════════════
-   DONATE & SECRET PROJECTS MODAL LOGIC
-════════════════════════════════════ */
-const SESSION_KEY     = 'cyd_flasher_donate_seen';
+/* ── Modal Logic & Passcode Validation ── */
 const overlay         = document.getElementById('overlay');
 const skipBtn         = document.getElementById('modal-skip');
 const closeBtn        = document.getElementById('modal-close-btn');
 const btnHeaderDonate = document.getElementById('btn-header-donate');
 const btnBannerDonate = document.getElementById('btn-banner-donate');
+const statusIndicator = document.getElementById('supporter-status-indicator');
+const codeInput       = document.getElementById('supporter-code-input');
+const btnSubmitCode   = document.getElementById('btn-submit-code');
+const btnInstant      = document.getElementById('btn-instant-confirm');
+const unlockFeedback  = document.getElementById('unlock-feedback');
+const btnRelock       = document.getElementById('btn-relock');
 
-let pendingInstallBtn = null;
-
-function showModal(afterCb) {
-  pendingInstallBtn = afterCb;
+function openModal(targetCardId) {
   overlay.classList.add('show');
-  skipBtn.focus();
+  unlockFeedback.className = 'unlock-feedback';
+  unlockFeedback.textContent = '';
+  codeInput.value = '';
+  codeInput.focus();
 }
 
-function closeModal(shouldFlash) {
+function closeModal() {
   overlay.classList.remove('show');
-  sessionStorage.setItem(SESSION_KEY, '1');
-  if (shouldFlash && pendingInstallBtn) {
-    setTimeout(() => pendingInstallBtn && pendingInstallBtn(), 250);
-  }
-  pendingInstallBtn = null;
 }
 
-if (btnHeaderDonate) btnHeaderDonate.addEventListener('click', () => showModal(null));
-if (btnBannerDonate) btnBannerDonate.addEventListener('click', () => showModal(null));
-if (skipBtn) skipBtn.addEventListener('click', () => closeModal(true));
-if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true));
+if (btnHeaderDonate) btnHeaderDonate.addEventListener('click', () => openModal());
+if (btnBannerDonate) btnBannerDonate.addEventListener('click', () => openModal());
+if (statusIndicator) statusIndicator.addEventListener('click', () => openModal());
+if (skipBtn) skipBtn.addEventListener('click', closeModal);
+if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
 overlay.addEventListener('click', e => {
-  if (e.target === overlay) closeModal(true);
+  if (e.target === overlay) closeModal();
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal(true);
+  if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal();
 });
 
-// Intercept first install click per session to display modal once
-list.addEventListener('click', e => {
-  const btn = e.target.closest('button[slot="activate"]');
-  if (!btn) return;
-  if (sessionStorage.getItem(SESSION_KEY)) return;
+function handleCodeUnlock() {
+  const code = (codeInput.value || '').trim().toUpperCase();
+  if (VALID_CODES.includes(code)) {
+    unlockFeedback.className = 'unlock-feedback success';
+    unlockFeedback.textContent = '🎉 Passcode verified! Unlocking all 72 advanced firmwares...';
+    setTimeout(() => {
+      setSupporterStatus(true);
+      closeModal();
+    }, 900);
+  } else {
+    unlockFeedback.className = 'unlock-feedback error';
+    unlockFeedback.textContent = '❌ Invalid code. Please try again or donate via Buy Me a Coffee / Patreon.';
+  }
+}
 
-  e.stopImmediatePropagation();
-  e.preventDefault();
+btnSubmitCode.addEventListener('click', handleCodeUnlock);
+codeInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleCodeUnlock();
+});
 
-  showModal(() => {
-    btn.click();
-  });
-}, true);
+btnInstant.addEventListener('click', () => {
+  unlockFeedback.className = 'unlock-feedback success';
+  unlockFeedback.textContent = '❤️ Thank you for supporting the community! Unlocking all 72 projects...';
+  setTimeout(() => {
+    setSupporterStatus(true);
+    closeModal();
+  }, 900);
+});
+
+btnRelock.addEventListener('click', () => {
+  setSupporterStatus(false);
+  unlockFeedback.className = 'unlock-feedback success';
+  unlockFeedback.textContent = '🔒 Status reset. Advanced projects are now locked.';
+  setTimeout(closeModal, 600);
+});
+
+/* ── Initial Render ── */
+updateSupporterUI();
+renderCatalogue();
 </script>
-
-<!-- ════════════ DONATE & SECRET PROJECTS MODAL ════════════ -->
-<div id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="modal">
-    <button class="modal-close" id="modal-close-btn" aria-label="Close modal">✕</button>
-    <div class="modal-icon">🎁</div>
-    <div class="modal-pill">Exclusive Supporter Rewards</div>
-    <h2 id="modal-title">Support &amp; Unlock Secret Projects</h2>
-    <p>
-      Every public firmware project is <strong>100% free to flash</strong>! If this saves you hours of development, please support us.
-      <strong>Donors receive direct access to our private repository of secret VIP firmware projects</strong>, experimental builds, and custom 3D CAD files!
-    </p>
-
-    <div class="modal-links">
-      <a class="modal-link-card" style="border-color:var(--yellow); background:rgba(255,214,10,.12);" href="https://buymeacoffee.com/iamnotintotech" target="_blank" rel="noopener">
-        <span class="modal-link-icon">🔒</span>
-        <div class="modal-link-info">
-          <span class="modal-link-title" style="color:var(--yellow); font-weight:800;">Buy Me a Coffee — @IamNotIntoTech (Secret Projects)</span>
-          <span class="modal-link-desc">Unlock Secret Private Projects · Instant VIP Access</span>
-        </div>
-        <span class="modal-link-arrow">→</span>
-      </a>
-
-      <a class="modal-link-card" href="https://www.patreon.com/cw/IamNotIntoTech" target="_blank" rel="noopener">
-        <span class="modal-link-icon">🧡</span>
-        <div class="modal-link-info">
-          <span class="modal-link-title">Patreon — @IamNotIntoTech</span>
-          <span class="modal-link-desc">Secret Private Projects · VIP Discord Role · Early Firmware</span>
-        </div>
-        <span class="modal-link-arrow">→</span>
-      </a>
-
-      <a class="modal-link-card" href="https://buymeacoffee.com/makerr" target="_blank" rel="noopener">
-        <span class="modal-link-icon">☕</span>
-        <div class="modal-link-info">
-          <span class="modal-link-title">Buy Me a Coffee — @Makerr</span>
-          <span class="modal-link-desc">3D CAD Enclosures · Maker Project Support · Files</span>
-        </div>
-        <span class="modal-link-arrow">→</span>
-      </a>
-
-      <a class="modal-link-card" href="https://ko-fi.com/makerrdesigns" target="_blank" rel="noopener">
-        <span class="modal-link-icon">☕</span>
-        <div class="modal-link-info">
-          <span class="modal-link-title">Ko-fi — @Makerrdesigns</span>
-          <span class="modal-link-desc">Direct Support · Exclusive Secret Projects Access</span>
-        </div>
-        <span class="modal-link-arrow">→</span>
-      </a>
-    </div>
-
-    <div class="modal-yt">
-      <span class="modal-yt-title">📺 Watch free CYD tutorials &amp; CAD builds on YouTube:</span>
-      <div class="modal-yt-btns">
-        <a class="modal-yt-btn" href="https://youtube.com/@IamNotIntoTech" target="_blank" rel="noopener">▶️ @IamNotIntoTech</a>
-        <a class="modal-yt-btn" href="https://youtube.com/@Makerrdesigns" target="_blank" rel="noopener">▶️ @Makerrdesigns</a>
-      </div>
-    </div>
-
-    <button class="btn-modal-skip" id="modal-skip">No thanks, continue flashing →</button>
-    <p class="modal-fine">Flashing is free &amp; always will be. Supporting is optional.</p>
-  </div>
-</div>
 
 </body>
 </html>
