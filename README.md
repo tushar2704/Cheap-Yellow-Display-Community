@@ -245,6 +245,9 @@ This repository supports **ALL** Cheap Yellow Display variants currently availab
 | 67 | **CYD ADS-B Flight Radar & Air Traffic** | 360° radar scope: 10/25/50 NM range rings, aircraft vector vectors, Squawk 7700 alert | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/67-cyd-adsb-flight-radar/) |
 | 68 | **CYD Denki-Kurage Pixel Jellyfish** | Bioluminescent aquarium: undulation locomotion, water ripples, feeding & Day/Abyss | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/68-cyd-pixel-aquarium-jellyfish/) |
 | 69 | **CYD LoRa APRS Tactical Beacon** | Tactical APRS terminal: Maidenhead polar grid, GPS telemetry & Bell 202 AFSK audio | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/69-cyd-lora-aprs-tactical-beacon/) |
+| 70 | **CYD ISS & Satellite Orbit Tracker** | Space telemetry tracker: world map ground track, Az/El antenna compass & crew manifest | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/70-cyd-iss-satellite-tracker/) |
+| 71 | **CYD 8-Bit Retro Mini-Arcade Deck** | 8-bit multi-game arcade: Cyber Snake, Paddle Pong, Neon Breakout & chiptune audio | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/71-cyd-retro-arcade-deck/) |
+| 72 | **CYD Lightning Strike & Storm Warning** | Thunderstorm radar: 40 km strike scope, 60-min histogram, thunder audio & strobe | ⭐⭐⭐⭐ (4/5) | [Open](projects/advanced/72-cyd-lightning-detector/) |
 
 ---
 

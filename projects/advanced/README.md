@@ -80,6 +80,9 @@
 | 67 | [67 - CYD ADS-B Flight Radar & Air Traffic](67-cyd-adsb-flight-radar/) | 360° radar scope: 10/25/50 NM range rings, aircraft vector vectors, Squawk 7700 alert | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 | 68 | [68 - CYD Denki-Kurage Pixel Jellyfish](68-cyd-pixel-aquarium-jellyfish/) | Bioluminescent aquarium: undulation locomotion, water ripples, feeding & Day/Abyss | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 | 69 | [69 - CYD LoRa APRS Tactical Beacon](69-cyd-lora-aprs-tactical-beacon/) | Tactical APRS terminal: Maidenhead polar grid, GPS telemetry & Bell 202 AFSK audio | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 70 | [70 - CYD ISS & Satellite Orbit Tracker](70-cyd-iss-satellite-tracker/) | Space telemetry tracker: world map ground track, Az/El antenna compass & crew manifest | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 71 | [71 - CYD 8-Bit Retro Mini-Arcade Deck](71-cyd-retro-arcade-deck/) | 8-bit multi-game arcade: Cyber Snake, Paddle Pong, Neon Breakout & chiptune audio | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
+| 72 | [72 - CYD Lightning Strike & Storm Warning](72-cyd-lightning-detector/) | Thunderstorm radar: 40 km strike scope, 60-min histogram, thunder audio & strobe | ⭐⭐⭐⭐ (4/5) | ✅ Ready |
 
 ---
 
